@@ -5,19 +5,22 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'development',
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, '/dist'),
     publicPath: '',
-    filename: 'js/[name].bundle.js',
+    filename: 'js/[name].[contentHash].bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './public/index.html',
+      excludeChunks: ['admin']
     }),
     new HtmlWebpackPlugin({
       filename: 'admin.html',
-      template: './public/admin.html'
+      template: './public/admin.html',
+      excludeChunks: ['app']
     })
   ],
   module: {
