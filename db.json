@@ -1,4 +1,56 @@
 {
-  "questions": [],
+  "questions": [
+    {
+      "id": 1,
+      "category": "html",
+      "point": 5000,
+      "time": 60,
+      "title": "다음 중 HTML 전역 속성이 아닌 것은?",
+      "body": "",
+      "choices": {
+        "a": "class",
+        "b": "id",
+        "c": "style",
+        "d": "value"
+      },
+      "answer": "d",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 2,
+      "category": "css",
+      "point": 5000,
+      "time": 60,
+      "title": "Flex-box 사용시 주축을 기준으로 요소를 정렬하는 속성은?",
+      "body": "",
+      "choices": {
+        "a": "flex-wrap",
+        "b": "align-items",
+        "c": "justify-content",
+        "d": "align-content"
+      },
+      "answer": "c",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 3,
+      "category": "js",
+      "point": 5000,
+      "time": 60,
+      "title": "아래 코드의 실행 결과로 알맞은 것은?",
+      "body": "console.log(1 + undefined);",
+      "choices": {
+        "a": "NaN",
+        "b": "undefined",
+        "c": "Infinity",
+        "d": "1"
+      },
+      "answer": "a",
+      "hasCode": true,
+      "selected": false
+    }
+  ],
   "users": []
 }

@@ -7,8 +7,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, '/dist'),
-    publicPath: '',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[contentHash].bundle.js',
   },
   plugins: [
@@ -20,7 +19,7 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       filename: 'admin.html',
       template: './public/admin.html',
-      excludeChunks: ['app']
+      excludeChunks: ['main']
     })
   ],
   module: {

@@ -10,8 +10,8 @@ const common = require('./webpack.common');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, '/dist'),
-    publicPath: '',
+    path: path.resolve(__dirname, 'dist'),
+    // publicPath: '',
     filename: 'js/[name].[contentHash].bundle.js',
   },
   optimization: {
@@ -31,7 +31,7 @@ module.exports = merge(common, {
       new HtmlWebpackPlugin({
         filename: 'admin.html',
         template: './public/admin.html',
-        excludeChunks: ['app'],
+        excludeChunks: ['main'],
         minify: {
           removeAttributeQuotes: true,
           collapseWhitespace: true,

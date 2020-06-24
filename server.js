@@ -1,10 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
 
 // Create server
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
