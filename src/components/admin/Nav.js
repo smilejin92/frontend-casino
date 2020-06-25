@@ -1,10 +1,10 @@
 import Menu from './Menu';
 
 export default class Nav {
-  constructor({ title, toggleNav }) {
+  constructor({ title }) {
     this.title = title;
     this.$container = document.createElement('nav');
-    this.$menu = new Menu({ toggleNav });
+    this.$menu = new Menu();
     this.init();
   }
 

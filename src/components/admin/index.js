@@ -4,38 +4,31 @@ import QuestionService from '../../services/QuestionService';
 
 export default class Admin {
   constructor() {
-    this.state = {
-      questions: [],
-      tab: 'html',
-      modal: false
-    };
     this.$body = document.querySelector('body');
     this.init();
   }
 
-  setState(next) {
-    this.state = { ...this.state, ...next };
-  }
-
   async init() {
-    this.$header = new Header({
-      title: '문제 등록 페이지',
-      toggleNav: this.toggleNav.bind(this)
-    });
-
+    this.$header = new Header({ title: '문제 등록 페이지' });
     try {
-      const res = await QuestionService.fetchQuestions();
-      const questions = await res.json();
-
-      this.setState({ questions });
-      this.$main = new Main({ title: '메인 영역' });
+      this.$main = new Main({ title: '문제 등록 페이지' });
     } catch (err) {
       console.error(err);
     }
 
-    this.render();
-    this.$body.appendChild(this.$header.$container);
-    this.$body.appendChild(this.$main.$container);
+    // try {
+    //   const res = await QuestionService.fetchQuestions();
+    //   const questions = await res.json();
+
+    //   this.setState({ questions });
+    //   this.$main = new Main({ title: '메인 영역' });
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+    // this.render();
+    // this.$body.appendChild(this.$header.$container);
+    // this.$body.appendChild(this.$main.$container);
   }
 
   toggleNav({ target }) {

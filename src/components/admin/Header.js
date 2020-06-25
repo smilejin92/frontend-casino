@@ -1,13 +1,10 @@
 import Nav from './Nav';
 
 export default class Header {
-  constructor({ title, toggleNav }) {
+  constructor({ title }) {
     this.title = title;
     this.$container = document.createElement('header');
-    this.$nav = new Nav({
-      title: '메인 메뉴',
-      toggleNav
-    });
+    this.$nav = new Nav({ title: '메인 메뉴' });
     this.init();
   }
 

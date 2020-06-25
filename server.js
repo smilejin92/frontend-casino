@@ -92,7 +92,7 @@ low(adapter)
       if (parseInt(id) > 0) {
         db.get('questions')
           .find({ id: +req.params.id })
-          .assign({ selected: req.body.selected })
+          .assign(req.body.selected)
           .write()
           .then(question => res.send(question));
       } else {

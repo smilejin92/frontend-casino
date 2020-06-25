@@ -1,5 +1,5 @@
 import './css/admin.scss';
 import '@babel/polyfill';
-import Admin from './components/admin';
+// import Admin from './components/admin';
 
-new Admin();
+// new Admin();
