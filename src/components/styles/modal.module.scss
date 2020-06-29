@@ -1,0 +1,23 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 10%;
+  z-index: 1;
+  background-color: lightgreen;
+
+  .fields {
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+
+    .quiz-title {
+      font-size: 2rem;
+      input[type="text"] {
+        width: 70rem;
+      }
+    }
+  }
+}

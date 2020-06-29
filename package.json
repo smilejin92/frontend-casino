@@ -24,7 +24,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "highlight.js": "^10.1.1",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.3",

@@ -1,0 +1,38 @@
+@import './neonText.css';
+
+.header {
+  min-height: 45vh;
+  text-align: center;
+  background: url(../../images/adminBG.jpg) no-repeat 0 50%;
+  background-size: cover;
+
+  .main-title {
+    font-size: 12rem;
+    padding-top: 4rem;
+  }
+
+  .add-quiz-btn {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-top: 3rem;
+    padding: 2rem 3.5rem;
+    padding-top: 2.3rem;
+    font-weight: 600;
+    color: #fff;
+    border: none;
+    border-radius: 1rem;
+    background-color: #222;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -5.4rem;
+      left: -3.4rem;
+      width: 150%;
+      height: 300%;
+      background: url(../../images/chip2.png) no-repeat;
+      background-size: cover;
+    }
+  }
+}

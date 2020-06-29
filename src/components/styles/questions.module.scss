@@ -1,0 +1,63 @@
+.questions {
+  background-color: lime;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 3rem;
+
+  .question {
+    padding: 2rem;
+    margin-bottom: 3rem;
+    min-height: 20rem;
+    background-color: tomato;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    .question-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 1rem 0;
+    }
+
+    .question-info {
+      margin-bottom: 1rem;
+    
+      .info-group {
+        float: left;
+        width: 20rem;
+        font-size: 1.8rem;
+
+        dt, dd {
+          display: inline-block;
+        }
+
+        dt::after {
+          content: ': ';
+        }
+      }
+    }
+
+    .question-body {
+      margin-bottom: 1rem;
+    }
+
+    .radiogroup {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 1.8rem;
+        padding-bottom: 1rem;
+      }
+    }
+
+    input[type=checkbox] {
+      position: absolute;
+      top: 50%;
+      right: 2rem;
+      transform: translateY(-50%);
+    }
+  }
+}

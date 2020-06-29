@@ -1,5 +1,5 @@
 {
-  "questions": [
+  "quizzes": [
     {
       "id": 1,
       "category": "html",
@@ -23,7 +23,7 @@
       "point": 5000,
       "time": 60,
       "title": "Flex-box 사용시 주축을 기준으로 요소를 정렬하는 속성은?",
-      "body": "",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus dolor. Phasellus sed elit vel leo rhoncus dignissim varius vel nisl. Integer venenatis elit est, eget dignissim lorem suscipit quis. Donec at convallis velit. Proin egestas sit amet ligula tempor congue. Quisque facilisis eros in ante porttitor tempor. Nam leo sem, malesuada eu ultrices sed, tristique non orci. Aenean nec lobortis tortor. Suspendisse turpis diam, commodo at lorem et, sollicitudin sodales sapien. Nullam iaculis lobortis molestie. Cras eget lectus tempor ipsum porttitor imperdiet at non nisl.",
       "choices": {
         "a": "flex-wrap",
         "b": "align-items",
@@ -36,11 +36,11 @@
     },
     {
       "id": 3,
-      "category": "js",
+      "category": "javascript",
       "point": 5000,
       "time": 60,
       "title": "아래 코드의 실행 결과로 알맞은 것은?",
-      "body": "console.log(1 + undefined);",
+      "body": "const foo = 1 + undefined;\r\nconsole.log(foo);",
       "choices": {
         "a": "NaN",
         "b": "undefined",
@@ -49,7 +49,24 @@
       },
       "answer": "a",
       "hasCode": true,
-      "selected": false
+      "selected": true
+    },
+    {
+      "id": 4,
+      "category": "html",
+      "point": 5000,
+      "time": 60,
+      "title": "아래 코드의 실행 결과로 알맞은 것은?",
+      "body": "<img src=\"./images\" />\n<div class=\"foo\">foo</div>",
+      "choices": {
+        "a": "NaN",
+        "b": "undefined",
+        "c": "Infinity",
+        "d": "1"
+      },
+      "answer": "a",
+      "hasCode": true,
+      "selected": true
     }
   ],
   "users": []

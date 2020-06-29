@@ -16,65 +16,65 @@ const adapter = new FileAsync('db.json');
 low(adapter)
   .then(db => {
     // Routes
-    // GET /questions
-    app.get('/questions', (_, res) => {
-      console.log('GET /questions');
-      const questions = db.get('questions').value();
-      res.send(questions);
+    // GET /quizzes
+    app.get('/quizzes', (_, res) => {
+      console.log('GET /quizzes');
+      const quizzes = db.get('quizzes').value();
+      res.send(quizzes);
     });
 
-    // GET /questions/:resource
-    app.get('/questions/:resource', (req, res) => {
+    // GET /quizzes/:resource
+    app.get('/quizzes/:resource', (req, res) => {
       const { resource } = req.params;
-      console.log(`GET /questions/${resource}`);
+      console.log(`GET /quizzes/${resource}`);
 
-      // GET /questions/:id
+      // GET /quizzes/:id
       // if a question with id exists send that question.
       // else send undefined.
       if (parseInt(resource) > 0) {
-        const question = db.get('questions')
+        const question = db.get('quizzes')
           .find({ id: +resource })
           .value();
 
         res.send(question);
-      } else if (resource === 'html' || resource === 'css' || resource === 'js') { // GET /questions/:category
+      } else if (resource === 'html' || resource === 'css' || resource === 'js') { // GET /quizzes/:category
         // if question(s) with category exist, send that(those) question(s)
         // else send empty array
-        const questionsByCategory = db.get('questions')
+        const quizzesByCategory = db.get('quizzes')
           .filter({ category: resource })
           .sortBy('id')
           .value();
 
-        res.send(questionsByCategory);
+        res.send(quizzesByCategory);
       } else {
         res.sendStatus(400);
       }
     });
 
-    // POST /questions
-    app.post('/questions', (req, res) => {
-      db.get('questions')
+    // POST /quizzes
+    app.post('/quizzes', (req, res) => {
+      db.get('quizzes')
         .push(req.body)
         .last()
         .write()
         .then(question => res.send(question));
     });
 
-    // DELETE /questions/:resource
-    app.delete('/questions/:resource', (req, res) => {
+    // DELETE /quizzes/:resource
+    app.delete('/quizzes/:resource', (req, res) => {
       const { resource } = req.params;
-      console.log(`DELETE /questions/${resource}`);
+      console.log(`DELETE /quizzes/${resource}`);
 
-      // DELETE /questions/:id
+      // DELETE /quizzes/:id
       // if a question with id exists, delete & send that question
       // else send empty array
       if (parseInt(resource) > 0) {
-        db.get('questions')
+        db.get('quizzes')
           .remove({ id: +resource })
           .write()
           .then(question => res.send(question));
-      } else if (resource === 'selected') { // DELETE /questions/selected
-        db.get('questions')
+      } else if (resource === 'selected') { // DELETE /quizzes/selected
+        db.get('quizzes')
           .remove({ selected: true })
           .write()
           .then(question => res.send(question));
@@ -83,14 +83,14 @@ low(adapter)
       }
     });
 
-    // PATCH /questions/:resource
-    app.patch('/questions/:id', (req, res) => {
+    // PATCH /quizzes/:resource
+    app.patch('/quizzes/:id', (req, res) => {
       const { id } = req.params;
-      console.log(`PATCH /questions/${id}`);
+      console.log(`PATCH /quizzes/${id}`);
 
-      // PATCH /questions/:id
+      // PATCH /quizzes/:id
       if (parseInt(id) > 0) {
-        db.get('questions')
+        db.get('quizzes')
           .find({ id: +req.params.id })
           .assign(req.body.selected)
           .write()
@@ -101,7 +101,7 @@ low(adapter)
     });
 
     // Set db default values
-    return db.defaults({ questions: [], users: [] }).write();
+    return db.defaults({ quizzes: [], users: [] }).write();
   })
   .then(() => {
     app.listen(3000, () => console.log('listening on port 3000'));
