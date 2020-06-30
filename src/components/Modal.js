@@ -11,11 +11,17 @@ export default class Modal {
   init() {
     const { container, form, store } = this;
     const { categories, points, seconds } = store.getState();
-    container.classList.add('overlay');
+    container.classList.add('modal');
     form.classList.add('quiz-form');
-    form.innerHTML = `<fieldset class="fields">
+
+    const nextId = 10;
+
+    form.innerHTML = `<div role="group" class="fields">
       <legend>ADD Quiz</legend>
-      <label class="quiz-title">title<input type="text" /></label>
+      <div class="question">
+        <label for="qs-text">문제</label>
+        <input id="qs-text" type="text" />
+      </div>
       <div class="setting">
         <label for="categories">카테고리</label>
         <select id="categories">
@@ -31,12 +37,51 @@ export default class Modal {
         </select>
       </div>
       <ul class="tabs clearfix">
-        <li class="tab active"><label for="text">text</label></li>
-        <li class="tab"><label for="code">code</label></li>
+        <li class="tab">
+          <label for="text-pane">text</label>
+          <input id="text-pane" type="radio" name="panes" checked />
+        </li>
+        <li class="tab active">
+          <label for="code-pane">code</label>
+          <input id="code-pane" type="radio" name="panes" />
+        </li>
       </ul>
-      <textarea id="text" class="text"></textarea>
-      <textarea id="code" class="code"></textarea>
-    </fieldset>`;
+      <textarea class="pane code"></textarea>
+      <div class="choices-group">
+        <ul class="choices">
+          <li class="choice">
+            <div class="choice-group">
+              <input type="radio" name="${nextId}-choices" checked value="a"/>
+              <input type="text" />
+            </div>
+          </li>
+          <li class="choice">
+            <div class="choice-group">
+              <input type="radio" name="${nextId}-choices" value="b"/>
+              <input type="text" />
+            </div>
+          </li>
+          <li class="choice">
+            <div class="choice-group">
+              <input type="radio" name="${nextId}-choices" value="c"/>
+              <input type="text" />
+            </div>
+          </li>
+          <li class="choice">
+            <div class="choice-group">
+              <input type="radio" name="${nextId}-choices" value="d"/>
+              <input type="text" />
+            </div>
+          </li>
+        </ul>
+        <button class="add-choice-btn">+</button>
+      </div>
+      <div class="btn-group">
+        <button class="modal-btn">ADD</button>
+        <button class="modal-btn">CANCEL</button>
+      </div>
+      <button class="exit-btn">X</button>
+    </div>`;
 
     container.appendChild(form);
   }

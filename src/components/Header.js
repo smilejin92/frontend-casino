@@ -15,8 +15,8 @@ export default class Header {
 
   init() {
     const { container, heading, addQuizBtn, modal } = this;
-    heading.classList.add('main-title', 'neon');
-    heading.textContent = 'Frontend Casino';
+    heading.classList.add('logo', 'neon');
+    heading.innerHTML = '<a role="button">Frontend Casino</a>';
 
     addQuizBtn.classList.add('add-quiz-btn');
     addQuizBtn.textContent = 'Add Quiz';
