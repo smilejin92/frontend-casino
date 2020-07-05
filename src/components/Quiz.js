@@ -31,9 +31,15 @@ export default function Quiz(q) {
         ${Object.keys(q.options).map(k => `<li class="option">
           <label>
               <input 
-                type="radio" 
-                name="${q.id}-options" 
-                ${q.answer === k ? 'checked' : ''} 
+                type="${q.hasMultipleAnswers ? 'checkbox' : 'radio'}" 
+                ${q.hasMultipleAnswers ? '' : `name="${q.id}-options"`} 
+                ${q.hasMultipleAnswers
+                  ? q.answer.includes(k)
+                    ? 'checked'
+                    : ''
+                  : q.answer === k
+                    ? 'checked'
+                    : ''}
                 value="${q.options[k]}"
                 disabled
               />
@@ -41,7 +47,7 @@ export default function Quiz(q) {
           </label>
         </li>`).join('')}
       </ul>
-      <input type="checkbox" ${q.selected ? 'checked' : ''} />
+      <input class="select-quiz" type="checkbox" ${q.selected ? 'checked' : ''} />
       <button class="edit-quiz">Edit</button>
       <button class="rm-quiz">Remove</button>
     </article>

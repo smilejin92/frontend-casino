@@ -1,6 +1,7 @@
 import './styles/modal.module.scss';
-import { setModal, addQuiz, editQuiz } from '../redux/actions';
-import QuizService from '../services/QuizServices';
+import he from 'he';
+import { setModal, addQuiz, editQuiz, setError } from '../redux/actions';
+import QuizService from '../services/QuizService';
 
 export default class Modal {
   constructor(store) {
@@ -10,12 +11,14 @@ export default class Modal {
 
     this.container = document.createElement('div');
     this.form = document.createElement('form');
+    this.fields = document.createElement('div');
     this.heading = document.createElement('legend');
     this.questionWrapper = document.createElement('div');
     this.setting = document.createElement('div');
     this.panes = document.createElement('ul');
     this.textarea = document.createElement('textarea');
     this.optionsWrapper = document.createElement('div');
+    this.allowMultipleAnswers = document.createElement('input');
     this.btnGroup = document.createElement('div');
     this.exitBtn = document.createElement('button');
 
@@ -23,36 +26,83 @@ export default class Modal {
   }
 
   init() {
-    this.container.classList.add('modal');
-    this.form.classList.add('quiz-form');
-    this.container.appendChild(this.form);
+    const {
+      container,
+      form,
+      fields,
+      heading,
+      questionWrapper,
+      setting,
+      panes,
+      textarea,
+      optionsWrapper,
+      allowMultipleAnswers,
+      btnGroup,
+      exitBtn,
+      store,
+      update
+    } = this;
+
+    // class & attributes setting
+    container.classList.add('modal');
+    form.classList.add('quiz-form');
+    fields.classList.add('fields');
+    fields.setAttribute('role', 'group');
+    questionWrapper.classList.add('question-wrapper');
+    setting.classList.add('setting');
+    panes.classList.add('panes', 'clearfix');
+    textarea.classList.add('content');
+    optionsWrapper.classList.add('options-wrapper');
+    allowMultipleAnswers.setAttribute('type', 'checkbox');
+    allowMultipleAnswers.setAttribute('id', 'ck-multipleAns');
+    btnGroup.classList.add('btn-group');
+    exitBtn.classList.add('exit-btn');
+
+    // add child in fields
+    const children = [
+      heading,
+      questionWrapper,
+      setting,
+      panes,
+      textarea,
+      optionsWrapper,
+      btnGroup,
+      exitBtn
+    ];
+
+    children.forEach(node => fields.appendChild(node));
+
+    // add form in container
+    container.appendChild(form);
 
     // subscribe
-    this.store.subscribe(this.update.bind(this));
+    store.subscribe(update.bind(this));
 
     // handler binding
-
-    // ignore form submit
-    this.form.onsubmit = e => {
+    // 1. ignore form submit
+    const ignoreSubmit = e => {
       e.preventDefault();
     };
 
-    // set question
-    this.questionWrapper.onkeyup = ({ target }) => {
-      if (!target.matches('#question')) return;
-      this.setState('question', target.value);
-      console.log(`question = ${target.value}`);
-    };
+    form.addEventListener('submit', ignoreSubmit);
 
-    this.questionWrapper.onpaste = ({ target, clipboardData }) => {
+    // 2. set question
+    const editQuestion = ({ target, clipboardData }) => {
       if (!target.matches('#question')) return;
-      const value = clipboardData.getData('text');
+
+      const value = clipboardData
+        ? clipboardData.getData('text')
+        : target.value;
+
       this.setState('question', value);
       console.log(`question = ${value}`);
     };
 
-    // set category, point, second
-    this.setting.onchange = ({ target }) => {
+    questionWrapper.addEventListener('keyup', editQuestion);
+    questionWrapper.addEventListener('paste', editQuestion);
+
+    // 3. set category, point, second
+    const editSetting = ({ target }) => {
       const key = target.id === 'categories'
         ? 'category'
         : target.id === 'points'
@@ -67,48 +117,98 @@ export default class Modal {
       console.log(`${key} = ${target.value}`);
     };
 
-    this.panes.onchange = ({ target }) => {
-      document.querySelector('.panes .active').classList.remove('active');
-      target.parentNode.classList.add('active');
+    setting.addEventListener('change', editSetting);
+
+    // 4. set hasCode
+    const togglePane = ({ target }) => {
+      const prevPane = document.querySelector('.panes .active');
+      const currentPane = target.parentNode;
+      if (prevPane === currentPane) return;
+
+      prevPane.classList.remove('active');
+      currentPane.classList.add('active');
 
       this.setState('hasCode', target.id === 'code-pane');
       console.log(`set hasCode = ${target.id === 'code-pane'}`);
     };
 
-    // set content
-    this.textarea.onkeyup = ({ target }) => {
-      this.setState('content', target.value);
-      console.log(`content = ${target.value}`);
-    };
+    panes.addEventListener('change', togglePane);
 
-    this.textarea.onpaste = ({ clipboardData }) => {
-      const value = clipboardData.getData('text');
+    // 5. set content
+    const editContent = ({ target, clipboardData }) => {
+      const value = clipboardData
+        ? clipboardData.getData('text')
+        : target.value;
+
       this.setState('content', value);
       console.log(`content = ${value}`);
     };
 
-    // set options
-    this.optionsWrapper.onchange = ({ target }) => {
-      if (!(target.type === 'radio')) return;
-      this.setState('answer', target.value);
-      console.log(`answer = ${target.value}`);
+    textarea.addEventListener('keyup', editContent);
+    textarea.addEventListener('paste', editContent);
+
+    // 6. set options
+    optionsWrapper.onchange = ({ target }) => {
+      if (target.id === 'ck-multipleAns') return;
+      if (target.type === 'radio') {
+        this.setState('answer', target.value);
+      } else if (target.type === 'checkbox') {
+        this.setState('answer', target.checked ? [...this.state.answer, target.value] : this.state.answer.filter(a => a !== target.value));
+      }
+
+      console.log('answer = ', this.state.answer);
     };
 
-    this.optionsWrapper.onkeyup = ({ target }) => {
+    optionsWrapper.onkeyup = ({ target }) => {
       if (!(target.type === 'text')) return;
       const [, key] = target.id.split('-');
       this.state.options[key] = target.value;
       console.log('options = ', this.state.options);
     };
 
-    this.optionsWrapper.onpaste = ({ target, clipboardData }) => {
+    optionsWrapper.onpaste = ({ target, clipboardData }) => {
       const [, key] = target.id.split('-');
       const value = clipboardData.getData('text');
       this.state.options[key] = value;
       console.log('options = ', this.state.options);
     };
 
-    this.optionsWrapper.onclick = ({ target }) => {
+    // hasMultipleAnswers
+    allowMultipleAnswers.onchange = ({ target }) => {
+      const selected = target.checked;
+
+      this.state.answer = selected ? [this.state.answer] : 'a';
+      this.state.hasMultipleAnswers = selected;
+
+      const newOptions = Object.keys(this.state.options)
+        .sort()
+        .map((key, idx) => `<li class="option">
+          <div class="option-wrapper">
+            <input
+              type="${selected ? 'checkbox' : 'radio'}"
+              ${selected ? '' : `name=${this.state.id}-options`} 
+              value="${key}"
+              ${this.state.answer.includes(key) ? 'checked' : ''}
+              ${selected
+                ? this.state.answer.includes(key)
+                  ? 'checked'
+                  : ''
+                : this.state.answer === key
+                  ? 'checked'
+                  : ''}
+            />
+            <input id="option-${key}" type="text" value="${this.state.options[key]}"/>
+            ${idx >= 1
+              ? `<button id="rm-${key}" class="rm-option-btn">-</button>`
+              : ''}
+          </div>
+        </li>`)
+        .join('');
+
+      document.querySelector('.options').innerHTML = newOptions;
+    };
+
+    optionsWrapper.onclick = ({ target }) => {
       if (target.matches('.add-option-btn')) {
         const optionKeys = Object.keys(this.state.options).sort();
         if (optionKeys.length >= 5) return;
@@ -122,16 +222,18 @@ export default class Modal {
         newOption.classList.add('option');
         newOption.innerHTML = `<div class="option-wrapper">
           <input
-            type="radio"
-            name="${this.state.id}-options"
+            type="${this.state.hasMultipleAnswers ? 'checkbox' : 'radio'}"
+            ${this.state.hasMultipleAnswers ? '' : `name=${this.state.id}-options`}
             value="${nextKey}"
-            ${nextKey === this.state.answer ? 'checked' : ''}
           />
           <input id="option-${nextKey}" type="text" />
           <button id="rm-${nextKey}" class="rm-option-btn">-</button>
         </div>`;
 
         document.querySelector('.options').appendChild(newOption);
+        if (Object.keys(this.state.options).length === 2) {
+          optionsWrapper.appendChild(allowMultipleAnswers);
+        }
       } else if (target.matches('.rm-option-btn')) {
         if (Object.keys(this.state.options).length <= 1) return;
 
@@ -141,32 +243,88 @@ export default class Modal {
 
         const targetNode = target.parentNode.parentNode;
         document.querySelector('.options').removeChild(targetNode);
+        if (Object.keys(this.state.options).length === 1) {
+          allowMultipleAnswers.checked = false;
+          // 중복
+          const selected = false;
+          this.state.answer = selected ? [this.state.answer] : 'a';
+          this.state.hasMultipleAnswers = selected;
+
+          const newOptions = Object.keys(this.state.options)
+            .sort()
+            .map((key, idx) => `<li class="option">
+              <div class="option-wrapper">
+                <input
+                  type="${selected ? 'checkbox' : 'radio'}"
+                  ${selected ? '' : `name=${this.state.id}-options`} 
+                  value="${key}"
+                  ${this.state.answer.includes(key) ? 'checked' : ''}
+                  ${selected
+                    ? this.state.answer.includes(key)
+                      ? 'checked'
+                      : ''
+                    : this.state.answer === key
+                      ? 'checked'
+                      : ''}
+                />
+                <input id="option-${key}" type="text" value="${this.state.options[key]}"/>
+                ${idx >= 1
+                  ? `<button id="rm-${key}" class="rm-option-btn">-</button>`
+                  : ''}
+              </div>
+            </li>`)
+            .join('');
+
+          document.querySelector('.options').innerHTML = newOptions;
+          optionsWrapper.removeChild(allowMultipleAnswers);
+        }
       }
     };
 
-    // dispatch action ADD/EDIT/CLOSE
-    this.btnGroup.onclick = async ({ target }) => {
+    // 7. add/edit quiz
+    // 7.1. close modal
+    const exitModal = () => {
+      this.form.removeChild(this.form.lastElementChild);
+      this.store.dispatch(setModal({
+        type: '',
+        on: false,
+        id: null
+      }));
+      console.log('exit modal');
+    };
+
+    const escapeHtml = () => {
+      this.state.question = he.escape(this.state.question);
+
+      if (!this.state.hasCode && this.state.content) {
+        this.state.content = he.escape(this.state.content);
+      }
+
+      Object.keys(this.state.options).forEach(key => {
+        this.state.options[key] = he.escape(this.state.options[key]);
+      });
+    };
+
+    const validateInput = () => {
+      const err = new Error();
+      err.type = 'validation';
+      err.message = '입력 값이 잘못되었습니다.';
+
+      if (!this.state.question.trim()) throw err;
+
+      Object.keys(this.state.options).forEach(k => {
+        if (!this.state.options[k].trim()) throw err;
+      });
+    };
+
+    const handleSubmit = async ({ target }) => {
       if (target.matches('.add')) {
-        // validate state.question, options
-        if (this.validateInput()) {
+        try {
+          // validate state.question, options
+          validateInput();
+
           // escape html entities
-          const escapeHtmlEntities = str => (
-            [...str].map(c => (c === '<'
-              ? '&lt;'
-              : c === '>'
-                ? '&gt;'
-                : c)).join('')
-          );
-
-          this.state.question = escapeHtmlEntities(this.state.question);
-
-          if (!this.state.hasCode && this.state.content) {
-            this.state.question = escapeHtmlEntities(this.state.question);
-          }
-
-          Object.keys(this.state.options).forEach(key => {
-            this.state.options[key] = escapeHtmlEntities(this.state.options[key]);
-          });
+          escapeHtml();
 
           // add/edit question
           const { modal } = this.store.getState();
@@ -176,60 +334,37 @@ export default class Modal {
 
           const quiz = await res.json();
           this.store.dispatch(modal.type === 'ADD' ? addQuiz(quiz) : editQuiz(quiz));
-          this.store.dispatch(setModal({
-            type: '',
-            on: false,
-            id: null
-          }));
-        } else { // display error
-          console.log('빈 칸을 채워주세요');
+          exitModal();
+        } catch (err) {
+          this.store.dispatch(setError(err));
+          console.error(err);
         }
       } else if (target.matches('.cancel')) {
-        console.log('exit modal');
-        this.store.dispatch(setModal({
-          type: '',
-          on: false,
-          id: null
-        }));
+        exitModal();
       }
     };
 
-    this.exitBtn.onclick = () => {
-      console.log('exit modal');
-      this.store.dispatch(setModal({
-        type: '',
-        on: false,
-        id: null
-      }));
-    };
+    btnGroup.addEventListener('click', handleSubmit);
+    exitBtn.addEventListener('click', exitModal);
   }
 
   setState(key, value) {
     this.state[key] = value;
   }
 
-  validateInput() {
-    let validated = true;
-    if (!this.state.question.trim()) validated = false;
-    Object.keys(this.state.options).forEach(k => {
-      if (!this.state.options[k].trim()) validated = false;
-    });
-
-    return validated;
-  }
-
   update() {
-    // setModal에만 반응하게 걸러줘야한다.
-    const { modal, quizzes } = this.store.getState();
-    if (this.currentModalState === modal) return;
+    const {
+      store,
+      currentModalState
+    } = this;
+
+    const { modal, quizzes } = store.getState();
+    if (currentModalState === modal) return;
 
     this.currentModalState = modal;
-    console.log('modal update');
-
     this.container.classList.toggle('active', modal.on);
 
     if (modal.type === 'ADD') {
-      // initialize state
       this.state = {
         id: modal.id,
         category: 'html',
@@ -240,43 +375,37 @@ export default class Modal {
         options: {
           a: ''
         },
+        hasMultipleAnswers: false,
         answer: 'a',
         hasCode: false,
         selected: false
       };
-      // render
       this.render();
     } else if (modal.type === 'EDIT') {
-      // initialize state with provided data(quiz)
-      console.log(quizzes.find(({ id }) => id === modal.id));
       this.state = quizzes.find(({ id }) => id === modal.id);
-      // render
       this.render();
     } else if (!modal.type) {
-      // reset state
-      console.log('reset state');
       this.state = {};
-      this.form.removeChild(this.form.lastElementChild);
     }
   }
 
+  // hasMultipleAnswers
   render() {
-    // classlist 위로 옮기기
     const {
       state,
       store,
       form,
+      fields,
       heading,
       questionWrapper,
       setting,
       panes,
       textarea,
       optionsWrapper,
+      allowMultipleAnswers,
       btnGroup,
       exitBtn
     } = this;
-
-    console.log(state);
 
     const {
       id,
@@ -286,6 +415,7 @@ export default class Modal {
       question,
       content,
       options,
+      hasMultipleAnswers,
       answer,
       hasCode
     } = state;
@@ -297,18 +427,12 @@ export default class Modal {
       modal
     } = store.getState();
 
-    const fields = document.createElement('div');
-    fields.setAttribute('role', 'group');
-    fields.classList.add('fields');
-
     heading.textContent = `${modal.type} Quiz`;
-    questionWrapper.classList.add('question-wrapper');
+
     questionWrapper.innerHTML = `
       <label for="question">Q${id}) </label>
       <input id="question" type="text" value="${question}"/>`;
-    fields.appendChild(questionWrapper);
 
-    setting.classList.add('setting');
     setting.innerHTML = `<label for="categories">카테고리</label>
       <select id="categories">
         ${categories.map(c => `<option value="${c}" ${c === category ? 'selected' : ''}>${c}</option>`).join('')}
@@ -321,9 +445,7 @@ export default class Modal {
       <select id="seconds">
         ${seconds.map(s => `<option value="${s}" ${s === second ? 'selected' : ''}>${s}</option>`).join('')}
       </select>`;
-    fields.appendChild(setting);
 
-    panes.classList.add('panes', 'clearfix');
     panes.innerHTML = `<li class="pane ${hasCode ? '' : 'active'}">
         <label for="text-pane">text</label>
         <input id="text-pane" type="radio" name="panes" ${hasCode ? '' : 'checked'} />
@@ -332,32 +454,43 @@ export default class Modal {
         <label for="code-pane">code</label>
         <input id="code-pane" type="radio" name="panes" ${hasCode ? 'checked' : ''}/>
       </li>`;
-    fields.appendChild(panes);
 
-    textarea.classList.add('content');
     textarea.value = content;
-    fields.appendChild(textarea);
 
-    optionsWrapper.classList.add('options-wrapper');
     optionsWrapper.innerHTML = `<ul class="options">
-      ${Object.keys(options).sort().map(k => `<li class="option">
+      ${Object.keys(options).sort().map((k, idx) => `<li class="option">
           <div class="option-wrapper">
-            <input type="radio" name="${id}-options" ${k === answer ? 'checked' : ''} value="${k}"/>
+            <input
+              type="${hasMultipleAnswers ? 'checkbox' : 'radio'}"
+              ${hasMultipleAnswers ? '' : `name=${id}-options`} 
+              value="${k}"
+              ${answer.includes(k) ? 'checked' : ''}
+              ${hasMultipleAnswers
+                ? answer.includes(k)
+                  ? 'checked'
+                  : ''
+                : answer === k
+                  ? 'checked'
+                  : ''}
+            />
             <input id="option-${k}" type="text" value="${options[k]}" />
+            ${idx >= 1
+              ? `<button id="rm-${k}" class="rm-option-btn">-</button>`
+              : ''}
           </div>
         </li>`).join('')}
       </ul>
       <button class="add-option-btn">+</button>`;
-    fields.appendChild(optionsWrapper);
 
-    btnGroup.classList.add('btn-group');
+    if (hasMultipleAnswers) {
+      allowMultipleAnswers.checked = true;
+      optionsWrapper.appendChild(allowMultipleAnswers);
+    }
+
     btnGroup.innerHTML = `<button class="modal-btn add">${modal.type}</button>
       <button class="modal-btn cancel">CANCEL</button>`;
-    fields.appendChild(btnGroup);
 
-    exitBtn.classList.add('exit-btn');
     exitBtn.textContent = 'X';
-    fields.appendChild(exitBtn);
 
     form.appendChild(fields);
   }

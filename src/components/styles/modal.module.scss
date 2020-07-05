@@ -151,7 +151,8 @@
     
             .option-wrapper {
               // width: 70rem;
-              input[type="radio"] {
+              input[type="radio"],
+              input[type="checkbox"] {
                 margin-right: 1rem;
               }
     

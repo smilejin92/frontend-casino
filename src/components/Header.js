@@ -26,7 +26,7 @@ export default class Header {
 
     addQuizBtn.classList.add('add-quiz-btn');
     addQuizBtn.textContent = 'Add Quiz';
-    addQuizBtn.onclick = addQuiz.bind(this);
+    addQuizBtn.addEventListener('click', addQuiz.bind(this));
 
     container.classList.add('header');
     container.appendChild(heading);
@@ -35,7 +35,6 @@ export default class Header {
   }
 
   addQuiz() {
-    console.log('addQuiz');
     const { store } = this;
     const { quizzes } = store.getState();
     store.dispatch(setModal({

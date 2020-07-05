@@ -13,6 +13,7 @@
         "c": "style",
         "d": "value"
       },
+      "hasMultipleAnswers": false,
       "answer": "d",
       "hasCode": false,
       "selected": false
@@ -30,6 +31,7 @@
         "c": "justify-content",
         "d": "align-content"
       },
+      "hasMultipleAnswers": false,
       "answer": "c",
       "hasCode": false,
       "selected": false
@@ -47,6 +49,7 @@
         "c": "Infinity",
         "d": "1"
       },
+      "hasMultipleAnswers": false,
       "answer": "a",
       "hasCode": true,
       "selected": false
@@ -65,6 +68,7 @@
         "d": "center",
         "e": "stretch"
       },
+      "hasMultipleAnswers": false,
       "answer": "c",
       "hasCode": false,
       "selected": false
@@ -82,6 +86,7 @@
         "c": "OOCSS",
         "d": "SCSS"
       },
+      "hasMultipleAnswers": false,
       "answer": "d",
       "hasCode": false,
       "selected": false
@@ -99,6 +104,7 @@
         "c": "h1 { margin: 10px 5px 10px; }",
         "d": "h1 { margin: 10px 5px 10px 5px; }"
       },
+      "hasMultipleAnswers": false,
       "answer": "b",
       "hasCode": true,
       "selected": false
@@ -117,6 +123,7 @@
         "d": "%",
         "e": "wh"
       },
+      "hasMultipleAnswers": false,
       "answer": "a",
       "hasCode": false,
       "selected": false
@@ -134,6 +141,7 @@
         "c": "position: absolute 속성을 가진 요소의 기본 display 스타일은 block이다.",
         "d": "position: relative 속성은 offset 속성과 함께 사용할 수 없다."
       },
+      "hasMultipleAnswers": false,
       "answer": "a",
       "hasCode": false,
       "selected": false
@@ -152,6 +160,7 @@
         "d": "for=\"name\"",
         "e": "by=\"name\""
       },
+      "hasMultipleAnswers": false,
       "answer": "d",
       "hasCode": true,
       "selected": false
@@ -170,6 +179,7 @@
         "d": "radio",
         "e": "search"
       },
+      "hasMultipleAnswers": false,
       "answer": "c",
       "hasCode": false,
       "selected": false
@@ -187,6 +197,7 @@
         "c": "웹 서버에 정보를 제출하기 위한 양식 범위를 정의할 때 사용한다.",
         "d": "autocomplete 속성을 통해 사용자가 이전에 입력한 값으로 자동 완성 기능을 구현할 수 있다."
       },
+      "hasMultipleAnswers": false,
       "answer": "a",
       "hasCode": false,
       "selected": false
@@ -204,6 +215,7 @@
         "c": "table-cell",
         "d": "block"
       },
+      "hasMultipleAnswers": false,
       "answer": "d",
       "hasCode": false,
       "selected": false
@@ -222,6 +234,7 @@
         "d": "_parent",
         "e": "_new"
       },
+      "hasMultipleAnswers": false,
       "answer": "b",
       "hasCode": false,
       "selected": false
@@ -236,10 +249,11 @@
       "options": {
         "a": "%",
         "b": "px",
-        "c": "em",
-        "d": "vw",
-        "e": "vh"
+        "c": "vw",
+        "d": "vh",
+        "e": "em"
       },
+      "hasMultipleAnswers": false,
       "answer": "b",
       "hasCode": false,
       "selected": false
@@ -257,6 +271,7 @@
         "c": "Snake case",
         "d": "Hungarian notation"
       },
+      "hasMultipleAnswers": false,
       "answer": "a",
       "hasCode": true,
       "selected": false
@@ -275,6 +290,7 @@
         "d": "contentinfo",
         "e": "aside"
       },
+      "hasMultipleAnswers": false,
       "answer": "e",
       "hasCode": false,
       "selected": false
@@ -293,6 +309,7 @@
         "d": "식별자라는 용어는 변수 이름 뿐만 아니라 함수, 클래스 등의 이름을 지칭하는 단어이다.",
         "e": "식별자 네이밍 규칙으로는 camel case, snake case, pascal case 등 다양한 컨벤션이 존재한다."
       },
+      "hasMultipleAnswers": false,
       "answer": "c",
       "hasCode": false,
       "selected": false
@@ -311,7 +328,30 @@
         "d": "자바스크립트 엔진은 런타임 이전에 표현식을 평가하여 값을 생성한다.",
         "e": "값으로 평가되는 문은 모두 표현식이다."
       },
+      "hasMultipleAnswers": false,
       "answer": "d",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 19,
+      "category": "javascript",
+      "point": 2500,
+      "second": 45,
+      "question": "일부 연산자는 다른 코드에 영향을 주는 부수 효과(side effect)가 있다. 다음 보기 중 부수 효과를 가지는 연산자는?",
+      "content": "",
+      "options": {
+        "a": "typeof",
+        "b": "&amp;&amp;",
+        "c": "++",
+        "d": "=",
+        "e": "!"
+      },
+      "hasMultipleAnswers": true,
+      "answer": [
+        "c",
+        "d"
+      ],
       "hasCode": false,
       "selected": false
     }

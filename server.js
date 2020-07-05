@@ -53,6 +53,7 @@ low(adapter)
 
     // POST /quizzes
     app.post('/quizzes', (req, res) => {
+      console.log('POST /quizzes');
       db.get('quizzes')
         .push(req.body)
         .last()

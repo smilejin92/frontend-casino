@@ -1,6 +1,6 @@
 import './styles/quizzes.module.scss';
 import Quiz from './Quiz';
-import QuizServices from '../services/QuizServices';
+import QuizService from '../services/QuizService';
 import { fetchQuizzes, setError, setModal, removeQuiz, selectQuiz, removeSelectedQuizzes } from '../redux/actions';
 
 export default class Quizzes {
@@ -38,7 +38,7 @@ export default class Quizzes {
         }));
       } else if (target.matches('.rm-quiz')) {
         const targetId = +target.parentNode.id;
-        await QuizServices.removeQuiz(targetId);
+        await QuizService.removeQuiz(targetId);
         store.dispatch(removeQuiz(targetId));
         console.log('remove quiz');
       }
@@ -50,7 +50,7 @@ export default class Quizzes {
       console.log(target.checked);
 
       const id = +target.parentNode.id;
-      const res = await QuizServices.selectQuiz(id, {
+      const res = await QuizService.selectQuiz(id, {
         selected: target.checked
       });
       const quiz = await res.json();
@@ -58,7 +58,7 @@ export default class Quizzes {
     };
 
     deleteSelectedBtn.onclick = async () => {
-      const res = await QuizServices.removeSelectedQuizzes();
+      const res = await QuizService.removeSelectedQuizzes();
       const filteredQuizzes = await res.json();
       store.dispatch(removeSelectedQuizzes(filteredQuizzes));
 
@@ -72,7 +72,7 @@ export default class Quizzes {
     store.subscribe(update.bind(this));
 
     try {
-      const res = await QuizServices.fetchQuizzes();
+      const res = await QuizService.fetchQuizzes();
       const _quizzes = await res.json();
       store.dispatch(fetchQuizzes(_quizzes.sort((a, b) => b.id - a.id)));
 
