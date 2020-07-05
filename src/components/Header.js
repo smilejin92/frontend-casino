@@ -8,18 +8,25 @@ export default class Header {
     this.container = document.createElement('header');
     this.heading = document.createElement('h1');
     this.addQuizBtn = document.createElement('button');
-    this.addQuizBtn.onclick = this.handleClick.bind(this);
     this.modal = new Modal(store);
     this.init();
   }
 
   init() {
-    const { container, heading, addQuizBtn, modal } = this;
+    const {
+      container,
+      heading,
+      addQuizBtn,
+      modal,
+      addQuiz
+    } = this;
+
     heading.classList.add('logo', 'neon');
     heading.innerHTML = '<a role="button">Frontend Casino</a>';
 
     addQuizBtn.classList.add('add-quiz-btn');
     addQuizBtn.textContent = 'Add Quiz';
+    addQuizBtn.onclick = addQuiz.bind(this);
 
     container.classList.add('header');
     container.appendChild(heading);
@@ -27,11 +34,14 @@ export default class Header {
     container.appendChild(modal.container);
   }
 
-  handleClick() {
+  addQuiz() {
+    console.log('addQuiz');
     const { store } = this;
+    const { quizzes } = store.getState();
     store.dispatch(setModal({
       on: true,
-      type: 'ADD'
+      type: 'ADD',
+      id: Math.max(0, ...quizzes.map(({ id }) => id)) + 1
     }));
   }
 }

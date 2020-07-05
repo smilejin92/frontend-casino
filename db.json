@@ -3,11 +3,11 @@
     {
       "id": 1,
       "category": "html",
-      "point": 5000,
-      "time": 60,
-      "title": "다음 중 HTML 전역 속성이 아닌 것은?",
-      "body": "",
-      "choices": {
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 HTML 전역 속성이 아닌 것은?",
+      "content": "",
+      "options": {
         "a": "class",
         "b": "id",
         "c": "style",
@@ -20,11 +20,11 @@
     {
       "id": 2,
       "category": "css",
-      "point": 5000,
-      "time": 60,
-      "title": "Flex-box 사용시 주축을 기준으로 요소를 정렬하는 속성은?",
-      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non tempus dolor. Phasellus sed elit vel leo rhoncus dignissim varius vel nisl. Integer venenatis elit est, eget dignissim lorem suscipit quis. Donec at convallis velit. Proin egestas sit amet ligula tempor congue. Quisque facilisis eros in ante porttitor tempor. Nam leo sem, malesuada eu ultrices sed, tristique non orci. Aenean nec lobortis tortor. Suspendisse turpis diam, commodo at lorem et, sollicitudin sodales sapien. Nullam iaculis lobortis molestie. Cras eget lectus tempor ipsum porttitor imperdiet at non nisl.",
-      "choices": {
+      "point": 1000,
+      "second": 30,
+      "question": "CSS flex 속성 사용시 주축을 기준으로 요소를 정렬하는 속성은?",
+      "content": "",
+      "options": {
         "a": "flex-wrap",
         "b": "align-items",
         "c": "justify-content",
@@ -37,11 +37,11 @@
     {
       "id": 3,
       "category": "javascript",
-      "point": 5000,
-      "time": 60,
-      "title": "아래 코드의 실행 결과로 알맞은 것은?",
-      "body": "const foo = 1 + undefined;\r\nconsole.log(foo);",
-      "choices": {
+      "point": 1000,
+      "second": 30,
+      "question": "아래 코드의 실행 결과로 알맞은 것은?",
+      "content": "const foo = 1 + undefined;\r\nconsole.log(foo);",
+      "options": {
         "a": "NaN",
         "b": "undefined",
         "c": "Infinity",
@@ -49,24 +49,271 @@
       },
       "answer": "a",
       "hasCode": true,
-      "selected": true
+      "selected": false
     },
     {
       "id": 4,
+      "category": "css",
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 flex 컨테이너의 justify-content 속성 값으로 맞지 않는 것은?",
+      "content": "",
+      "options": {
+        "a": "space-between",
+        "b": "flex-end",
+        "c": "top",
+        "d": "center",
+        "e": "stretch"
+      },
+      "answer": "c",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 5,
+      "category": "css",
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 CSS 방법론이 아닌 것은?",
+      "content": "",
+      "options": {
+        "a": "SMACSS",
+        "b": "BEM",
+        "c": "OOCSS",
+        "d": "SCSS"
+      },
+      "answer": "d",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 6,
+      "category": "css",
+      "point": 2500,
+      "second": 45,
+      "question": "아래 CSS 코드를 단축 표기법으로 작성한 예제 중 옳지 않은 것은?",
+      "content": "h1 {\n  margin-top: 10px;\n  margin-bottom: 10px;\n  margin-right: 5px;\n  margin-left: 5px;\n}\n",
+      "options": {
+        "a": "h1 { margin: 10px 5px;  }",
+        "b": "h1 { margin: 5px 10px; }",
+        "c": "h1 { margin: 10px 5px 10px; }",
+        "d": "h1 { margin: 10px 5px 10px 5px; }"
+      },
+      "answer": "b",
+      "hasCode": true,
+      "selected": false
+    },
+    {
+      "id": 7,
+      "category": "css",
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 CSS font 단위가 아닌 것은?",
+      "content": "",
+      "options": {
+        "a": "px",
+        "b": "rem",
+        "c": "em",
+        "d": "%",
+        "e": "wh"
+      },
+      "answer": "a",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 8,
+      "category": "css",
+      "point": 2500,
+      "second": 90,
+      "question": "아래 보기 중 CSS position 속성에 대한 설명으로 알맞은 것은?",
+      "content": "",
+      "options": {
+        "a": "position: absolute 속성 사용시 offset을 주지 않으면 position: absolute 속성이 적용되지 않는다.",
+        "b": "position: absolute 속성을 적용한 요소의 위치를 offset으로 설정할 때, offset 기준점은 상위에서 가장 가까운 position: relative 속성을 가진 요소이다.",
+        "c": "position: absolute 속성을 가진 요소의 기본 display 스타일은 block이다.",
+        "d": "position: relative 속성은 offset 속성과 함께 사용할 수 없다."
+      },
+      "answer": "a",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 9,
       "category": "html",
-      "point": 5000,
-      "time": 60,
-      "title": "아래 코드의 실행 결과로 알맞은 것은?",
-      "body": "<img src=\"./images\" />\n<div class=\"foo\">foo</div>",
-      "choices": {
-        "a": "NaN",
-        "b": "undefined",
-        "c": "Infinity",
-        "d": "1"
+      "point": 1000,
+      "second": 30,
+      "question": "아래 HTML 마크업의 label 요소를 input 요소에 연결 할 때 필요한 속성은?",
+      "content": "<label>이름</label>\n<input type=\"text\" id=\"name' />",
+      "options": {
+        "a": "to=\"name\"",
+        "b": "of=\"name\"",
+        "c": "on=\"name\"",
+        "d": "for=\"name\"",
+        "e": "by=\"name\""
+      },
+      "answer": "d",
+      "hasCode": true,
+      "selected": false
+    },
+    {
+      "id": 10,
+      "category": "html",
+      "point": 1000,
+      "second": 30,
+      "question": "&lt;input&gt; 요소의 type으로 옳지 않은 것은?",
+      "content": "",
+      "options": {
+        "a": "text",
+        "b": "checkbox",
+        "c": "menu",
+        "d": "radio",
+        "e": "search"
+      },
+      "answer": "c",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 11,
+      "category": "html",
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 &lt;form&gt; 요소에 대한 설명으로 옳지 않은 것은?",
+      "content": "",
+      "options": {
+        "a": "block 요소이다.",
+        "b": "자식 요소로 또 다른 &lt;form&gt; 요소를 포함할 수 있다.",
+        "c": "웹 서버에 정보를 제출하기 위한 양식 범위를 정의할 때 사용한다.",
+        "d": "autocomplete 속성을 통해 사용자가 이전에 입력한 값으로 자동 완성 기능을 구현할 수 있다."
+      },
+      "answer": "a",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 12,
+      "category": "css",
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 CSS vertical-align 속성을 사용할 수 없는 요소는?",
+      "content": "",
+      "options": {
+        "a": "inline",
+        "b": "inline-block",
+        "c": "table-cell",
+        "d": "block"
+      },
+      "answer": "d",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 13,
+      "category": "html",
+      "point": 1000,
+      "second": 30,
+      "question": "&lt;a&gt; 요소를 사용하여 새로운 창에 페이지를 표시하려합니다. 이때 target 속성의 값으로 알맞은 것은?",
+      "content": "",
+      "options": {
+        "a": "_self",
+        "b": "_blank",
+        "c": "_top",
+        "d": "_parent",
+        "e": "_new"
+      },
+      "answer": "b",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 14,
+      "category": "css",
+      "point": 1000,
+      "second": 30,
+      "question": "다음 중 반응형 웹디자인과 거리가 먼 CSS 단위를 선택해주세요.",
+      "content": "",
+      "options": {
+        "a": "%",
+        "b": "px",
+        "c": "em",
+        "d": "vw",
+        "e": "vh"
+      },
+      "answer": "b",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 15,
+      "category": "html",
+      "point": 1000,
+      "second": 30,
+      "question": "아래 HTML 코드에서 사용된 클래스 네이밍 컨벤션으로 알맞은 것은?",
+      "content": "<button class=\"buttonNone buttonBurger\">...</button>",
+      "options": {
+        "a": "Camel case",
+        "b": "Kebab case",
+        "c": "Snake case",
+        "d": "Hungarian notation"
       },
       "answer": "a",
       "hasCode": true,
-      "selected": true
+      "selected": false
+    },
+    {
+      "id": 16,
+      "category": "html",
+      "point": 2500,
+      "second": 45,
+      "question": "ARIA 랜드마크의 역할(role)은 스크린 리더와 같은 보조기술 사용자가 웹페이지의 구조를 명확히 식별하기 위해 사용될 수 있습니다. 다음 중 랜드마크 역할의 유형으로 알맞지 않은 것은 무엇인가요?",
+      "content": "",
+      "options": {
+        "a": "main",
+        "b": "navigation",
+        "c": "search",
+        "d": "contentinfo",
+        "e": "aside"
+      },
+      "answer": "e",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 17,
+      "category": "javascript",
+      "point": 1000,
+      "second": 60,
+      "question": "다음 중 식별자에 대한 설명으로 옳지 않은 것은?",
+      "content": "",
+      "options": {
+        "a": "식별자는 어떤 값을 구별하여 식별해낼 수 있는 고유한 이름을 말한다.",
+        "b": "식별자는 값이 아니라 메모리 주소를 기억하고 있다.",
+        "c": "식별자는 키워드로 분류된다.",
+        "d": "식별자라는 용어는 변수 이름 뿐만 아니라 함수, 클래스 등의 이름을 지칭하는 단어이다.",
+        "e": "식별자 네이밍 규칙으로는 camel case, snake case, pascal case 등 다양한 컨벤션이 존재한다."
+      },
+      "answer": "c",
+      "hasCode": false,
+      "selected": false
+    },
+    {
+      "id": 18,
+      "category": "javascript",
+      "point": 2500,
+      "second": 60,
+      "question": "다음 중 값과 표현식에 대해 옳지 않은 것은?",
+      "content": "",
+      "options": {
+        "a": "값은 식이 평가되어 생성된 결과이다.",
+        "b": "값은 다양한 방법으로 생성할 수 있으며, 가장 기본적인 방법은 리터럴을 사용하는 것이다.",
+        "c": "리터럴은 그 자체로 표현식이다.",
+        "d": "자바스크립트 엔진은 런타임 이전에 표현식을 평가하여 값을 생성한다.",
+        "e": "값으로 평가되는 문은 모두 표현식이다."
+      },
+      "answer": "d",
+      "hasCode": false,
+      "selected": false
     }
   ],
   "users": []

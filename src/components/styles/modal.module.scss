@@ -4,171 +4,186 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  padding: 5%;
   z-index: 1;
   background-color: rgba(34, 34, 34, .5);
+  display: none;
+  
+  &.active {
+    display: block;
+  }
 
-  .fields {
-    position: relative;
-    background-color: #f9f8f0;
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    align-items: center;
-    border-radius: 2rem;
+  .quiz-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80rem;
 
-    .question,
-    .setting,
-    .pane,
-    .choices {
-      margin-bottom: 2rem;
-    }
-
-    .question {
-      label,
-      input {
-        display: inline-block;
-        font-size: 3rem;
-        margin-left: 0.5rem;
+    .fields {
+      position: relative; // for exit button
+      background-color: #f9f8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 2rem;
+      border-radius: 2rem;
+  
+      .question-wrapper,
+      .setting,
+      .content,
+      .options-wrapper {
+        margin-bottom: 2rem;
       }
-
-      input[type="text"] {
-        vertical-align: top;
-        font-size: 2rem;
-        width: 70rem;
-        padding: 0.5rem 1rem;
-      }
-    }
-
-    .setting {
-      font-size: 2rem;
-
-      label::after {
-        content: ':';
-      }
-
-      select {
-        margin-right: 2rem;
-        min-width: 6rem;
-        padding-left: 0.5rem;
-
-        &:last-child {
-          margin-right: 0;
-        }
-      }
-    }
-
-    .tabs {
-      width: 70rem;
-      position: relative;
-      top: 1px;
-
-      .tab {
-        float: left;
-
+  
+      .question-wrapper {
         label,
         input {
           display: inline-block;
+          font-size: 3rem;
+          margin-left: 0.5rem;
+        }
+  
+        input[type="text"] {
+          vertical-align: top;
           font-size: 2rem;
-        }
-
-        label {
-          cursor: pointer;
-          position: relative;
-          width: 7rem;
+          width: 60rem;
           padding: 0.5rem 1rem;
-          border: 1px solid black;
-          border-bottom: none;
-          background-color: #fff;
-
-          &[for="code-pane"] {
-            border-left: none;
-          }
-          
-          &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-bottom: 1px solid black;
-          }
-        }
-
-        input[type="radio"] {
-          display: none;
-        }
-
-        &.active {
-          background-color: lightblue;
-          label::after {
-            border-bottom: none;
-          }
         }
       }
-    }
   
-    .pane {
-      width: 70rem;
-      height: 40rem;
-      padding: 2rem;
-      border: 1px solid black;
-      resize: none;
-      font-size: 2rem;
-
-      &:focus {
-        outline: none;
-      }
-    }
-
-    .choices-group {
-      position: relative;
-
-      .choices {
-        width: 70rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      .setting {
+        font-size: 2rem;
   
-        .choice {
-          margin-bottom: 1rem;
+        label::after {
+          content: ':';
+        }
+  
+        select {
+          margin-right: 2rem;
+          min-width: 6rem;
+          padding-left: 0.5rem;
   
           &:last-child {
-            margin-bottom: 0;
+            margin-right: 0;
+          }
+        }
+      }
+  
+      .panes {
+        width: 70rem;
+        position: relative; // for self positioning
+        top: 1px;
+  
+        .pane {
+          float: left;
+  
+          label,
+          input {
+            display: inline-block;
+            font-size: 2rem;
           }
   
-          .choice-group {
-            // width: 70rem;
-            input[type="radio"] {
-              margin-right: 1rem;
-            }
+          label {
+            cursor: pointer;
+            position: relative;
+            width: 7rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid black;
+            border-bottom: none;
+            background-color: #fff;
   
-            input[type="text"] {
-              padding: 0.5rem 1rem;
-              width: 60rem;
-              font-size: 2rem;
-              line-height: 3rem;
+            &[for="code-pane"] {
+              border-left: none;
+            }
+            
+            &::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-bottom: 1px solid black;
+            }
+          }
+  
+          input[type="radio"] {
+            display: none;
+          }
+  
+          &.active {
+            background-color: lightblue;
+            label::after {
+              border-bottom: none;
             }
           }
         }
       }
-      .add-choice-btn {
-        position: absolute;
-        top: 0;
-        right: 0;
+    
+      .content {
+        width: 70rem;
+        height: 40rem;
+        padding: 2rem;
+        border: 1px solid black;
+        resize: none;
+        font-size: 2rem;
+  
+        &:focus {
+          outline: none;
+        }
       }
-    }
-
-    .modal-btn {
-      width: 10rem;
-      height: 7rem;
-    }
-
-    .exit-btn {
-      position: absolute;
-      top: 0;
-      right: 0;
+  
+      .options-wrapper {
+        position: relative;
+  
+        .options {
+          width: 70rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+    
+          .option {
+            margin-bottom: 1rem;
+    
+            &:last-child {
+              margin-bottom: 0;
+            }
+    
+            .option-wrapper {
+              // width: 70rem;
+              input[type="radio"] {
+                margin-right: 1rem;
+              }
+    
+              input[type="text"] {
+                padding: 0.5rem 1rem;
+                width: 60rem;
+                font-size: 2rem;
+                line-height: 3rem;
+              }
+            }
+          }
+        }
+        .add-option-btn {
+          position: absolute;
+          // top: 1rem;
+          // right: 0;
+          top: 50%;
+          right: -2rem;
+          transform: translateY(-50%);
+        }
+      }
+  
+      .modal-btn {
+        width: 10rem;
+        height: 7rem;
+      }
+  
+      .exit-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+      }
     }
   }
 }

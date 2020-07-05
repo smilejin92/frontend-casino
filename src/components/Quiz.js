@@ -9,37 +9,41 @@ hljs.registerLanguage('css', css);
 hljs.registerLanguage('html', html);
 
 export default function Quiz(q) {
-  return `<li class="question">
+  return `<li class="quiz">
     <article id="${q.id}">
-      <h3 class="question-title">Q${q.id}) ${q.title} (${q.point}P)</h3>
-      <dl class="question-info clearfix">
-        <div class="info-group">
+      <h3 class="question">Q${q.id}) ${q.question} (${q.point}P)</h3>
+      <dl class="quiz-info clearfix">
+        <div class="info">
           <dt>category</dt>
           <dd>${q.category.toUpperCase()}</dd>
         </div>
-        <div class="info-group">
+        <div class="info">
           <dt>point</dt>
           <dd>${q.point}</dd>
         </div>
-        <div class="info-group">
+        <div class="info">
           <dt>time (sec)</dt>
-          <dd>${q.time}</dd>
+          <dd>${q.second}</dd>
         </div>
       </dl>
-      ${q.hasCode ? `<pre class="question-body"><code>${hljs.highlight(q.category, q.body).value}</code></pre>` : `<p class="question-body">${q.body}</p>`}
-      <div class="radiogroup">
-        ${Object.keys(q.choices).map(k => `<label>
-            <input 
-              type="radio" 
-              name="${q.id}-choices" 
-              ${q.answer === k ? 'checked' : ''} 
-              value="${q.choices[k]}"
-              disabled
-            />
-            ${q.choices[k]}
-          </label>`).join('')}
-      </div>
+      ${q.hasCode ? `<pre class="content"><code>${hljs.highlight(q.category, q.content).value}</code></pre>` : `<p class="content">${q.content}</p>`}
+      <ul class="options">
+        ${Object.keys(q.options).map(k => `<li class="option">
+          <label>
+              <input 
+                type="radio" 
+                name="${q.id}-options" 
+                ${q.answer === k ? 'checked' : ''} 
+                value="${q.options[k]}"
+                disabled
+              />
+              ${q.options[k]}
+          </label>
+        </li>`).join('')}
+      </ul>
       <input type="checkbox" ${q.selected ? 'checked' : ''} />
+      <button class="edit-quiz">Edit</button>
+      <button class="rm-quiz">Remove</button>
     </article>
   </li>`;
 }

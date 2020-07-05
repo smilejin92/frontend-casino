@@ -72,12 +72,16 @@ low(adapter)
         db.get('quizzes')
           .remove({ id: +resource })
           .write()
-          .then(question => res.send(question));
+          .then(() => res.send({}));
       } else if (resource === 'selected') { // DELETE /quizzes/selected
+        const filteredQuizzes = db.get('quizzes')
+          .filter({ selected: false })
+          .value();
+
         db.get('quizzes')
           .remove({ selected: true })
           .write()
-          .then(question => res.send(question));
+          .then(() => res.send(filteredQuizzes));
       } else {
         res.sendStatus(400);
       }
@@ -85,14 +89,32 @@ low(adapter)
 
     // PATCH /quizzes/:resource
     app.patch('/quizzes/:id', (req, res) => {
-      const { id } = req.params;
+      let { id } = req.params;
+      id = +id;
       console.log(`PATCH /quizzes/${id}`);
+
+      // PATCH /quizzes/:id
+      if (id > 0) {
+        db.get('quizzes')
+          .find({ id })
+          .assign({ selected: req.body.selected })
+          .write()
+          .then(question => res.send(question));
+      } else {
+        res.sendStatus(400);
+      }
+    });
+
+    // put /quizzes/:id
+    app.put('/quizzes/:id', (req, res) => {
+      const { id } = req.params;
+      console.log(`PUT /quizzes/${id}`);
 
       // PATCH /quizzes/:id
       if (parseInt(id) > 0) {
         db.get('quizzes')
           .find({ id: +req.params.id })
-          .assign(req.body.selected)
+          .assign(req.body)
           .write()
           .then(question => res.send(question));
       } else {

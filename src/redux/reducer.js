@@ -3,19 +3,24 @@ import {
   TOGGLE_NAV,
   FETCH_QUIZZES,
   SET_ERROR,
-  SET_MODAL
+  SET_MODAL,
+  EDIT_QUIZ,
+  REMOVE_QUIZ,
+  SELECT_QUIZ,
+  REMOVE_SELECTED_QUIZZES
 } from './actions';
 
 const initialState = {
   quizzes: [],
   modal: {
     on: false,
-    type: ''
+    type: '',
+    id: null
   },
-  menu: ['all', 'html', 'css', 'javascript'],
-  categories: ['html', 'css', 'javascript'],
   points: [1000, 2500, 5000, 10000],
   seconds: [30, 45, 60, 90],
+  categories: ['html', 'css', 'javascript'],
+  tabs: ['all', 'html', 'css', 'javascript'],
   tab: 'all',
   error: null
 };
@@ -43,7 +48,33 @@ export default function reducer(state = initialState, action) {
     case ADD_QUIZ:
       return {
         ...state,
+        tab: action.quiz.category,
         quizzes: [action.quiz, ...state.quizzes]
+      };
+
+    case EDIT_QUIZ:
+      return {
+        ...state,
+        tab: action.quiz.category,
+        quizzes: state.quizzes.map(q => (q.id === action.quiz.id ? action.quiz : q))
+      };
+
+    case REMOVE_QUIZ:
+      return {
+        ...state,
+        quizzes: state.quizzes.filter(q => q.id !== action.id)
+      };
+
+    case SELECT_QUIZ:
+      return {
+        ...state,
+        quizzes: state.quizzes.map(q => (q.id === action.quiz.id ? action.quiz : q))
+      };
+
+    case REMOVE_SELECTED_QUIZZES:
+      return {
+        ...state,
+        quizzes: action.quizzes.sort((q1, q2) => q2.id - q1.id)
       };
 
     case TOGGLE_NAV:

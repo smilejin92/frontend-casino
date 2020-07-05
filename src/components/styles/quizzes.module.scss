@@ -1,11 +1,13 @@
-.questions {
+.quizzes {
   background-color: lime;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   padding: 3rem;
+  min-height: 95vh;
 
-  .question {
+  .quiz {
+    position: relative;
     padding: 2rem;
     margin-bottom: 3rem;
     min-height: 20rem;
@@ -15,16 +17,16 @@
       margin-bottom: 0;
     }
     
-    .question-title {
+    .question {
       font-size: 2rem;
       font-weight: 600;
       margin: 1rem 0;
     }
 
-    .question-info {
+    .quiz-info {
       margin-bottom: 1rem;
     
-      .info-group {
+      .info {
         float: left;
         width: 20rem;
         font-size: 1.8rem;
@@ -39,13 +41,14 @@
       }
     }
 
-    .question-body {
+    .content {
       margin-bottom: 1rem;
     }
 
-    .radiogroup {
+    .options {
       display: flex;
       flex-direction: column;
+      margin-bottom: 1rem;
 
       label {
         font-size: 1.8rem;

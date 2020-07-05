@@ -7,7 +7,7 @@ export const SET_ERROR = 'SET_ERROR';
 export const ADD_QUIZ = 'ADD_QUIZ';
 export const EDIT_QUIZ = 'EDIT_QUIZ';
 export const REMOVE_QUIZ = 'REMOVE_QUIZ';
-export const REMOVE_QUIZZES = 'REMOVE_QUIZZES';
+export const REMOVE_SELECTED_QUIZZES = 'REMOVE_SELECTED_QUIZZES';
 export const SELECT_QUIZ = 'SELECT_QUIZ';
 export const TOGGLE_NAV = 'TOGGLE_NAV';
 export const SET_MODAL = 'SET_MODAL';
@@ -15,6 +15,26 @@ export const SET_MODAL = 'SET_MODAL';
 /*
  * action creators
  */
+
+export const removeSelectedQuizzes = quizzes => ({
+  type: REMOVE_SELECTED_QUIZZES,
+  quizzes
+});
+
+export const selectQuiz = quiz => ({
+  type: SELECT_QUIZ,
+  quiz
+});
+
+export const removeQuiz = id => ({
+  type: REMOVE_QUIZ,
+  id
+});
+
+export const editQuiz = quiz => ({
+  type: EDIT_QUIZ,
+  quiz
+});
 
 export const setModal = modal => ({
   type: SET_MODAL,
