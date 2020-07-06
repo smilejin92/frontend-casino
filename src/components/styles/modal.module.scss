@@ -132,31 +132,34 @@
           outline: none;
         }
       }
-  
+      
+      // div
       .options-wrapper {
         position: relative;
-  
+        
+        // ul
         .options {
           width: 70rem;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-    
+          
+          // li
           .option {
             margin-bottom: 1rem;
     
             &:last-child {
               margin-bottom: 0;
             }
-    
+            
+            // li div
             .option-wrapper {
-              // width: 70rem;
               input[type="radio"],
               input[type="checkbox"] {
                 margin-right: 1rem;
               }
-    
-              input[type="text"] {
+              
+              .option-text {
                 padding: 0.5rem 1rem;
                 width: 60rem;
                 font-size: 2rem;

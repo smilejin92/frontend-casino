@@ -12,7 +12,7 @@ export default class Modal {
     this.container = document.createElement('div');
     this.form = document.createElement('form');
     this.fields = document.createElement('div');
-    this.heading = document.createElement('legend');
+    this.legend = document.createElement('legend');
     this.questionWrapper = document.createElement('div');
     this.setting = document.createElement('div');
     this.panes = document.createElement('ul');
@@ -30,7 +30,7 @@ export default class Modal {
       container,
       form,
       fields,
-      heading,
+      legend,
       questionWrapper,
       setting,
       panes,
@@ -43,7 +43,7 @@ export default class Modal {
       update
     } = this;
 
-    // class & attributes setting
+    // assgin class & attributes
     container.classList.add('modal');
     form.classList.add('quiz-form');
     fields.classList.add('fields');
@@ -58,9 +58,9 @@ export default class Modal {
     btnGroup.classList.add('btn-group');
     exitBtn.classList.add('exit-btn');
 
-    // add child in fields
-    const children = [
-      heading,
+    // append child to fields
+    const fieldElements = [
+      legend,
       questionWrapper,
       setting,
       panes,
@@ -70,10 +70,12 @@ export default class Modal {
       exitBtn
     ];
 
-    children.forEach(node => fields.appendChild(node));
+    fieldElements.forEach(elem => fields.appendChild(elem));
+    console.log(fields);
 
     // add form in container
     container.appendChild(form);
+    console.log(container);
 
     // subscribe
     store.subscribe(update.bind(this));
@@ -148,34 +150,178 @@ export default class Modal {
     textarea.addEventListener('paste', editContent);
 
     // 6. set options
-    optionsWrapper.onchange = ({ target }) => {
-      if (target.id === 'ck-multipleAns') return;
+    // allowMultipleAnswers, answer[type="checkbox"], answer[type="radio"]
+    const editAnswer = ({ target }) => {
       if (target.type === 'radio') {
         this.setState('answer', target.value);
+        console.log('answer = ', this.state.answer);
       } else if (target.type === 'checkbox') {
-        this.setState('answer', target.checked ? [...this.state.answer, target.value] : this.state.answer.filter(a => a !== target.value));
+        const { answer } = this.state;
+        this.setState('answer', target.checked
+          ? [...answer, target.value]
+          : answer.filter(a => a !== target.value));
+        console.log('answer = ', this.state.answer);
       }
-
-      console.log('answer = ', this.state.answer);
     };
 
-    optionsWrapper.onkeyup = ({ target }) => {
-      if (!(target.type === 'text')) return;
+    // set options[key]
+    const editOption = ({ target, clipboardData }) => {
+      if (!target.matches('.option-text')) return;
       const [, key] = target.id.split('-');
-      this.state.options[key] = target.value;
-      console.log('options = ', this.state.options);
-    };
+      const value = clipboardData
+        ? clipboardData.getData('text')
+        : target.value;
 
-    optionsWrapper.onpaste = ({ target, clipboardData }) => {
-      const [, key] = target.id.split('-');
-      const value = clipboardData.getData('text');
       this.state.options[key] = value;
       console.log('options = ', this.state.options);
     };
 
-    // hasMultipleAnswers
-    allowMultipleAnswers.onchange = ({ target }) => {
-      const selected = target.checked;
+    // add/remove option
+    const addOption = () => {
+      const {
+        id,
+        options,
+        hasMultipleAnswers
+      } = this.state;
+
+      let optionKeys = Object.keys(options).sort();
+      if (optionKeys.length >= 5) return; // 선택지 5개 이하 유지
+
+      // 선택지 key를 생성하여 state.options에 추가
+      // keyCode 생성시 a ~ z까지 순차적으로. z 이상은 다시 a로 수정
+      const nextKeyCode = optionKeys[optionKeys.length - 1].charCodeAt(0) + 1;
+      const nextKey = String.fromCharCode(nextKeyCode);
+      optionKeys = [...optionKeys, nextKey];
+
+      this.setState('options', {
+        ...this.state.options,
+        [nextKey]: ''
+      });
+      console.log(this.state.options);
+
+      // 선택지 요소를 생성
+      const newOption = document.createElement('li');
+      newOption.classList.add('option');
+      newOption.innerHTML = `<div class="option-wrapper">
+        <input
+          type="${hasMultipleAnswers ? 'checkbox' : 'radio'}"
+          ${hasMultipleAnswers ? '' : `name=${id}-options`}
+          value="${nextKey}"
+        />
+        <input
+          id="option-${nextKey}"
+          class="option-text"
+          type="text"
+        />
+        <button id="rm-${nextKey}" class="rm-option-btn">-</button>
+      </div>`;
+
+      // 선택지 요소를 DOM에 추가
+      const $options = document.querySelector('.options');
+      $options.appendChild(newOption);
+
+      // 선택지 2개 이상부터 정답 2개 이상 가능
+      if (optionKeys.length === 2) {
+        // 그냥 추가해놓고 disabled에서 able로 바꾸자
+        optionsWrapper.appendChild(allowMultipleAnswers);
+      }
+    };
+
+    const removeOption = target => {
+      const {
+        id,
+        options,
+        answer,
+        hasMultipleAnswers
+      } = this.state;
+
+      // 선택지 1개 이상 유지
+      let optionKeys = Object.keys(options);
+      if (optionKeys.length <= 1) return;
+
+      // 삭제할 선택지 key를 state.options에서 제거
+      const [, targetKey] = target.id.split('-');
+      optionKeys = optionKeys.filter(key => key !== targetKey);
+      delete options[targetKey];
+      this.setState('options', {
+        ...options
+      });
+      console.log(this.state.options);
+
+      // 삭제한 선택지가 정답이었다면 answer에서 제거
+      if (hasMultipleAnswers) {
+        if (answer.includes(targetKey)) {
+          // console.log('answer changed');
+          const newAnswer = answer.filter(a => a !== targetKey);
+          if (!newAnswer.length) {
+            newAnswer.push('a');
+            // 체크박스 체크
+          }
+          this.setState('answer', newAnswer);
+          console.log(this.state.answer);
+        }
+      } else {
+        if (answer === targetKey) {
+          // console.log('answer changed')
+          this.setState('answer', 'a');
+          // 라디오버튼 체크
+          console.log(this.state.answer);
+        }
+      }
+
+      // 삭제할 선택지 요소를 포함하는 부모 요소를 DOM에서 제거
+      const targetNode = target.parentNode.parentNode;
+      const $options = document.querySelector('.options');
+      $options.removeChild(targetNode);
+
+      // 선택지가 1개로 줄었을 때, 정답은 무조건 1개
+      if (optionKeys.length === 1) {
+        allowMultipleAnswers.checked = false;
+        optionsWrapper.removeChild(allowMultipleAnswers); // diable로 바꾸자
+
+        // 선택지가 1개로 줄기 전, 2개 이상의 정답을 허용했다면
+        if (hasMultipleAnswers) {
+          this.setState('answer', 'a');
+          this.setState('hasMultipleAnswers', false);
+
+          // 기본 선택지 생성
+          const defaultOption = `<li class="option">
+              <div class="option-wrapper">
+                <input
+                  type="radio"
+                  name=${id}-options
+                  value="${this.state.answer}"
+                  checked
+                />
+                <input 
+                  id="option-${this.state.answer}"
+                  class="option-text"
+                  type="text"
+                  value="${this.state.options[this.state.answer]}"
+                />
+              </div>
+            </li>`;
+
+          // 기본 선택지로 교체
+          $options.innerHTML = defaultOption;
+        }
+      }
+    };
+
+    const handleClick = ({ target }) => {
+      if (target.matches('.add-option-btn')) addOption();
+      else if (target.matches('.rm-option-btn')) removeOption(target);
+    };
+
+    optionsWrapper.addEventListener('change', editAnswer);
+    optionsWrapper.addEventListener('keyup', editOption);
+    optionsWrapper.addEventListener('paste', editOption);
+    optionsWrapper.addEventListener('click', handleClick);
+
+    // 7. hasMultipleAnswers
+    const toggleMultipleAnswers = e => {
+      e.stopPropagation();
+      const selected = e.target.checked;
 
       this.state.answer = selected ? [this.state.answer] : 'a';
       this.state.hasMultipleAnswers = selected;
@@ -197,93 +343,27 @@ export default class Modal {
                   ? 'checked'
                   : ''}
             />
-            <input id="option-${key}" type="text" value="${this.state.options[key]}"/>
-            ${idx >= 1
-              ? `<button id="rm-${key}" class="rm-option-btn">-</button>`
-              : ''}
+            <input 
+              id="option-${key}"
+              class="option-text"
+              type="text"
+              value="${this.state.options[key]}"
+            />
+            ${idx >= 1 ? `<button id="rm-${key}" class="rm-option-btn">-</button>` : ''}
           </div>
         </li>`)
         .join('');
 
-      document.querySelector('.options').innerHTML = newOptions;
+      const options = document.querySelector('.options');
+      options.innerHTML = newOptions;
     };
 
-    optionsWrapper.onclick = ({ target }) => {
-      if (target.matches('.add-option-btn')) {
-        const optionKeys = Object.keys(this.state.options).sort();
-        if (optionKeys.length >= 5) return;
+    allowMultipleAnswers.addEventListener('change', toggleMultipleAnswers);
 
-        const nextKeyCode = optionKeys[optionKeys.length - 1].charCodeAt(0) + 1;
-        const nextKey = String.fromCharCode(nextKeyCode); // b, c, d, e
-        this.state.options[nextKey] = '';
-        console.log(this.state.options);
-
-        const newOption = document.createElement('li');
-        newOption.classList.add('option');
-        newOption.innerHTML = `<div class="option-wrapper">
-          <input
-            type="${this.state.hasMultipleAnswers ? 'checkbox' : 'radio'}"
-            ${this.state.hasMultipleAnswers ? '' : `name=${this.state.id}-options`}
-            value="${nextKey}"
-          />
-          <input id="option-${nextKey}" type="text" />
-          <button id="rm-${nextKey}" class="rm-option-btn">-</button>
-        </div>`;
-
-        document.querySelector('.options').appendChild(newOption);
-        if (Object.keys(this.state.options).length === 2) {
-          optionsWrapper.appendChild(allowMultipleAnswers);
-        }
-      } else if (target.matches('.rm-option-btn')) {
-        if (Object.keys(this.state.options).length <= 1) return;
-
-        const [, targetKey] = target.id.split('-');
-        delete this.state.options[targetKey];
-        console.log(this.state.options);
-
-        const targetNode = target.parentNode.parentNode;
-        document.querySelector('.options').removeChild(targetNode);
-        if (Object.keys(this.state.options).length === 1) {
-          allowMultipleAnswers.checked = false;
-          // 중복
-          const selected = false;
-          this.state.answer = selected ? [this.state.answer] : 'a';
-          this.state.hasMultipleAnswers = selected;
-
-          const newOptions = Object.keys(this.state.options)
-            .sort()
-            .map((key, idx) => `<li class="option">
-              <div class="option-wrapper">
-                <input
-                  type="${selected ? 'checkbox' : 'radio'}"
-                  ${selected ? '' : `name=${this.state.id}-options`} 
-                  value="${key}"
-                  ${this.state.answer.includes(key) ? 'checked' : ''}
-                  ${selected
-                    ? this.state.answer.includes(key)
-                      ? 'checked'
-                      : ''
-                    : this.state.answer === key
-                      ? 'checked'
-                      : ''}
-                />
-                <input id="option-${key}" type="text" value="${this.state.options[key]}"/>
-                ${idx >= 1
-                  ? `<button id="rm-${key}" class="rm-option-btn">-</button>`
-                  : ''}
-              </div>
-            </li>`)
-            .join('');
-
-          document.querySelector('.options').innerHTML = newOptions;
-          optionsWrapper.removeChild(allowMultipleAnswers);
-        }
-      }
-    };
-
-    // 7. add/edit quiz
-    // 7.1. close modal
+    // 8. add/edit quiz
+    // 8.1. close modal
     const exitModal = () => {
+      this.allowMultipleAnswers.checked = false;
       this.form.removeChild(this.form.lastElementChild);
       this.store.dispatch(setModal({
         type: '',
@@ -396,7 +476,7 @@ export default class Modal {
       store,
       form,
       fields,
-      heading,
+      legend,
       questionWrapper,
       setting,
       panes,
@@ -427,7 +507,7 @@ export default class Modal {
       modal
     } = store.getState();
 
-    heading.textContent = `${modal.type} Quiz`;
+    legend.textContent = `${modal.type} Quiz`;
 
     questionWrapper.innerHTML = `
       <label for="question">Q${id}) </label>
@@ -473,7 +553,12 @@ export default class Modal {
                   ? 'checked'
                   : ''}
             />
-            <input id="option-${k}" type="text" value="${options[k]}" />
+            <input
+              id="option-${k}"
+              class="option-text"
+              type="text"
+              value="${options[k]}"
+            />
             ${idx >= 1
               ? `<button id="rm-${k}" class="rm-option-btn">-</button>`
               : ''}
