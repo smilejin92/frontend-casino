@@ -1,5 +1,6 @@
 import './styles/modal.module.scss';
 import he from 'he';
+import { debounce } from 'lodash';
 import { setModal, addQuiz, editQuiz, setError } from '../redux/actions';
 import QuizService from '../services/QuizService';
 
@@ -29,8 +30,8 @@ export default class Modal {
     const {
       container,
       form,
-      fields,
       legend,
+      fields,
       questionWrapper,
       setting,
       panes,
@@ -71,11 +72,9 @@ export default class Modal {
     ];
 
     fieldElements.forEach(elem => fields.appendChild(elem));
-    console.log(fields);
 
     // add form in container
     container.appendChild(form);
-    console.log(container);
 
     // subscribe
     store.subscribe(update.bind(this));
@@ -89,7 +88,7 @@ export default class Modal {
     form.addEventListener('submit', ignoreSubmit);
 
     // 2. set question
-    const editQuestion = ({ target, clipboardData }) => {
+    const editQuestion = debounce(({ target, clipboardData }) => {
       if (!target.matches('#question')) return;
 
       const value = clipboardData
@@ -97,8 +96,8 @@ export default class Modal {
         : target.value;
 
       this.setState('question', value);
-      console.log(`question = ${value}`);
-    };
+      console.log(value);
+    }, 300);
 
     questionWrapper.addEventListener('keyup', editQuestion);
     questionWrapper.addEventListener('paste', editQuestion);
@@ -116,7 +115,6 @@ export default class Modal {
         : +target.value;
 
       this.setState(key, value);
-      console.log(`${key} = ${target.value}`);
     };
 
     setting.addEventListener('change', editSetting);
@@ -131,20 +129,19 @@ export default class Modal {
       currentPane.classList.add('active');
 
       this.setState('hasCode', target.id === 'code-pane');
-      console.log(`set hasCode = ${target.id === 'code-pane'}`);
     };
 
     panes.addEventListener('change', togglePane);
 
     // 5. set content
-    const editContent = ({ target, clipboardData }) => {
+    const editContent = debounce(({ target, clipboardData }) => {
       const value = clipboardData
         ? clipboardData.getData('text')
         : target.value;
 
       this.setState('content', value);
-      console.log(`content = ${value}`);
-    };
+      console.log(value);
+    }, 300);
 
     textarea.addEventListener('keyup', editContent);
     textarea.addEventListener('paste', editContent);
@@ -165,16 +162,18 @@ export default class Modal {
     };
 
     // set options[key]
-    const editOption = ({ target, clipboardData }) => {
+    const editOption = debounce(({ target, clipboardData }) => {
       if (!target.matches('.option-text')) return;
       const [, key] = target.id.split('-');
       const value = clipboardData
         ? clipboardData.getData('text')
         : target.value;
 
-      this.state.options[key] = value;
-      console.log('options = ', this.state.options);
-    };
+      this.setState('options', {
+        ...this.state.options,
+        [key]: value
+      });
+    }, 300);
 
     // add/remove option
     const addOption = () => {
