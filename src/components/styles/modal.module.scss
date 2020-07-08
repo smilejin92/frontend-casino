@@ -28,22 +28,22 @@
       padding: 3rem 2rem;
       border-radius: 2rem;
   
-      .question-wrapper,
+      .question-container,
       .setting,
       .content,
-      .options-wrapper {
+      .options-container {
         margin-bottom: 2rem;
       }
   
-      .question-wrapper {
-        label,
-        input {
+      .question-container {
+        label[for="question"],
+        #question {
           display: inline-block;
           font-size: 3rem;
           margin-left: 0.5rem;
         }
   
-        input[type="text"] {
+        #question {
           vertical-align: top;
           font-size: 2rem;
           width: 60rem;
@@ -68,73 +68,73 @@
           }
         }
       }
-  
-      .panes {
-        width: 70rem;
-        position: relative; // for self positioning
-        top: 1px;
-  
-        .pane {
-          float: left;
-  
-          label,
-          input {
-            display: inline-block;
-            font-size: 2rem;
-          }
-  
-          label {
-            cursor: pointer;
-            position: relative;
-            width: 7rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid black;
-            border-bottom: none;
-            background-color: #fff;
-  
-            &[for="code-pane"] {
-              border-left: none;
+      .content-container {
+        .content-type {
+          width: 70rem;
+          position: relative; // for self positioning
+          top: 1px;
+    
+          .type {
+            float: left;
+    
+            label,
+            input {
+              display: inline-block;
+              font-size: 2rem;
             }
-            
-            &::after {
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              border-bottom: 1px solid black;
-            }
-          }
-  
-          input[type="radio"] {
-            display: none;
-          }
-  
-          &.active {
-            background-color: lightblue;
-            label::after {
+    
+            label {
+              cursor: pointer;
+              position: relative;
+              width: 7rem;
+              padding: 0.5rem 1rem;
+              border: 1px solid black;
               border-bottom: none;
+              background-color: #fff;
+    
+              &[for="code-type"] {
+                border-left: none;
+              }
+              
+              &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-bottom: 1px solid black;
+              }
+            }
+    
+            input[type="radio"] {
+              display: none;
+            }
+    
+            &.active {
+              background-color: lightblue;
+              label::after {
+                border-bottom: none;
+              }
             }
           }
         }
-      }
+        .content {
+          width: 70rem;
+          height: 40rem;
+          padding: 2rem;
+          border: 1px solid black;
+          resize: none;
+          font-size: 2rem;
     
-      .content {
-        width: 70rem;
-        height: 40rem;
-        padding: 2rem;
-        border: 1px solid black;
-        resize: none;
-        font-size: 2rem;
-  
-        &:focus {
-          outline: none;
+          &:focus {
+            outline: none;
+          }
         }
       }
       
       // div
-      .options-wrapper {
+      .options-container {
         position: relative;
         
         // ul
@@ -183,7 +183,7 @@
         height: 7rem;
       }
   
-      .exit-btn {
+      .exit {
         position: absolute;
         top: 1rem;
         right: 1rem;

@@ -30,7 +30,7 @@ export default function reducer(state = initialState, action) {
     case SET_MODAL:
       return {
         ...state,
-        modal: action.modal
+        modal: action.modal,
       };
 
     case SET_ERROR:

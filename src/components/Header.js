@@ -1,6 +1,8 @@
 import './styles/header.module.scss';
 import { setModal } from '../redux/actions';
-import Modal from './Modal';
+// import Modal from './Modal';
+import Modal from './Modal/index';
+import QuizService from '../services/QuizService';
 
 export default class Header {
   constructor(store) {
@@ -17,7 +19,7 @@ export default class Header {
       container,
       heading,
       addQuizBtn,
-      modal,
+      // modal,
       addQuiz
     } = this;
 
@@ -31,16 +33,19 @@ export default class Header {
     container.classList.add('header');
     container.appendChild(heading);
     container.appendChild(addQuizBtn);
-    container.appendChild(modal.container);
+    // container.appendChild(modal.container);
   }
 
   addQuiz() {
     const { store } = this;
     const { quizzes } = store.getState();
+
+    const newQuizId = Math.max(0, ...quizzes.map(({ id }) => id));
+
     store.dispatch(setModal({
       on: true,
       type: 'ADD',
-      id: Math.max(0, ...quizzes.map(({ id }) => id)) + 1
+      quiz: QuizService.generateQuiz(newQuizId)
     }));
   }
 }

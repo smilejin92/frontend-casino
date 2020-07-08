@@ -31,10 +31,13 @@ export default class Quizzes {
 
     quizzes.onclick = async ({ target }) => {
       if (target.matches('.edit-quiz')) {
+        const quiz = store.getState().quizzes
+          .find(({ id }) => id === +target.parentNode.id);
+
         store.dispatch(setModal({
           type: 'EDIT',
           on: true,
-          id: +target.parentNode.id
+          quiz
         }));
       } else if (target.matches('.rm-quiz')) {
         const targetId = +target.parentNode.id;

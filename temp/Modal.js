@@ -14,6 +14,7 @@ export default class Modal {
     this.form = document.createElement('form');
     this.fields = document.createElement('div');
     this.legend = document.createElement('legend');
+
     this.questionWrapper = document.createElement('div');
     this.setting = document.createElement('div');
     this.panes = document.createElement('ul');
@@ -147,17 +148,17 @@ export default class Modal {
     textarea.addEventListener('paste', editContent);
 
     // 6. set options
-    // allowMultipleAnswers, answer[type="checkbox"], answer[type="radio"]
+    // answer[type="radio"], answer[type="checkbox"]
     const editAnswer = ({ target }) => {
-      if (target.type === 'radio') {
-        this.setState('answer', target.value);
-        console.log('answer = ', this.state.answer);
-      } else if (target.type === 'checkbox') {
+      const { type, value, checked } = target;
+
+      if (type === 'radio') {
+        this.setState('answer', value);
+      } else if (type === 'checkbox') {
         const { answer } = this.state;
-        this.setState('answer', target.checked
-          ? [...answer, target.value]
-          : answer.filter(a => a !== target.value));
-        console.log('answer = ', this.state.answer);
+        this.setState('answer', checked
+          ? [...answer, value]
+          : answer.filter(a => a !== value));
       }
     };
 
@@ -186,14 +187,14 @@ export default class Modal {
       let optionKeys = Object.keys(options).sort();
       if (optionKeys.length >= 5) return; // 선택지 5개 이하 유지
 
-      // 선택지 key를 생성하여 state.options에 추가
+      // 선택지의 key를 생성하여 state.options에 추가
       // keyCode 생성시 a ~ z까지 순차적으로. z 이상은 다시 a로 수정
       const nextKeyCode = optionKeys[optionKeys.length - 1].charCodeAt(0) + 1;
       const nextKey = String.fromCharCode(nextKeyCode);
       optionKeys = [...optionKeys, nextKey];
 
       this.setState('options', {
-        ...this.state.options,
+        ...options,
         [nextKey]: ''
       });
       console.log(this.state.options);
@@ -219,6 +220,8 @@ export default class Modal {
       const $options = document.querySelector('.options');
       $options.appendChild(newOption);
 
+      // 여기까지 ok
+
       // 선택지 2개 이상부터 정답 2개 이상 가능
       if (optionKeys.length === 2) {
         // 그냥 추가해놓고 disabled에서 able로 바꾸자
@@ -234,75 +237,63 @@ export default class Modal {
         hasMultipleAnswers
       } = this.state;
 
-      // 선택지 1개 이상 유지
-      let optionKeys = Object.keys(options);
+      // 1. 선택지 1개 이상 유지
+      let optionKeys = Object.keys(options).sort();
       if (optionKeys.length <= 1) return;
 
-      // 삭제할 선택지 key를 state.options에서 제거
+      // 2. 삭제할 선택지의 key를 state.options에서 제거
       const [, targetKey] = target.id.split('-');
-      optionKeys = optionKeys.filter(key => key !== targetKey);
       delete options[targetKey];
       this.setState('options', {
         ...options
       });
       console.log(this.state.options);
+      optionKeys = optionKeys.filter(key => key !== targetKey);
 
-      // 삭제한 선택지가 정답이었다면 answer에서 제거
-      if (hasMultipleAnswers) {
-        if (answer.includes(targetKey)) {
-          // console.log('answer changed');
-          const newAnswer = answer.filter(a => a !== targetKey);
-          if (!newAnswer.length) {
-            newAnswer.push('a');
-            // 체크박스 체크
-          }
-          this.setState('answer', newAnswer);
-          console.log(this.state.answer);
-        }
-      } else {
-        if (answer === targetKey) {
-          // console.log('answer changed')
-          this.setState('answer', 'a');
-          // 라디오버튼 체크
-          console.log(this.state.answer);
-        }
-      }
-
-      // 삭제할 선택지 요소를 포함하는 부모 요소를 DOM에서 제거
-      const targetNode = target.parentNode.parentNode;
-      const $options = document.querySelector('.options');
-      $options.removeChild(targetNode);
-
-      // 선택지가 1개로 줄었을 때, 정답은 무조건 1개
+      // 3. 선택지가 1개로 줄었을 때, 정답은 무조건 1개
       if (optionKeys.length === 1) {
         allowMultipleAnswers.checked = false;
         optionsWrapper.removeChild(allowMultipleAnswers); // diable로 바꾸자
 
-        // 선택지가 1개로 줄기 전, 2개 이상의 정답을 허용했다면
-        if (hasMultipleAnswers) {
-          this.setState('answer', 'a');
-          this.setState('hasMultipleAnswers', false);
+        this.setState('answer', 'a');
+        this.setState('hasMultipleAnswers', false);
 
-          // 기본 선택지 생성
-          const defaultOption = `<li class="option">
-              <div class="option-wrapper">
-                <input
-                  type="radio"
-                  name=${id}-options
-                  value="${this.state.answer}"
-                  checked
-                />
-                <input 
-                  id="option-${this.state.answer}"
-                  class="option-text"
-                  type="text"
-                  value="${this.state.options[this.state.answer]}"
-                />
-              </div>
-            </li>`;
+        // 기본 선택지 생성
+        const defaultOption = `<li class="option">
+            <div class="option-wrapper">
+              <input
+                type="radio"
+                name=${id}-options
+                value="a"
+                checked
+              />
+              <input 
+                id="option-a"
+                class="option-text"
+                type="text"
+                value="${options.a}"
+              />
+            </div>
+          </li>`;
 
-          // 기본 선택지로 교체
-          $options.innerHTML = defaultOption;
+        // 기본 선택지로 교체
+        document.querySelector('.options').innerHTML = defaultOption;
+      } else { // 선택지가 2개 이상 남아있으면
+        // 삭제할 선택지 요소를 DOM에서 제거
+        const targetNode = target.parentNode.parentNode;
+        document.querySelector('.options').removeChild(targetNode);
+
+        // 3.1. 삭제한 선택지가 정답이었다면
+        if (answer === targetKey || answer.includes(targetKey)) {
+          if (hasMultipleAnswers) {
+            const newAnswer = answer.filter(a => a !== targetKey);
+            this.setState('answer', newAnswer);
+            console.log(newAnswer);
+          } else {
+            this.setState('answer', 'a');
+            document.querySelector('.option-wrapper input[value="a"]').checked = true;
+            // a 라디오 버튼 체크
+          }
         }
       }
     };
@@ -387,13 +378,24 @@ export default class Modal {
     const validateInput = () => {
       const err = new Error();
       err.type = 'validation';
-      err.message = '입력 값이 잘못되었습니다.';
 
-      if (!this.state.question.trim()) throw err;
+      if (!this.state.question.trim()) {
+        err.message = '제목을 입력해주세요.';
+        throw err;
+      }
 
-      Object.keys(this.state.options).forEach(k => {
-        if (!this.state.options[k].trim()) throw err;
-      });
+      const optionHasValue = Object.keys(this.state.options)
+        .every(k => this.state.options[k].trim());
+
+      if (!optionHasValue) {
+        err.message = '보기를 모두 입력해주세요.';
+        throw err;
+      }
+
+      if (this.state.hasMultipleAnswers && !this.state.answer.length) {
+        err.message = '정답을 체크해주세요.';
+        throw err;
+      }
     };
 
     const handleSubmit = async ({ target }) => {

@@ -1,3 +1,5 @@
+import he from 'he';
+
 const url = 'http://localhost:3000/quizzes';
 
 export default class QuizService {
@@ -19,8 +21,8 @@ export default class QuizService {
     return QuizService.request('POST', null, payload);
   }
 
-  static editQuiz(id, payload) {
-    return QuizService.request('PUT', id, payload);
+  static editQuiz(payload) {
+    return QuizService.request('PUT', payload.id, payload);
   }
 
   static removeQuiz(id) {
@@ -33,5 +35,61 @@ export default class QuizService {
 
   static removeSelectedQuizzes() {
     return QuizService.request('DELETE', 'selected');
+  }
+
+  static generateQuiz(id) {
+    return {
+      id,
+      question: '',
+      point: 1000,
+      second: 30,
+      content: '',
+      options: {
+        a: ''
+      },
+      hasMultipleAnswers: false,
+      answer: 'a',
+      hasCode: false,
+      selected: false
+    };
+  }
+
+  static validateInput(quiz) {
+    const err = new Error();
+    err.type = 'validation';
+
+    if (!quiz.question.trim()) {
+      err.message = '제목을 입력해주세요.';
+      throw err;
+    }
+
+    const optionHasValue = Object.keys(quiz.options)
+      .every(k => quiz.options[k].trim());
+
+    if (!optionHasValue) {
+      err.message = '보기를 모두 입력해주세요.';
+      throw err;
+    }
+
+    if (quiz.hasMultipleAnswers && !quiz.answer.length) {
+      err.message = '정답을 체크해주세요.';
+      throw err;
+    }
+  }
+
+  static escapeHtml(quiz) {
+    const escaped = { ...quiz };
+
+    escaped.question = he.escape(escaped.question);
+
+    if (!escaped.hasCode && escaped.content) {
+      escaped.content = he.escape(escaped.content);
+    }
+
+    Object.keys(escaped.options).forEach(key => {
+      escaped.options[key] = he.escape(escaped.options[key]);
+    });
+
+    return escaped;
   }
 }
