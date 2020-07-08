@@ -35,6 +35,9 @@ export default class Setting {
     const { modal } = store.getState();
     if (prevModal === modal) return;
 
+    // modal 참조 업데이트
+    this.prevModal = modal;
+
     // modal이 꺼지면 이벤트 핸들러 제거
     if (!modal.on) {
       container.onchange = null;
@@ -57,9 +60,6 @@ export default class Setting {
       second
     });
     this.render();
-
-    // modal 참조 업데이트
-    this.prevModal = modal;
   }
 
   setState(newState) {

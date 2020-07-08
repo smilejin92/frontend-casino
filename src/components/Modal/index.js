@@ -43,7 +43,7 @@ export default class Modal {
     container.appendChild(form);
     form.appendChild(fields);
 
-    // fields > elements + btnGroup
+    // fields > elements
     const fieldElements = [
       question,
       setting,
@@ -54,6 +54,7 @@ export default class Modal {
 
     fieldElements.forEach(e => fields.appendChild(e.container));
 
+    // subscribe redux store
     store.subscribe(update);
   }
 
@@ -62,29 +63,29 @@ export default class Modal {
       store,
       prevModal,
       container,
+      form
     } = this;
 
     // modal의 참조가 이전과 동일하면 종료
     const { modal } = store.getState();
     if (prevModal === modal) return;
 
+    // modal 참조 업데이트
+    this.prevModal = modal;
+
     const header = document.querySelector('header');
 
     // modal이 꺼지면 active 클래스 제거,
     // DOM에서 제거
     if (!modal.on) {
-      // form.onsubmit = null;
-      container.classList.remove('active');
+      form.onsubmit = null;
       header.removeChild(container);
       return;
     }
 
     // modal이 켜지면 active 클래스 추가,
     // DOM에서 추가
-    container.classList.add('active');
+    form.onsubmit = e => e.preventDefault();
     header.appendChild(container);
-
-    // modal 참조 업데이트
-    this.prevModal = modal;
   }
 }

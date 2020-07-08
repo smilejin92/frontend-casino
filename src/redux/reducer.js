@@ -17,9 +17,6 @@ const initialState = {
     type: '',
     id: null
   },
-  points: [1000, 2500, 5000, 10000],
-  seconds: [30, 45, 60, 90],
-  categories: ['html', 'css', 'javascript'],
   tabs: ['all', 'html', 'css', 'javascript'],
   tab: 'all',
   error: null

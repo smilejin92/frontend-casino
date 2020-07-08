@@ -13,7 +13,12 @@ class Admin {
   }
 
   init() {
-    const { root, header, main } = this;
+    const {
+      root,
+      header,
+      main
+    } = this;
+
     root.appendChild(header.container);
     root.appendChild(main.container);
   }

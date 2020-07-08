@@ -41,6 +41,7 @@ export default class QuizService {
     return {
       id,
       question: '',
+      category: 'html',
       point: 1000,
       second: 30,
       content: '',
@@ -55,6 +56,7 @@ export default class QuizService {
   }
 
   static validateInput(quiz) {
+    console.log(quiz);
     const err = new Error();
     err.type = 'validation';
 

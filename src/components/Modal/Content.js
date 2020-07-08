@@ -36,6 +36,9 @@ export default class Content {
     const { modal } = store.getState();
     if (prevModal === modal) return;
 
+    // modal 참조 업데이트
+    this.prevModal = modal;
+
     // modal이 꺼지면 이벤트 핸들러 제거
     if (!modal.on) {
       container.onkeyup = null;
@@ -54,9 +57,6 @@ export default class Content {
     const { hasCode, content } = modal.quiz;
     this.setState({ hasCode, content });
     this.render();
-
-    // modal 참조 업데이트
-    this.prevModal = modal;
   }
 
   setState(newState) {
@@ -114,6 +114,6 @@ export default class Content {
         />
       </li>
     </ul>
-    <textarea class="content" value="${content}"></textarea>`;
+    <textarea class="content" value="${content}">${content}</textarea>`;
   }
 }

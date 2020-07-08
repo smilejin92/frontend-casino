@@ -6,81 +6,41 @@ import { fetchQuizzes, setError, setModal, removeQuiz, selectQuiz, removeSelecte
 export default class Quizzes {
   constructor(store) {
     this.store = store;
-
-    const { tab, quizzes } = store.getState();
-    this.currentTab = tab;
-    this.currentQuizzes = quizzes;
-
+    this.state = {};
     this.container = document.createElement('div');
-    this.quizzes = document.createElement('ul');
-    this.deleteSelectedBtn = document.createElement('button');
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.update = this.update.bind(this);
     this.init();
   }
 
   async init() {
     const {
       container,
-      quizzes,
       store,
-      update,
-      deleteSelectedBtn
+      handleClick,
+      handleChange,
+      update
     } = this;
 
-    quizzes.classList.add('quizzes');
-    deleteSelectedBtn.textContent = 'Delete Selected';
+    container.classList.add('quizzes-container');
+    container.onclick = handleClick;
+    container.onchange = handleChange;
 
-    quizzes.onclick = async ({ target }) => {
-      if (target.matches('.edit-quiz')) {
-        const quiz = store.getState().quizzes
-          .find(({ id }) => id === +target.parentNode.id);
+    // 상태 초기화
+    const { quizzes, tab } = store.getState();
+    this.setState({ quizzes, tab });
 
-        store.dispatch(setModal({
-          type: 'EDIT',
-          on: true,
-          quiz
-        }));
-      } else if (target.matches('.rm-quiz')) {
-        const targetId = +target.parentNode.id;
-        await QuizService.removeQuiz(targetId);
-        store.dispatch(removeQuiz(targetId));
-        console.log('remove quiz');
-      }
-    };
-
-    quizzes.onchange = async ({ target }) => {
-      console.log('onchange');
-      console.log(target.parentNode.id);
-      console.log(target.checked);
-
-      const id = +target.parentNode.id;
-      const res = await QuizService.selectQuiz(id, {
-        selected: target.checked
-      });
-      const quiz = await res.json();
-      store.dispatch(selectQuiz(quiz));
-    };
-
-    deleteSelectedBtn.onclick = async () => {
-      const res = await QuizService.removeSelectedQuizzes();
-      const filteredQuizzes = await res.json();
-      store.dispatch(removeSelectedQuizzes(filteredQuizzes));
-
-      const tabs = document.querySelector('.tabs');
-      tabs.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    };
-
-    store.subscribe(update.bind(this));
+    // subscribe redux store
+    store.subscribe(update);
 
     try {
+      // fetch quizzes
       const res = await QuizService.fetchQuizzes();
       const _quizzes = await res.json();
-      store.dispatch(fetchQuizzes(_quizzes.sort((a, b) => b.id - a.id)));
 
-      container.appendChild(deleteSelectedBtn);
-      container.appendChild(quizzes);
+      // update redux store
+      store.dispatch(fetchQuizzes(_quizzes.sort((a, b) => b.id - a.id)));
     } catch (err) {
       store.dispatch(setError(err));
       console.error(err);
@@ -88,35 +48,32 @@ export default class Quizzes {
   }
 
   update() {
-    const {
-      currentTab,
-      currentQuizzes,
-      store
-    } = this;
+    const { store, state } = this;
 
+    // 이전 상태와 동일하면 return
     const { tab, quizzes, modal } = store.getState();
-    if (currentTab === tab && currentQuizzes === quizzes) return;
+    if (state.tab === tab && state.quizzes === quizzes) return;
 
-    console.log('update quizzes');
+    // 상태 최신화
+    this.setState({ tab, quizzes });
 
-    this.currentTab = tab;
-    this.currentQuizzes = quizzes;
-
+    // active selected tab
     const tabs = document.querySelector('.tabs');
     [...tabs.children].forEach(t => {
       t.classList.toggle('active', t.id === tab);
     });
 
+    // render quizzes
     this.render();
+
+    // scroll into view
     if (modal.type === 'ADD') {
       tabs.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
     } else if (modal.type === 'EDIT') {
-      console.log('scroll to edited quiz');
-      const editedQuiz = document.getElementById(modal.id);
-
+      const editedQuiz = document.getElementById(modal.quiz.id);
       editedQuiz.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
@@ -124,13 +81,82 @@ export default class Quizzes {
     }
   }
 
+  setState(newState) {
+    this.state = newState;
+  }
+
+  async handleClick({ target }) {
+    if (target.matches('.edit-quiz')) this.fillModal(target);
+    else if (target.matches('.rm-quiz')) await this.deleteQuiz(target);
+    else if (target.matches('.rm-quizzes')) await this.deleteSelectedQuizzes();
+  }
+
+  fillModal(target) {
+    const { store } = this;
+    const { quizzes } = store.getState();
+    const quiz = quizzes.find(({ id }) => id === +target.parentNode.id);
+
+    store.dispatch(setModal({
+      type: 'EDIT',
+      on: true,
+      quiz
+    }));
+  }
+
+  async deleteQuiz(target) {
+    try {
+      const targetId = +target.parentNode.id;
+      await QuizService.removeQuiz(targetId);
+      this.store.dispatch(removeQuiz(targetId));
+    } catch (err) {
+      this.store.dispatch(setError(err));
+      console.error(err);
+    }
+  }
+
+  async deleteSelectedQuizzes() {
+    try {
+      const res = await QuizService.removeSelectedQuizzes();
+      const filteredQuizzes = await res.json();
+      this.store.dispatch(removeSelectedQuizzes(filteredQuizzes));
+
+      const tabs = document.querySelector('.tabs');
+      tabs.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    } catch (err) {
+      this.store.dispatch(setError(err));
+      console.error(err);
+    }
+  }
+
+  async handleChange({ target }) {
+    const { store } = this;
+    const id = +target.parentNode.id;
+
+    try {
+      const res = await QuizService.selectQuiz(id, {
+        selected: target.checked
+      });
+      const quiz = await res.json();
+      store.dispatch(selectQuiz(quiz));
+    } catch (err) {
+      store.dispatch(setError(err));
+      console.error(err);
+    }
+  }
+
   render() {
-    const { quizzes, currentTab, currentQuizzes } = this;
+    const { state, container } = this;
+    const { quizzes, tab } = state;
+    const _quizzes = tab === 'all'
+      ? quizzes
+      : quizzes.filter(q => q.category === tab);
 
-    const _quizzes = currentTab === 'all'
-      ? currentQuizzes
-      : currentQuizzes.filter(q => q.category === currentTab);
-
-    quizzes.innerHTML = _quizzes.map(q => Quiz(q)).join('');
+    container.innerHTML = `<button class="rm-quizzes">Delete Selected</button>
+    <ul class="quizzes">
+      ${_quizzes.map(q => Quiz(q)).join('')}
+    </ul>`;
   }
 }

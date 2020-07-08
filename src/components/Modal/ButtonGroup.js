@@ -52,12 +52,12 @@ export default class ButtonGroup {
   }
 
   async handleClick(e) {
-    e.preventDefault();
     const { target } = e;
-
     if (target.matches('.add')) {
+      e.preventDefault();
       await this.submitQuiz();
     } else if (target.matches('.cancel') || target.matches('.exit')) {
+      e.preventDefault();
       this.exitModal();
     }
   }

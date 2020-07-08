@@ -12,25 +12,18 @@ export default class Nav {
   }
 
   init() {
-    const { store, container, heading, tabs } = this;
-    const { tabs: _tabs, tab } = store.getState();
-
-    let tabsInnerHtml = '';
-    _tabs.forEach(t => {
-      tabsInnerHtml += `<li id="${t}" class="tab neon ${t === tab ? 'active' : ''}">
-        <a role="button">${t.toUpperCase()}</a>
-      </li>`;
-    });
+    const { container, heading, tabs } = this;
 
     heading.textContent = '문제 카테고리';
     heading.classList.add('a11y-hidden');
 
     tabs.classList.add('tabs');
-    tabs.innerHTML = tabsInnerHtml;
 
     container.classList.add('navigation');
     container.appendChild(heading);
     container.appendChild(tabs);
+
+    this.render();
   }
 
   handleClick({ target }) {
@@ -45,5 +38,18 @@ export default class Nav {
     tabs.scrollIntoView({
       behavior: 'smooth'
     });
+  }
+
+  render() {
+    const { store, tabs } = this;
+    const { tabs: tabList, tab } = store.getState();
+
+    tabs.innerHTML = tabList
+      .map(t => (
+        `<li id="${t}" class="tab neon ${t === tab ? 'active' : ''}">
+          <a role="button">${t.toUpperCase()}</a>
+        </li>`
+      ))
+      .join('');
   }
 }

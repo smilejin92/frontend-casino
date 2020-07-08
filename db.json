@@ -354,6 +354,101 @@
       ],
       "hasCode": false,
       "selected": false
+    },
+    {
+      "id": 20,
+      "question": "자바스크립트 엔진은 불리언 타입이 아닌 값을 truthy 값 또는 falsy 값으로 구분한다. 다음 보기 중 falsy 값이 아닌 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 1000,
+      "second": 30,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "undefined",
+        "b": "null",
+        "c": "-Infinity",
+        "d": "NaN",
+        "e": "&#x27;&#x27; (빈 문자열)"
+      },
+      "answer": "c",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 21,
+      "question": "다음 보기 중 객체의 프로퍼티에 대한 설명으로 옳지 않은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 90,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "프로퍼티를 나열할 때는 쉼표(,)로 구분한다.",
+        "b": "마지막 프로퍼티 뒤에는 쉼표를 사용할 수 없다.",
+        "c": "예약어를 프로퍼티 키로 사용해도 에러가 발생하지 않는다.",
+        "d": "이미 존재하는 프로퍼티 키를 중복 선언하면 나중에 선언한 프로퍼티가 무시된다.",
+        "e": "식별자 네이밍 규칙을 준수하는 프로퍼티 키 이름은 따옴표를 생략할 수 있다."
+      },
+      "answer": [
+        "b",
+        "d"
+      ],
+      "hasMultipleAnswers": true
+    },
+    {
+      "id": 22,
+      "question": "아래 코드의 실행 결과로 알맞은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 60,
+      "hasCode": true,
+      "content": "var obj = {\n  1: 'foo',\n  foo: 1,\n  bar: 'bar',\n  2: 1\n};\n\nvar string = obj[1];\n\nconsole.log(obj[string]);",
+      "options": {
+        "a": "undefined",
+        "b": "foo",
+        "c": "bar",
+        "d": "1",
+        "e": "ReferenceError"
+      },
+      "answer": "d",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 23,
+      "question": "아래 코드의 실행 결과로 알맞은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 1000,
+      "second": 30,
+      "hasCode": true,
+      "content": "var a = {\n  name: 'Kim',\n  address: 'Seoul'\n};\n\nvar b = {\n  name: 'Kim',\n  address: 'Seoul'\n};\n\nconsole.log(a === b);",
+      "options": {
+        "a": "true",
+        "b": "false"
+      },
+      "answer": "b",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 24,
+      "question": "다음 중 함수에 대한 설명으로 알맞지 않은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 1000,
+      "second": 60,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "함수는 함수 이름으로 호출하는 것이 아니라 함수 객체를 가리키는 식별자로 호출한다.",
+        "b": "함수 정의 방법으로는 함수 선언문, 함수 표현식, Function 생성자 함수, 화살표 함수가 있다.",
+        "c": "함수는 객체이며 호출 할 수 있으므로, 모든 객체는 호출 할 수 있다.",
+        "d": "함수는 일련의 과정을 문으로 구현하고 코드 블록으로 감싸서 하나의 실행 단위로 정의한 것이다.",
+        "e": "함수 이름은 함수 몸체 내에서만 참조할 수 있는 식별자다."
+      },
+      "answer": "c",
+      "hasMultipleAnswers": false
     }
   ],
   "users": []

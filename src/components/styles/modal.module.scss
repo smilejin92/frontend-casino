@@ -6,11 +6,6 @@
   height: 100vh;
   z-index: 1;
   background-color: rgba(34, 34, 34, .5);
-  display: none;
-  
-  &.active {
-    display: block;
-  }
 
   .quiz-form {
     position: absolute;

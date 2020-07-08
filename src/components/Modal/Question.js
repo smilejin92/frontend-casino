@@ -34,6 +34,9 @@ export default class Question {
     const { modal } = store.getState();
     if (prevModal === modal) return;
 
+    // modal 참조 업데이트
+    this.prevModal = modal;
+
     // modal이 꺼지면 이벤트 핸들러 제거
     if (!modal.on) {
       container.onkeyup = null;
@@ -46,12 +49,9 @@ export default class Question {
     container.onpaste = handleChange;
 
     // state를 default 상태로 설정 후 render
-    const { id, question } = modal.quiz;
-    this.setState({ id, question });
+    const { id, question, selected } = modal.quiz;
+    this.setState({ id, question, selected });
     this.render();
-
-    // modal 참조 업데이트
-    this.prevModal = modal;
   }
 
   setState(newState) {

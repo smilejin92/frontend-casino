@@ -38,6 +38,9 @@ export default class Options {
     const { modal } = store.getState();
     if (prevModal === modal) return;
 
+    // modal 참조 업데이트
+    this.prevModal = modal;
+
     // modal이 꺼지면 이벤트 핸들러 제거
     if (!modal.on) {
       container.onclick = null;
@@ -70,19 +73,13 @@ export default class Options {
     });
 
     this.render();
-
-    // modal 참조 업데이트
-    this.prevModal = modal;
   }
 
   setState(newState) {
     this.state = newState;
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    const { target } = e;
-
+  handleClick({ target }) {
     if (target.matches('.add-option-btn')) this.addOption();
     else if (target.matches('.rm-option-btn')) this.removeOption(target);
   }
@@ -118,7 +115,6 @@ export default class Options {
         [newKey]: ''
       }
     });
-    console.log(this.state.options);
 
     // 선택지가 몇개인지 기록
     const keyCount = optionKeys.length + 1;
@@ -169,7 +165,6 @@ export default class Options {
       ...this.state,
       options
     });
-    console.log(this.state.options);
 
     // 선택지가 몇개인지 기록
     const keyCount = optionKeys.length - 1;
@@ -247,7 +242,6 @@ export default class Options {
         [key]: value
       }
     });
-    console.log(this.state.options);
   }
 
   editAnswer({ target }) {
@@ -257,7 +251,11 @@ export default class Options {
     if (target.id === 'ck-multipleAns') {
       this.setState({
         ...this.state,
-        answer: checked ? [this.state.answer] : 'a',
+        answer: checked
+          ? [this.state.answer]
+          : this.state.answer.length
+            ? this.state.answer[0]
+            : 'a',
         hasMultipleAnswers: checked
       });
 
@@ -273,11 +271,9 @@ export default class Options {
               ${answer.includes(key) ? 'checked' : ''}
               ${checked
                 ? answer.includes(key)
-                  ? 'checked'
-                  : ''
+                  ? 'checked' : ''
                 : answer === key
-                  ? 'checked'
-                  : ''}
+                  ? 'checked' : ''}
             />
             <input 
               id="option-${key}"
@@ -302,14 +298,12 @@ export default class Options {
         ...this.state,
         answer: value
       });
-      console.log(this.state.answer);
     } else if (type === 'checkbox') { // multiple answer
       const { answer } = this.state;
       this.setState({
         ...this.state,
         answer: checked ? [...answer, value] : answer.filter(a => a !== value)
       });
-      console.log(this.state.answer);
     }
   }
 
@@ -322,8 +316,10 @@ export default class Options {
       hasMultipleAnswers
     } = state;
 
+    const optionKeys = Object.keys(options).sort();
+
     container.innerHTML = `<ul class="options">
-      ${Object.keys(options).sort().map((k, idx) => `<li class="option">
+      ${optionKeys.map((k, idx) => `<li class="option">
           <div class="option-wrapper">
             <input
               type="${hasMultipleAnswers ? 'checkbox' : 'radio'}"
@@ -332,11 +328,9 @@ export default class Options {
               ${answer.includes(k) ? 'checked' : ''}
               ${hasMultipleAnswers
                 ? answer.includes(k)
-                  ? 'checked'
-                  : ''
+                  ? 'checked' : ''
                 : answer === k
-                  ? 'checked'
-                  : ''}
+                  ? 'checked' : ''}
             />
             <input
               id="option-${k}"
@@ -355,7 +349,7 @@ export default class Options {
         id="ck-multipleAns"
         type="checkbox"
         ${hasMultipleAnswers ? 'checked' : ''}
-        ${hasMultipleAnswers ? '' : 'disabled'}
+        ${optionKeys.length > 1 ? '' : 'disabled'}
       />`;
   }
 }
