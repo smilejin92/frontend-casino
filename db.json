@@ -142,7 +142,7 @@
         "d": "position: relative 속성은 offset 속성과 함께 사용할 수 없다."
       },
       "hasMultipleAnswers": false,
-      "answer": "a",
+      "answer": "c",
       "hasCode": false,
       "selected": false
     },
@@ -152,13 +152,13 @@
       "point": 1000,
       "second": 30,
       "question": "아래 HTML 마크업의 label 요소를 input 요소에 연결 할 때 필요한 속성은?",
-      "content": "<label>이름</label>\n<input type=\"text\" id=\"name' />",
+      "content": "<label>이름</label>\n<input type=\"text\" id=\"name\" />",
       "options": {
-        "a": "to=\"name\"",
-        "b": "of=\"name\"",
-        "c": "on=\"name\"",
-        "d": "for=\"name\"",
-        "e": "by=\"name\""
+        "a": "to=&quot;name&quot;",
+        "b": "of=&quot;name&quot;",
+        "c": "on=&quot;name&quot;",
+        "d": "for=&quot;name&quot;",
+        "e": "by=&quot;name&quot;"
       },
       "hasMultipleAnswers": false,
       "answer": "d",
@@ -446,6 +446,208 @@
         "c": "함수는 객체이며 호출 할 수 있으므로, 모든 객체는 호출 할 수 있다.",
         "d": "함수는 일련의 과정을 문으로 구현하고 코드 블록으로 감싸서 하나의 실행 단위로 정의한 것이다.",
         "e": "함수 이름은 함수 몸체 내에서만 참조할 수 있는 식별자다."
+      },
+      "answer": "c",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 25,
+      "question": "아래 표현식이 평가된 값으로 알맞은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 30,
+      "hasCode": true,
+      "content": "'1' + 2 * '3' / 4",
+      "options": {
+        "a": "9",
+        "b": "&#x27;4&#x27;",
+        "c": "&#x27;11.5&#x27;",
+        "d": "NaN"
+      },
+      "answer": "c",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 26,
+      "question": "아래 코드의 실행 결과로 알맞은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 45,
+      "hasCode": true,
+      "content": "function Circle(radius) {\n  this.radius = radius;\n  this.getDiameter = function () {\n    return this.radius * 2;\n  };\n}\n\nconst circle = Circle(5);\nconsole.log(circle);",
+      "options": {
+        "a": "undefined",
+        "b": "Circle { radius: 5, getDiameter: f }"
+      },
+      "answer": "a",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 27,
+      "question": "아래 문제를 읽고 알맞은 답을 선택해주세요.",
+      "selected": false,
+      "category": "javascript",
+      "point": 5000,
+      "second": 60,
+      "hasCode": false,
+      "content": "함수 내부의 this 키워드가 가리키는 값은 함수 호출 방식에 따라 동적으로 결정됩니다. 아래 3가지 함수 호출 방식에 따라 함수 내부의 this가 가리키는 값을 알맞게 나열한 보기를 선택해주세요. (strict mode 제외)\n\n\n일반 함수로 호출 / 메소드로 호출 / 생성자 함수를 new 키워드와 함께 호출",
+      "options": {
+        "a": "전역 객체 / 메소드가 바인딩되어 있는 객체 / undefined",
+        "b": "undefined / 메소드를 호출한 객체 / 미래에 생성될 인스턴스",
+        "c": "전역 객체 / 메소드를 호출한 객체 / 미래에 생성될 인스턴스"
+      },
+      "answer": "c",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 28,
+      "question": "다음 constructor와 non-constructor에 관한 설명 중 알맞지 않은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 60,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "자바스크립트에서는 함수가 어디에 할당되어 있는지에 따라 메소드인지를 판단한다.",
+        "b": "함수 선언문과 함수 표현식으로 정의한 함수만이 constructor이다.",
+        "c": "함수를 일반 함수로서 호출하면 함수 객체의 내부 메소드 [[Call]]이 호출된다.",
+        "d": "non-constructor인 함수 객체를 생성자 함수로서 호출하면 에러가 발생한다.",
+        "e": "메소드 축약 표현으로 정의한 함수도 new 연산자와 함께 호출하면 constructor로서 동작한다."
+      },
+      "answer": [
+        "a",
+        "e"
+      ],
+      "hasMultipleAnswers": true
+    },
+    {
+      "id": 29,
+      "question": "&lt;img&gt; 요소 사용시 필수적으로 작성해야하는 속성을 모두 선택하세요.",
+      "selected": false,
+      "category": "html",
+      "point": 1000,
+      "second": 30,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "value",
+        "b": "src",
+        "c": "namer",
+        "d": "srcset",
+        "e": "alt"
+      },
+      "answer": [
+        "b",
+        "e"
+      ],
+      "hasMultipleAnswers": true
+    },
+    {
+      "id": 30,
+      "question": "일급 객체가 되기 위한 조건 네 가지 중 알맞지 않은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 45,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "변수나 자료 구조(객체, 배열 등)에 저장할 수 있다.",
+        "b": "함수의 매개 변수에게 전달할 수 있다.",
+        "c": "전역 객체의 프로퍼티이다.",
+        "d": "무명의 리터럴로 생성할 수 있다.",
+        "e": "함수의 결과값으로 반환할 수 있다."
+      },
+      "answer": "c",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 31,
+      "question": "아래 보기 중 함수 객체에 대한 설명으로 알맞지 않은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 5000,
+      "second": 60,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "함수 객체의 length 프로퍼티는 함수 정의 시 선언한 매개변수의 개수를 가리킨다.",
+        "b": "함수 객체만  __proto__ 접근자 프로퍼티를 가진다.",
+        "c": "함수 객체의 prototype 프로퍼티 값과 __proto__ 접근자 프로퍼티가 반환하는 값은 같다.",
+        "d": "함수 객체의 arguments 프로퍼티 값을 사용하여 가변인자 함수를 작성할 수 있다.",
+        "e": "함수 객체의 name 프로퍼티는 함수 이름을 나타낸다."
+      },
+      "answer": [
+        "b",
+        "c"
+      ],
+      "hasMultipleAnswers": true
+    },
+    {
+      "id": 32,
+      "question": "아래 코드의 실행 결과는 무엇인가요?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 60,
+      "hasCode": true,
+      "content": "const Person = (function () {\n  function Person(name) {\n    this.name = name;\n  }\n\n  Person.prototype.sayHi = function () {\n    console.log(`Hi! My name is ${this.name}.`);\n  };\n\n  return Person;\n}());\n\nconst person = new Person('Kim');\n\nperson.sayHi = function () {\n  console.log(`Hey! My name is ${this.name}.`);\n};\n\nperson.sayHi();\n",
+      "options": {
+        "a": "Hi! My name is Lee",
+        "c": "Hey! My name is Lee"
+      },
+      "answer": "a",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 33,
+      "question": "아래 코드의 실행결과는 무엇인가요?",
+      "selected": false,
+      "category": "javascript",
+      "point": 1000,
+      "second": 30,
+      "hasCode": true,
+      "content": "const str1 = new String('Kim');\nconst str2 = 'Kim';\n\nconsole.log(typeof str1 === typeof str2);\n",
+      "options": {
+        "a": "true",
+        "b": "false"
+      },
+      "answer": "b",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 34,
+      "question": "아래 코드의 실행결과로 알맞은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 2500,
+      "second": 60,
+      "hasCode": true,
+      "content": "const person = {\n  name: 'Kim',\n  sayHi() {\n    return `Hi! My name is ${this.name}`;\n  }\n};\n\nconst anotherPerson = {\n  name: 'Park'\n};\n\nanotherPerson.sayHi = person.sayHi;\n\nconsole.log(anotherPerson.sayHi());\n",
+      "options": {
+        "a": "Hi! My name is Kim",
+        "b": "Hi! My name is Park"
+      },
+      "answer": "b",
+      "hasMultipleAnswers": false
+    },
+    {
+      "id": 35,
+      "question": "다음 브라우저 환경에서의 자바스크립트 파싱과 실행에 대한 설명으로 옳지 않은 것은?",
+      "selected": false,
+      "category": "javascript",
+      "point": 5000,
+      "second": 60,
+      "hasCode": false,
+      "content": "",
+      "options": {
+        "a": "자바스크립트 파싱과 실행은 렌더링 엔진이 아닌 자바스크립트 엔진이 처리한다.",
+        "b": "자바스크립트 엔진은 자바스크립트 코드를 CPU가 이해할 수 있는 저수준 언어로 변환하는 역할을 한다.",
+        "c": "파싱(parsing)은 단순한 문자열인 소스 코드를 어휘 분석하여 문법적 의미를 가지는 코드의 최소 단위인 토큰으로 분해하는 과정을 말한다.",
+        "d": "AST(Abstract Syntax Tree)는 토큰에 문법적 의미와 구조를 반영한 트리 구조의 자료 구조이다."
       },
       "answer": "c",
       "hasMultipleAnswers": false

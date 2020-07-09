@@ -94,7 +94,7 @@ export default class Quizzes {
   fillModal(target) {
     const { store } = this;
     const { quizzes } = store.getState();
-    const quiz = quizzes.find(({ id }) => id === +target.parentNode.id);
+    const quiz = quizzes.find(({ id }) => id === +target.parentNode.parentNode.id);
 
     store.dispatch(setModal({
       type: 'EDIT',
@@ -105,7 +105,7 @@ export default class Quizzes {
 
   async deleteQuiz(target) {
     try {
-      const targetId = +target.parentNode.id;
+      const targetId = +target.parentNode.parentNode.id;
       await QuizService.removeQuiz(targetId);
       this.store.dispatch(removeQuiz(targetId));
     } catch (err) {
@@ -154,7 +154,7 @@ export default class Quizzes {
       ? quizzes
       : quizzes.filter(q => q.category === tab);
 
-    container.innerHTML = `<button class="rm-quizzes">Delete Selected</button>
+    container.innerHTML = `<button class="rm-quizzes">Remove Selected</button>
     <ul class="quizzes">
       ${_quizzes.map(q => Quiz(q)).join('')}
     </ul>`;

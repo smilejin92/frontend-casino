@@ -63,6 +63,7 @@ export default class ButtonGroup {
   }
 
   async submitQuiz() {
+    console.log('submitQuiz');
     const {
       question,
       setting,
@@ -70,6 +71,10 @@ export default class ButtonGroup {
       options,
       store
     } = this.Modal;
+
+    question.handleChange.flush();
+    content.editContent.flush();
+    options.editOption.flush();
 
     let newQuiz = {
       ...question.state,

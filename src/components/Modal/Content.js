@@ -7,7 +7,7 @@ export default class Content {
     this.prevModal = prevModal;
     this.container = document.createElement('div');
     this.toggleContentType = this.toggleContentType.bind(this);
-    this.editContent = this.editContent.bind(this);
+    this.editContent = debounce(this.editContent.bind(this), 300);
     this.update = this.update.bind(this);
     this.init();
   }
@@ -48,9 +48,8 @@ export default class Content {
     }
 
     // modal이 켜지면 이벤트 핸들러 등록
-    const _editContent = debounce(editContent, 300);
-    container.onkeyup = _editContent;
-    container.onpaste = _editContent;
+    container.onkeyup = editContent;
+    container.onpaste = editContent;
     container.onchange = toggleContentType;
 
     // state를 default 상태로 설정 후 render

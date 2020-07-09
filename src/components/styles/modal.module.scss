@@ -116,7 +116,7 @@
         }
         .content {
           width: 70rem;
-          height: 40rem;
+          height: 30rem;
           padding: 2rem;
           border: 1px solid black;
           resize: none;
@@ -138,6 +138,7 @@
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          margin-bottom: 2rem;
           
           // li
           .option {
@@ -171,6 +172,10 @@
           right: -2rem;
           transform: translateY(-50%);
         }
+
+        #ck-multipleAns{
+          font-size: 1.8rem;
+        }
       }
   
       .modal-btn {
@@ -180,8 +185,12 @@
   
       .exit {
         position: absolute;
+        font-size: 3rem;
         top: 1rem;
         right: 1rem;
+        border: none;
+        background: none;
+        padding: 0;
       }
     }
   }

@@ -11,22 +11,24 @@ hljs.registerLanguage('html', html);
 export default function Quiz(q) {
   return `<li class="quiz">
     <article id="${q.id}">
-      <h3 class="question">Q${q.id}) ${q.question} (${q.point}P)</h3>
+      <h3 class="question">Q${q.id}) ${q.question}</h3>
       <dl class="quiz-info clearfix">
-        <div class="info">
-          <dt>category</dt>
+        <div class="info category">
+          <dt class="a11y-hidden">category</dt>
           <dd>${q.category.toUpperCase()}</dd>
         </div>
-        <div class="info">
-          <dt>point</dt>
+        <div class="info point">
+          <dt class="a11y-hidden">point</dt>
           <dd>${q.point}</dd>
         </div>
-        <div class="info">
-          <dt>time (sec)</dt>
+        <div class="info time">
+          <dt class="a11y-hidden">time (sec)</dt>
           <dd>${q.second}</dd>
         </div>
       </dl>
-      ${q.hasCode ? `<pre class="content"><code>${hljs.highlight(q.category, q.content).value}</code></pre>` : `<p class="content">${q.content}</p>`}
+      ${q.content
+          ? `<pre class="content">${q.hasCode ? `<code>${hljs.highlight(q.category, q.content).value}</code>` : q.content}</pre>`
+          : ''}
       <ul class="options">
         ${Object.keys(q.options).map(k => `<li class="option">
           <label>
@@ -47,9 +49,11 @@ export default function Quiz(q) {
           </label>
         </li>`).join('')}
       </ul>
-      <input class="select-quiz" type="checkbox" ${q.selected ? 'checked' : ''} />
-      <button class="edit-quiz">Edit</button>
-      <button class="rm-quiz">Remove</button>
+      <div class="actions">
+        <button class="edit-quiz">Edit</button>
+        <button class="rm-quiz">Remove</button>
+        <input class="select-quiz" type="checkbox" ${q.selected ? 'checked' : ''} />
+      </div>
     </article>
   </li>`;
 }

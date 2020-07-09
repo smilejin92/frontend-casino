@@ -7,7 +7,7 @@ export default class Options {
     this.container = document.createElement('div');
     this.prevModal = prevModal;
     this.handleClick = this.handleClick.bind(this);
-    this.editOption = this.editOption.bind(this);
+    this.editOption = debounce(this.editOption.bind(this), 300);
     this.editAnswer = this.editAnswer.bind(this);
     this.update = this.update.bind(this);
     this.init();
@@ -51,9 +51,8 @@ export default class Options {
     }
 
     // modal이 켜지면 이벤트 핸들러 등록
-    const _editOption = debounce(editOption, 300);
-    container.onkeyup = _editOption;
-    container.onpaste = _editOption;
+    container.onkeyup = editOption;
+    container.onpaste = editOption;
     container.onclick = handleClick;
     container.onchange = editAnswer;
 
@@ -345,11 +344,13 @@ export default class Options {
         </li>`).join('')}
       </ul>
       <button class="add-option-btn">+</button>
-      <input
-        id="ck-multipleAns"
-        type="checkbox"
-        ${hasMultipleAnswers ? 'checked' : ''}
-        ${optionKeys.length > 1 ? '' : 'disabled'}
-      />`;
+      <label for="ck-multipleAns">Multiple Answers
+        <input
+          id="ck-multipleAns"
+          type="checkbox"
+          ${hasMultipleAnswers ? 'checked' : ''}
+          ${optionKeys.length > 1 ? '' : 'disabled'}
+        />
+      </label>`;
   }
 }

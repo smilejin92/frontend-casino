@@ -6,7 +6,7 @@ export default class Question {
     this.state = {};
     this.prevModal = prevModal;
     this.container = document.createElement('div');
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange = debounce(this.handleChange.bind(this), 300);
     this.update = this.update.bind(this);
     this.init();
   }
@@ -45,7 +45,7 @@ export default class Question {
     }
 
     // modal이 켜지면 이벤트 핸들러 등록
-    container.onkeyup = debounce(handleChange, 300);
+    container.onkeyup = handleChange;
     container.onpaste = handleChange;
 
     // state를 default 상태로 설정 후 render
