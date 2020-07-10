@@ -10,9 +10,9 @@ const common = require('./webpack.common');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     // publicPath: '',
-    filename: 'js/[contentHash].bundle.js',
+    filename: 'js/[name].[contentHash].bundle.js',
   },
   optimization: {
     minimizer: [
@@ -21,6 +21,17 @@ module.exports = merge(common, {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './public/index.html',
+        excludeChunks: ['admin'],
+        minify: {
+          removeAttributeQuotes: true,
+          collapseWhitespace: true,
+          removeComments: true
+        }
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'admin.html',
+        template: './public/admin.html',
+        excludeChunks: ['main'],
         minify: {
           removeAttributeQuotes: true,
           collapseWhitespace: true,
@@ -30,7 +41,7 @@ module.exports = merge(common, {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: 'css/[contentHash].bundle.css' }),
+    new MiniCssExtractPlugin({ filename: 'css/[name].[contentHash].css' }),
     new CleanWebpackPlugin()
   ],
   module: {

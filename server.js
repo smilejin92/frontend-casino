@@ -8,7 +8,7 @@ const FileAsync = require('lowdb/adapters/FileAsync');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('dist'));
+// app.use(express.static('dist'));
 app.use(express.urlencoded({ extended: true }));
 
 // Create database instance and start server
