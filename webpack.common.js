@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './src/index.js',
+  entry: './client/index.js',
   module: {
     rules: [
       {
@@ -21,8 +21,8 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            // publicPath: '../images',
-            outputPath: 'images',
+            publicPath: '../assets',
+            outputPath: 'assets',
             name: '[name].[ext]'
           }
         }
