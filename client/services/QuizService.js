@@ -1,6 +1,6 @@
 import he from 'he';
 
-const url = 'http://localhost:3000/quizzes';
+const url = 'http://localhost:5000/quizzes';
 
 export default class QuizService {
   static request(method, resource, payload) {

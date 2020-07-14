@@ -1,3 +1,5 @@
-export default function () {
-  console.log('Home');
+export default class Home {
+  constructor() {
+    console.log('Home');
+  }
 }

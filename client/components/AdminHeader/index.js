@@ -1,15 +1,13 @@
-import './styles/header.module.scss';
-import { setModal } from '../redux/actions';
-import Modal from './Modal/index';
-import QuizService from '../services/QuizService';
+import './style.scss';
+import QuizService from '../../services/QuizService';
+import { setModal } from '../../redux/actions';
 
-export default class Header {
+export default class AdminHeader {
   constructor(store) {
     this.store = store;
     this.container = document.createElement('header');
     this.heading = document.createElement('h1');
     this.addQuizBtn = document.createElement('button');
-    this.modal = new Modal(store);
     this.addQuiz = this.addQuiz.bind(this);
     this.init();
   }
@@ -27,11 +25,11 @@ export default class Header {
 
     addQuizBtn.classList.add('add-quiz-btn');
     addQuizBtn.textContent = 'Add Quiz';
-    addQuizBtn.addEventListener('click', addQuiz);
+    addQuizBtn.onclick = addQuiz;
 
     container.classList.add('header');
-    container.appendChild(heading);
-    container.appendChild(addQuizBtn);
+
+    this.render();
   }
 
   addQuiz() {
@@ -45,5 +43,16 @@ export default class Header {
       type: 'ADD',
       quiz: QuizService.generateQuiz(newQuizId)
     }));
+  }
+
+  render() {
+    const {
+      container,
+      heading,
+      addQuizBtn
+    } = this;
+
+    container.appendChild(heading);
+    container.appendChild(addQuizBtn);
   }
 }

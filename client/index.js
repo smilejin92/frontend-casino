@@ -1,4 +1,5 @@
+import '@babel/polyfill';
 import './assets/favicon.ico';
-import router from './router';
+import App from './App';
 
-router();
+new App();

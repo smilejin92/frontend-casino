@@ -1,0 +1,24 @@
+.chip-btn {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  margin-top: 6rem;
+  padding: 2rem 3.5rem;
+  padding-top: 2.3rem;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  background-color: #222;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -5.4rem;
+    left: -3.4rem;
+    width: 150%;
+    height: 300%;
+    background: url(../../assets/chip2.png) no-repeat;
+    background-size: cover;
+  }
+}

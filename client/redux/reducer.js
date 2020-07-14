@@ -17,8 +17,7 @@ const initialState = {
     type: '',
     id: null
   },
-  tabs: ['all', 'html', 'css', 'javascript'],
-  tab: 'all',
+  category: 'all',
   error: null
 };
 
