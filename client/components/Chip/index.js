@@ -1,11 +1,12 @@
 import './style.scss';
+import { setQuizForm } from '../../redux/actions';
 import QuizService from '../../services/QuizService';
-import { setModal } from '../../redux/actions';
 
-// text와 handleClick 함수를 전달 받는다.
 export default class Chip {
-  constructor(props) {
-    this.props = props;
+  constructor({ text, type, store }) {
+    this.text = text;
+    this.type = type;
+    this.store = store;
     this.chip = document.createElement('button');
     this.handleClick = this.handleClick.bind(this);
     this.init();
@@ -16,34 +17,30 @@ export default class Chip {
   }
 
   init() {
-    const { chip } = this;
-    chip.classList.add('chip-btn');
-    chip.onclick = this.handleClick;
+    this.chip.classList.add('chip-btn');
+    this.chip.onclick = this.handleClick;
 
     this.render();
   }
 
   handleClick() {
-    const { type } = this.props;
-    if (type === 'admin') this.addQuiz();
+    if (this.type === 'admin') this.addQuiz();
   }
 
   addQuiz() {
-    console.log('addQuiz');
-    // const { store } = this.props;
-    // const { quizzes } = store.getState();
+    const { quizzes } = this.store.getState();
 
-    // const newQuizId = Math.max(0, ...quizzes.map(({ id }) => id)) + 1;
+    const newQuizId = Math.max(0, ...quizzes.map(({ id }) => id)) + 1;
 
-    // store.dispatch(setModal({
-    //   on: true,
-    //   type: 'ADD',
-    //   quiz: QuizService.generateQuiz(newQuizId)
-    // }));
+    this.store.dispatch(setQuizForm({
+      on: true,
+      type: 'ADD',
+      data: QuizService.generateQuiz(newQuizId)
+    }));
   }
 
   render() {
-    const { chip, props } = this;
-    chip.textContent = props.text;
+    const { chip, text } = this;
+    chip.textContent = text;
   }
 }

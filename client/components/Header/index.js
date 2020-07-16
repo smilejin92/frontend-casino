@@ -1,6 +1,6 @@
 import './style.scss';
 
-// props.children의 요소(자식 노드 )를 append한다.
+// props.children의 요소(자식 노드)를 append한다.
 export default class Header {
   constructor(props) {
     this.props = props;

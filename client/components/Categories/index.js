@@ -20,20 +20,23 @@ export default class Categories {
   }
 
   handleClick({ target }) {
-    console.log('toggleNav');
     if (!target.matches('.category a')) return;
 
-    const { categories } = this;
-    [...categories.children].forEach(c => {
-      c.classList.toggle('active', c === target.parentNode);
+    const prevSelectedCategory = document.querySelector('.categories .active');
+    const selectedCategory = target.parentNode;
+
+    if (prevSelectedCategory === selectedCategory) return;
+
+    prevSelectedCategory.classList.remove('active');
+    selectedCategory.classList.add('active');
+
+    const { categories, props } = this;
+
+    props.store.dispatch(toggleNav(selectedCategory.id));
+
+    categories.scrollIntoView({
+      behavior: 'smooth'
     });
-
-    const { store } = this.props;
-    store.dispatch(toggleNav(target.parentNode.id));
-
-    // tabs.scrollIntoView({
-    //   behavior: 'smooth'
-    // });
   }
 
   render() {
@@ -47,57 +50,3 @@ export default class Categories {
     )).join('');
   }
 }
-
-// export default class Nav {
-//   constructor(store) {
-//     this.store = store;
-//     this.container = document.createElement('nav');
-//     this.heading = document.createElement('h2');
-//     this.tabs = document.createElement('ul');
-//     this.tabs.onclick = this.handleClick.bind(this);
-//     this.init();
-//   }
-
-//   init() {
-//     const { container, heading, tabs } = this;
-
-//     heading.classList.add('a11y-hidden');
-
-//     tabs.classList.add('tabs');
-
-//     container.classList.add('navigation');
-
-//     this.render();
-//   }
-
-//   handleClick({ target }) {
-//     if (!target.matches('.tab a')) return;
-
-//     const { tabs, store } = this;
-//     [...tabs.children].forEach(t => {
-//       t.classList.toggle('active', t === target.parentNode);
-//     });
-
-//     store.dispatch(toggleNav(target.parentNode.id));
-//     tabs.scrollIntoView({
-//       behavior: 'smooth'
-//     });
-//   }
-
-//   render() {
-//     const { heading, container, store, tabs } = this;
-//     const { tabs: tabList, tab } = store.getState();
-
-//     heading.textContent = '문제 카테고리';
-//     container.appendChild(heading);
-//     container.appendChild(tabs);
-
-//     tabs.innerHTML = tabList
-//       .map(t => (
-//         `<li id="${t}" class="tab neon ${t === tab ? 'active' : ''}">
-//           <a role="button">${t.toUpperCase()}</a>
-//         </li>`
-//       ))
-//       .join('');
-//   }
-// }

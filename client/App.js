@@ -44,6 +44,6 @@ export default class App {
 
   render(page) {
     const Page = this.routes[page];
-    new Page(this.root, store);
+    new Page({ root: this.root, store });
   }
 }

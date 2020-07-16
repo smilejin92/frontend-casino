@@ -1,12 +1,22 @@
 import './style.scss';
 import QuizService from '../../services/QuizService';
 import Quiz from '../Quiz';
-import { fetchQuizzes, setError } from '../../redux/actions';
+import {
+  fetchQuizzes,
+  setError,
+  setQuizForm,
+  removeQuiz,
+  selectQuiz,
+  removeSelectedQuizzes
+} from '../../redux/actions';
 
 export default class QuizList {
   constructor(props) {
     this.props = props;
     this.quizList = document.createElement('ul');
+    this.update = this.update.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.init();
   }
 
@@ -16,16 +26,130 @@ export default class QuizList {
 
   async init() {
     this.quizList.classList.add('quizzes');
+    this.quizList.onclick = this.handleClick;
+    this.quizList.onchange = this.handleChange;
+
+    // local & store 상태 동기화
+    // store의 일부 상태(quizzes, category)만 subscribe하기 위함
     const { store } = this.props;
+    const { quizzes, category } = store.getState();
+    this.setState({ quizzes, category });
+
+    // subscribe redux store
+    store.subscribe(this.update);
 
     try {
       // fetch quizzes
       const res = await QuizService.fetchQuizzes();
-      const quizzes = await res.json();
+      const _quizzes = await res.json();
 
       // update redux store
-      store.dispatch(fetchQuizzes(quizzes.sort((q1, q2) => q2.id - q1.id)));
-      this.render();
+      store.dispatch(fetchQuizzes(_quizzes.sort((q1, q2) => q2.id - q1.id)));
+    } catch (err) {
+      store.dispatch(setError(err));
+      console.error(err);
+    }
+  }
+
+  setState(newState) {
+    this.state = newState;
+  }
+
+  update() {
+    const { state } = this;
+    const { store } = this.props;
+
+    // 이전 상태(local state)와 동일하면 return
+    const { category, quizzes } = store.getState();
+    if (state.category === category && state.quizzes === quizzes) return;
+
+    // active selected tab
+    // const categories = document.querySelector('.categories');
+    // [...categories.children].forEach(c => {
+    //   c.classList.toggle('active', c.id === category);
+    // });
+
+    // 추가, 삭제, select, 수정, 삭제 selected
+
+    // local 상태 최신화
+    this.setState({ category, quizzes });
+
+    // render quizzes
+    this.render();
+
+    // scroll into view
+    // if (quizForm.type === 'ADD') {
+    //   categories.scrollIntoView({
+    //     behavior: 'smooth',
+    //     block: 'start'
+    //   });
+    // } else if (quizForm.type === 'EDIT') {
+    //   const editedQuiz = document.getElementById(quizForm.quiz.id);
+    //   editedQuiz.scrollIntoView({
+    //     behavior: 'smooth',
+    //     block: 'center'
+    //   });
+    // }
+  }
+
+  async handleClick({ target }) {
+    if (target.matches('.edit-quiz')) this.fillQuizForm(target);
+    else if (target.matches('.rm-quiz')) await this.deleteQuiz(target);
+    else if (target.matches('.rm-quizzes')) await this.deleteSelectedQuizzes();
+  }
+
+  fillQuizForm(target) {
+    const { store } = this.props;
+    const { quizzes } = store.getState();
+    const quiz = quizzes.find(({ id }) => id === +target.parentNode.parentNode.id);
+
+    store.dispatch(setQuizForm({
+      type: 'EDIT',
+      on: true,
+      quiz
+    }));
+  }
+
+  async deleteQuiz(target) {
+    const { store } = this.props;
+    try {
+      const targetId = +target.parentNode.parentNode.id;
+      await QuizService.removeQuiz(targetId);
+      store.dispatch(removeQuiz(targetId));
+    } catch (err) {
+      store.dispatch(setError(err));
+      console.error(err);
+    }
+  }
+
+  async deleteSelectedQuizzes() {
+    const { store } = this.props;
+    try {
+      const res = await QuizService.removeSelectedQuizzes();
+      const filteredQuizzes = await res.json();
+      store.dispatch(removeSelectedQuizzes(filteredQuizzes));
+
+      const categories = document.querySelector('categories');
+      categories.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    } catch (err) {
+      store.dispatch(setError(err));
+      console.error(err);
+    }
+  }
+
+  async handleChange({ target }) {
+    const { store } = this.props;
+    const id = +target.parentNode.id;
+
+    try {
+      const res = await QuizService.selectQuiz(id, {
+        selected: target.checked
+      });
+      const quiz = await res.json();
+      store.dispatch(selectQuiz(quiz));
     } catch (err) {
       store.dispatch(setError(err));
       console.error(err);
@@ -33,175 +157,14 @@ export default class QuizList {
   }
 
   render() {
-    const { store } = this.props;
-    const { quizzes, category } = store.getState();
+    const { category, quizzes } = this.state;
 
-    this.quizList.innerHTML = quizzes
-      .filter(q => q.category !== category)
+    const _quizzes = category === 'all'
+      ? quizzes
+      : quizzes.filter(q => q.category === category);
+
+    this.quizList.innerHTML = _quizzes
       .map(q => Quiz(q))
       .join('');
   }
 }
-
-// import './styles/quizzes.module.scss';
-// import Quiz from './Quiz';
-// import QuizService from '../services/QuizService';
-// import { fetchQuizzes, setError, setModal, removeQuiz, selectQuiz, removeSelectedQuizzes } from '../redux/actions';
-
-// export default class Quizzes {
-//   constructor(store) {
-//     this.store = store;
-//     this.state = {};
-//     this.container = document.createElement('div');
-//     this.handleClick = this.handleClick.bind(this);
-//     this.handleChange = this.handleChange.bind(this);
-//     this.update = this.update.bind(this);
-//     this.init();
-//   }
-
-//   async init() {
-//     const {
-//       container,
-//       store,
-//       handleClick,
-//       handleChange,
-//       update
-//     } = this;
-
-//     container.classList.add('quizzes-container');
-//     container.onclick = handleClick;
-//     container.onchange = handleChange;
-
-//     // 상태 초기화
-//     const { quizzes, tab } = store.getState();
-//     this.setState({ quizzes, tab });
-
-//     // subscribe redux store
-//     store.subscribe(update);
-
-//     try {
-//       // fetch quizzes
-//       const res = await QuizService.fetchQuizzes();
-//       const _quizzes = await res.json();
-
-//       // update redux store
-//       store.dispatch(fetchQuizzes(_quizzes.sort((a, b) => b.id - a.id)));
-//     } catch (err) {
-//       store.dispatch(setError(err));
-//       console.error(err);
-//     }
-//   }
-
-//   update() {
-//     const { store, state } = this;
-
-//     // 이전 상태와 동일하면 return
-//     const { tab, quizzes, modal } = store.getState();
-//     if (state.tab === tab && state.quizzes === quizzes) return;
-
-//     // 상태 최신화
-//     this.setState({ tab, quizzes });
-
-//     // active selected tab
-//     const tabs = document.querySelector('.tabs');
-//     [...tabs.children].forEach(t => {
-//       t.classList.toggle('active', t.id === tab);
-//     });
-
-//     // render quizzes
-//     this.render();
-
-//     // scroll into view
-//     if (modal.type === 'ADD') {
-//       tabs.scrollIntoView({
-//         behavior: 'smooth',
-//         block: 'start'
-//       });
-//     } else if (modal.type === 'EDIT') {
-//       const editedQuiz = document.getElementById(modal.quiz.id);
-//       editedQuiz.scrollIntoView({
-//         behavior: 'smooth',
-//         block: 'center'
-//       });
-//     }
-//   }
-
-//   setState(newState) {
-//     this.state = newState;
-//   }
-
-//   async handleClick({ target }) {
-//     if (target.matches('.edit-quiz')) this.fillModal(target);
-//     else if (target.matches('.rm-quiz')) await this.deleteQuiz(target);
-//     else if (target.matches('.rm-quizzes')) await this.deleteSelectedQuizzes();
-//   }
-
-//   fillModal(target) {
-//     const { store } = this;
-//     const { quizzes } = store.getState();
-//     const quiz = quizzes.find(({ id }) => id === +target.parentNode.parentNode.id);
-
-//     store.dispatch(setModal({
-//       type: 'EDIT',
-//       on: true,
-//       quiz
-//     }));
-//   }
-
-//   async deleteQuiz(target) {
-//     try {
-//       const targetId = +target.parentNode.parentNode.id;
-//       await QuizService.removeQuiz(targetId);
-//       this.store.dispatch(removeQuiz(targetId));
-//     } catch (err) {
-//       this.store.dispatch(setError(err));
-//       console.error(err);
-//     }
-//   }
-
-//   async deleteSelectedQuizzes() {
-//     try {
-//       const res = await QuizService.removeSelectedQuizzes();
-//       const filteredQuizzes = await res.json();
-//       this.store.dispatch(removeSelectedQuizzes(filteredQuizzes));
-
-//       const tabs = document.querySelector('.tabs');
-//       tabs.scrollIntoView({
-//         behavior: 'smooth',
-//         block: 'start'
-//       });
-//     } catch (err) {
-//       this.store.dispatch(setError(err));
-//       console.error(err);
-//     }
-//   }
-
-//   async handleChange({ target }) {
-//     const { store } = this;
-//     const id = +target.parentNode.id;
-
-//     try {
-//       const res = await QuizService.selectQuiz(id, {
-//         selected: target.checked
-//       });
-//       const quiz = await res.json();
-//       store.dispatch(selectQuiz(quiz));
-//     } catch (err) {
-//       store.dispatch(setError(err));
-//       console.error(err);
-//     }
-//   }
-
-//   render() {
-//     const { state, container } = this;
-//     const { quizzes, tab } = state;
-//     const _quizzes = tab === 'all'
-//       ? quizzes
-//       : quizzes.filter(q => q.category === tab);
-
-//     container.innerHTML = `<button class="rm-quizzes">Remove Selected</button>
-//     <ul class="quizzes">
-//       ${_quizzes.map(q => Quiz(q)).join('')}
-//     </ul>`;
-//   }
-// }

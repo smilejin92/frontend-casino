@@ -1,21 +1,22 @@
 import {
-  ADD_QUIZ,
-  TOGGLE_NAV,
   FETCH_QUIZZES,
-  SET_ERROR,
-  SET_MODAL,
+  ADD_QUIZ,
   EDIT_QUIZ,
   REMOVE_QUIZ,
+  REMOVE_SELECTED_QUIZZES,
   SELECT_QUIZ,
-  REMOVE_SELECTED_QUIZZES
+  SET_ERROR,
+  TOGGLE_NAV,
+  SET_QUIZ_FORM,
+  SET_QUIZ_FORM_DATA
 } from './actions';
 
 const initialState = {
   quizzes: [],
-  modal: {
+  quizForm: {
     on: false,
     type: '',
-    id: null
+    data: {}
   },
   category: 'all',
   error: null
@@ -23,18 +24,6 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_MODAL:
-      return {
-        ...state,
-        modal: action.modal,
-      };
-
-    case SET_ERROR:
-      return {
-        ...state,
-        error: action.error
-      };
-
     case FETCH_QUIZZES:
       return {
         ...state,
@@ -44,14 +33,14 @@ export default function reducer(state = initialState, action) {
     case ADD_QUIZ:
       return {
         ...state,
-        tab: action.quiz.category,
+        category: action.quiz.category,
         quizzes: [action.quiz, ...state.quizzes]
       };
 
     case EDIT_QUIZ:
       return {
         ...state,
-        tab: action.quiz.category,
+        category: action.quiz.category,
         quizzes: state.quizzes.map(q => (q.id === action.quiz.id ? action.quiz : q))
       };
 
@@ -61,22 +50,46 @@ export default function reducer(state = initialState, action) {
         quizzes: state.quizzes.filter(q => q.id !== action.id)
       };
 
-    case SELECT_QUIZ:
-      return {
-        ...state,
-        quizzes: state.quizzes.map(q => (q.id === action.quiz.id ? action.quiz : q))
-      };
-
     case REMOVE_SELECTED_QUIZZES:
       return {
         ...state,
         quizzes: action.quizzes.sort((q1, q2) => q2.id - q1.id)
       };
 
+    case SELECT_QUIZ:
+      return {
+        ...state,
+        quizzes: state.quizzes.map(q => (q.id === action.quiz.id ? action.quiz : q))
+      };
+
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.error
+      };
+
     case TOGGLE_NAV:
       return {
         ...state,
-        tab: action.tab
+        category: action.category
+      };
+
+    case SET_QUIZ_FORM:
+      return {
+        ...state,
+        quizForm: action.quizForm
+      };
+
+    case SET_QUIZ_FORM_DATA:
+      return {
+        ...state,
+        quizForm: {
+          ...state.quizForm,
+          data: {
+            ...state.quizForm.data,
+            ...action.data
+          }
+        }
       };
 
     default:
