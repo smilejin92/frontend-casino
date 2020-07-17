@@ -1,11 +1,16 @@
 import { setQuizFormData } from '../../redux/actions';
 
 export default class Setting {
-  constructor({ store }) {
+  constructor({
+    store,
+    categories,
+    points,
+    seconds
+  }) {
     this.store = store;
-    this.categories = ['html', 'css', 'javascript'];
-    this.points = [1000, 2500, 5000, 10000];
-    this.seconds = [30, 45, 60, 90];
+    this.categories = categories;
+    this.points = points;
+    this.seconds = seconds;
     this.container = document.createElement('div');
     this.handleChange = this.handleChange.bind(this);
     this.init();
@@ -16,10 +21,7 @@ export default class Setting {
   }
 
   init() {
-    const {
-      container,
-      handleChange
-    } = this;
+    const { container, handleChange } = this;
 
     container.classList.add('setting');
     container.onchange = handleChange;
@@ -37,9 +39,7 @@ export default class Setting {
       ? target.value
       : +target.value;
 
-    this.store.dispatch(setQuizFormData({
-      [key]: value
-    }));
+    this.store.dispatch(setQuizFormData({ [key]: value }));
   }
 
   render() {
@@ -51,7 +51,11 @@ export default class Setting {
       store
     } = this;
 
-    const { category, point, second } = store.getState();
+    const {
+      category,
+      point,
+      second
+    } = store.getState();
 
     container.innerHTML = `<label for="categories">카테고리</label>
       <select id="categories">

@@ -5,7 +5,8 @@ export default class Question {
   constructor({ store }) {
     this.store = store;
     this.container = document.createElement('div');
-    this.handleChange = debounce(this.handleChange.bind(this), 300);
+    this.editQuestion = debounce(this.editQuestion.bind(this), 200);
+    this.update = this.update.bind(this);
     this.init();
   }
 
@@ -15,27 +16,35 @@ export default class Question {
 
   init() {
     const {
+      store,
       container,
-      handleChange
+      editQuestion,
+      update
     } = this;
 
     container.classList.add('question-container');
-    container.onkeyup = handleChange;
-    container.onpaste = handleChange;
+    container.onkeyup = editQuestion;
+    container.onpaste = editQuestion;
+
+    store.subscribe(update);
 
     this.render();
   }
 
-  handleChange({ target, clipboardData }) {
+  update() {
+    const { quizForm } = this.store.getState();
+    const { validating } = quizForm;
+    if (validating) this.editQuestion.flush();
+  }
+
+  editQuestion({ target, clipboardData }) {
     if (!target.matches('#question')) return;
 
     const question = clipboardData
       ? clipboardData.getData('text')
       : target.value;
 
-    this.store.dispatch(setQuizFormData({
-      question
-    }));
+    this.store.dispatch(setQuizFormData({ question }));
   }
 
   render() {

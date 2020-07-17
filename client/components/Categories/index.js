@@ -4,7 +4,9 @@ import { toggleNav } from '../../redux/actions';
 export default class Categories {
   constructor(props) {
     this.props = props;
+    this.state = {};
     this.categories = document.createElement('ul');
+    this.update = this.update.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.init();
   }
@@ -16,27 +18,37 @@ export default class Categories {
   init() {
     this.categories.classList.add('categories');
     this.categories.onclick = this.handleClick;
+    const { category } = this.props.store.getState();
+    this.setState({ category });
+    this.props.store.subscribe(this.update);
     this.render();
+  }
+
+  setState(newState) {
+    this.state = newState;
+  }
+
+  update() {
+    const { category, quizForm } = this.props.store.getState();
+    if (this.state.category === category) return;
+
+    [...this.categories.children].forEach(c => {
+      c.classList.toggle('active', c.id === category);
+    });
+
+    if (quizForm.type !== 'EDIT') {
+      this.categories.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+
+    this.setState({ category });
   }
 
   handleClick({ target }) {
     if (!target.matches('.category a')) return;
-
-    const prevSelectedCategory = document.querySelector('.categories .active');
     const selectedCategory = target.parentNode;
-
-    if (prevSelectedCategory === selectedCategory) return;
-
-    prevSelectedCategory.classList.remove('active');
-    selectedCategory.classList.add('active');
-
-    const { categories, props } = this;
-
-    props.store.dispatch(toggleNav(selectedCategory.id));
-
-    categories.scrollIntoView({
-      behavior: 'smooth'
-    });
+    this.props.store.dispatch(toggleNav(selectedCategory.id));
   }
 
   render() {

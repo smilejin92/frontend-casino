@@ -27,8 +27,8 @@ export default function Quiz(q) {
         </div>
       </dl>
       ${q.content
-          ? `<pre class="content">${q.hasCode ? `<code>${hljs.highlight(q.category, q.content).value}</code>` : q.content}</pre>`
-          : ''}
+    ? `<pre class="content">${q.hasCode ? `<code>${hljs.highlight(q.category, q.content).value}</code>` : q.content}</pre>`
+    : ''}
       <ul class="options">
         ${Object.keys(q.options).map(k => `<li class="option">
           <label>
@@ -36,12 +36,12 @@ export default function Quiz(q) {
                 type="${q.hasMultipleAnswers ? 'checkbox' : 'radio'}" 
                 ${q.hasMultipleAnswers ? '' : `name="${q.id}-options"`} 
                 ${q.hasMultipleAnswers
-                  ? q.answer.includes(k)
-                    ? 'checked'
-                    : ''
-                  : q.answer === k
-                    ? 'checked'
-                    : ''}
+    ? q.answer.includes(k)
+      ? 'checked'
+      : ''
+    : q.answer === k
+      ? 'checked'
+      : ''}
                 value="${q.options[k]}"
                 disabled
               />

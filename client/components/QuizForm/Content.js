@@ -6,7 +6,8 @@ export default class Content {
     this.store = store;
     this.container = document.createElement('div');
     this.toggleContentType = this.toggleContentType.bind(this);
-    this.editContent = debounce(this.editContent.bind(this), 300);
+    this.editContent = debounce(this.editContent.bind(this), 200);
+    this.update = this.update.bind(this);
     this.init();
   }
 
@@ -16,9 +17,11 @@ export default class Content {
 
   init() {
     const {
+      store,
       container,
       editContent,
-      toggleContentType
+      toggleContentType,
+      update
     } = this;
 
     container.classList.add('content-container');
@@ -26,7 +29,15 @@ export default class Content {
     container.onpaste = editContent;
     container.onchange = toggleContentType;
 
+    store.subscribe(update);
+
     this.render();
+  }
+
+  update() {
+    const { quizForm } = this.store.getState();
+    const { validating } = quizForm;
+    if (validating) this.editContent.flush();
   }
 
   toggleContentType({ target }) {
@@ -49,9 +60,7 @@ export default class Content {
       ? clipboardData.getData('text')
       : target.value;
 
-    this.store.dispatch(setQuizFormData({
-      content
-    }));
+    this.store.dispatch(setQuizFormData({ content }));
   }
 
   render() {

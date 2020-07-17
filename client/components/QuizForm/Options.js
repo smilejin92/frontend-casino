@@ -6,8 +6,9 @@ export default class Options {
     this.store = store;
     this.container = document.createElement('div');
     this.handleClick = this.handleClick.bind(this);
-    this.editOption = debounce(this.editOption.bind(this), 300);
+    this.editOption = debounce(this.editOption.bind(this), 100);
     this.editAnswer = this.editAnswer.bind(this);
+    this.update = this.update.bind(this);
     this.init();
   }
 
@@ -17,10 +18,12 @@ export default class Options {
 
   init() {
     const {
+      store,
       container,
       editOption,
       handleClick,
-      editAnswer
+      editAnswer,
+      update
     } = this;
 
     container.classList.add('options-container');
@@ -29,7 +32,15 @@ export default class Options {
     container.onclick = handleClick;
     container.onchange = editAnswer;
 
+    store.subscribe(update);
+
     this.render();
+  }
+
+  update() {
+    const { quizForm } = this.store.getState();
+    const { validating } = quizForm;
+    if (validating) this.editOption.flush();
   }
 
   handleClick({ target }) {
@@ -50,16 +61,19 @@ export default class Options {
     const optionKeys = Object.keys(options).sort();
     if (optionKeys.length >= 5) return;
 
-    // 2. 추가할 선택지의 key를 생성하여 state.options에 추가
+    // 2. 추가할 선택지의 key를 생성
     // keyCode 생성시 a ~ e까지 순차적으로.
     let newKey = 'b'; // default newKey
+
     for (let i = 0; i < optionKeys.length - 1; i++) {
       const cur = optionKeys[i].charCodeAt(0);
       const next = optionKeys[i + 1].charCodeAt(0);
+
       if (next - cur > 1) {
         newKey = String.fromCharCode(cur + 1);
         break;
       }
+
       newKey = String.fromCharCode(next + 1);
     }
 
@@ -92,6 +106,7 @@ export default class Options {
       document.getElementById('ck-multipleAns').disabled = false;
     }
 
+    // 6. options에 새로운 선택지 추가
     this.store.dispatch(setQuizFormData({
       options: {
         ...options,
@@ -201,45 +216,43 @@ export default class Options {
     const { options } = quizForm.data;
     options[key] = value;
 
-    this.store.dispatch(setQuizFormData({
-      options
-    }));
+    this.store.dispatch(setQuizFormData({ options }));
   }
 
-  // 리팩토링 필요
   editAnswer({ target }) {
-    const { type, value, checked } = target;
+    const {
+      type,
+      value,
+      checked
+    } = target;
+    const { store } = this;
+    const { quizForm } = store.getState();
 
     // check multiple answers
     if (target.id === 'ck-multipleAns') {
-      const { answer: prevAnswer } = this.store.getState().quizForm.data;
-      const newData = {
-        answer: checked
-          ? [prevAnswer]
-          : prevAnswer.length
-            ? prevAnswer[0]
-            : 'a',
-        hasMultipleAnswers: checked
-      };
+      const {
+        id,
+        options,
+        answer: prevAnswer
+      } = quizForm.data;
 
-      this.store.dispatch(setQuizFormData(newData));
+      const answer = checked
+        ? [prevAnswer]
+        : prevAnswer.length
+          ? prevAnswer[0]
+          : 'a';
 
-      const { id, answer, options } = this.store.getState().quizForm.data;
+      const hasMultipleAnswers = checked;
 
-      const newOptions = Object.keys(options)
+      const optionElems = Object.keys(options)
         .sort()
         .map((key, idx) => `<li class="option">
           <div class="option-wrapper">
             <input
               type="${checked ? 'checkbox' : 'radio'}"
-              ${checked ? '' : `name=${id}-options`} 
+              ${checked ? '' : `name="${id}-options"`} 
               value="${key}"
-              ${answer.includes(key) ? 'checked' : ''}
-              ${checked
-                ? answer.includes(key)
-                  ? 'checked' : ''
-                : answer === key
-                  ? 'checked' : ''}
+              ${checked ? answer.includes(key) ? 'checked' : '' : answer === key ? 'checked' : ''}
             />
             <input 
               id="option-${key}"
@@ -247,38 +260,41 @@ export default class Options {
               type="text"
               value="${options[key]}"
             />
-            ${idx >= 1 
-              ? `<button id="rm-${key}" class="rm-option-btn">-</button>`
-              : ''}
+            ${idx >= 1 ? `<button id="rm-${key}" class="rm-option-btn">-</button>` : ''}
           </div>
         </li>`)
         .join('');
 
-      document.querySelector('.options').innerHTML = newOptions;
+      document.querySelector('.options').innerHTML = optionElems;
+      store.dispatch(setQuizFormData({ answer, hasMultipleAnswers }));
       return;
     }
 
     // single answer
     if (type === 'radio') {
-      this.store.dispatch(setQuizFormData({
-        answer: value
-      }));
-    } else if (type === 'checkbox') { // multiple answer
-      const { answer } = this.store.getState().quizForm.data;
-      this.store.dispatch(setQuizFormData({
-        answer: checked ? [...answer, value] : answer.filter(a => a !== value)
+      store.dispatch(setQuizFormData({ answer: value }));
+      return;
+    }
+
+    if (type === 'checkbox') { // multiple answer
+      const { answer } = quizForm.data;
+      store.dispatch(setQuizFormData({
+        answer: checked
+          ? [...answer, value].sort()
+          : answer.filter(a => a !== value)
       }));
     }
   }
 
   render() {
     const { container, store } = this;
+    const { quizForm } = store.getState();
     const {
       id,
       options,
       answer,
       hasMultipleAnswers
-    } = store.getState().quizForm.data;
+    } = quizForm.data;
 
     const optionKeys = Object.keys(options).sort();
 
@@ -291,10 +307,10 @@ export default class Options {
               value="${k}"
               ${answer.includes(k) ? 'checked' : ''}
               ${hasMultipleAnswers
-                ? answer.includes(k)
-                  ? 'checked' : ''
-                : answer === k
-                  ? 'checked' : ''}
+    ? answer.includes(k)
+      ? 'checked' : ''
+    : answer === k
+      ? 'checked' : ''}
             />
             <input
               id="option-${k}"
@@ -303,8 +319,8 @@ export default class Options {
               value="${options[k]}"
             />
             ${idx >= 1
-              ? `<button id="rm-${k}" class="rm-option-btn">-</button>`
-              : ''}
+    ? `<button id="rm-${k}" class="rm-option-btn">-</button>`
+    : ''}
           </div>
         </li>`).join('')}
       </ul>

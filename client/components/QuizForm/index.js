@@ -1,9 +1,10 @@
 import './style.scss';
+import Fields from './Fields';
 import Question from './Question';
 import Setting from './Setting';
 import Content from './Content';
 import Options from './Options';
-// import ButtonGroup from './ButtonGroup';
+import ButtonGroup from './ButtonGroup';
 
 export default class QuizForm {
   constructor({ store }) {
@@ -31,7 +32,8 @@ export default class QuizForm {
     form.classList.add('quiz-form');
 
     const { quizForm } = store.getState();
-    // store.quizForm의 변화만을 추적하기 위함
+
+    // quizForm.on, quizForm.type의 변화만을 추적하기 위함
     this.setState({
       on: quizForm.on,
       type: quizForm.type
@@ -45,16 +47,19 @@ export default class QuizForm {
   }
 
   update() {
-    const { state, store, container, form } = this;
+    const {
+      state,
+      store,
+      container,
+      form
+    } = this;
     const { quizForm } = store.getState();
 
     if (state.on === quizForm.on && state.type === quizForm.type) return;
 
     const { type, on } = quizForm;
-
     this.setState({ on, type });
 
-    // modal이 꺼지면 dom에서 제거
     if (!on) {
       container.classList.remove('active');
       form.onsubmit = null;
@@ -69,21 +74,29 @@ export default class QuizForm {
   }
 
   render() {
-    const fieldset = document.createElement('div');
-    fieldset.setAttribute('role', 'group');
-    fieldset.classList.add('fields');
+    const {
+      store,
+      form,
+      container
+    } = this;
 
-    const { store, form, container } = this;
+    form.appendChild(
+      new Fields({
+        children: [
+          new Question({ store }),
+          new Setting({
+            store,
+            categories: ['html', 'css', 'javascript'],
+            points: [1000, 2500, 5000, 10000],
+            seconds: [30, 45, 60, 90]
+          }),
+          new Content({ store }),
+          new Options({ store }),
+          new ButtonGroup({ store })
+        ]
+      }).elem
+    );
 
-    const children = [
-      new Question({ store }),
-      new Setting({ store }),
-      new Content({ store }),
-      new Options({ store }),
-    ];
-
-    children.forEach(child => fieldset.appendChild(child.elem));
-    form.appendChild(fieldset);
     container.appendChild(form);
   }
 }

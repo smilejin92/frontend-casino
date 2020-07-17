@@ -16,7 +16,8 @@ const initialState = {
   quizForm: {
     on: false,
     type: '',
-    data: {}
+    validating: false,
+    data: null
   },
   category: 'all',
   error: null
@@ -77,7 +78,10 @@ export default function reducer(state = initialState, action) {
     case SET_QUIZ_FORM:
       return {
         ...state,
-        quizForm: action.quizForm
+        quizForm: {
+          ...state.quizForm,
+          ...action.quizForm
+        }
       };
 
     case SET_QUIZ_FORM_DATA:

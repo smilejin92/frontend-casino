@@ -4,10 +4,10 @@ import Quiz from '../Quiz';
 import {
   fetchQuizzes,
   setError,
-  setQuizForm,
   removeQuiz,
   selectQuiz,
-  removeSelectedQuizzes
+  removeSelectedQuizzes,
+  setQuizForm
 } from '../../redux/actions';
 
 export default class QuizList {
@@ -60,16 +60,8 @@ export default class QuizList {
     const { store } = this.props;
 
     // 이전 상태(local state)와 동일하면 return
-    const { category, quizzes } = store.getState();
+    const { category, quizzes, quizForm } = store.getState();
     if (state.category === category && state.quizzes === quizzes) return;
-
-    // active selected tab
-    // const categories = document.querySelector('.categories');
-    // [...categories.children].forEach(c => {
-    //   c.classList.toggle('active', c.id === category);
-    // });
-
-    // 추가, 삭제, select, 수정, 삭제 selected
 
     // local 상태 최신화
     this.setState({ category, quizzes });
@@ -77,19 +69,13 @@ export default class QuizList {
     // render quizzes
     this.render();
 
-    // scroll into view
-    // if (quizForm.type === 'ADD') {
-    //   categories.scrollIntoView({
-    //     behavior: 'smooth',
-    //     block: 'start'
-    //   });
-    // } else if (quizForm.type === 'EDIT') {
-    //   const editedQuiz = document.getElementById(quizForm.quiz.id);
-    //   editedQuiz.scrollIntoView({
-    //     behavior: 'smooth',
-    //     block: 'center'
-    //   });
-    // }
+    if (quizForm.type === 'EDIT') {
+      const editedQuiz = document.getElementById(quizForm.quiz.id);
+      editedQuiz.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
   }
 
   async handleClick({ target }) {
@@ -101,12 +87,12 @@ export default class QuizList {
   fillQuizForm(target) {
     const { store } = this.props;
     const { quizzes } = store.getState();
-    const quiz = quizzes.find(({ id }) => id === +target.parentNode.parentNode.id);
+    const data = quizzes.find(({ id }) => id === +target.parentNode.parentNode.id);
 
     store.dispatch(setQuizForm({
       type: 'EDIT',
       on: true,
-      quiz
+      data
     }));
   }
 
@@ -142,7 +128,7 @@ export default class QuizList {
 
   async handleChange({ target }) {
     const { store } = this.props;
-    const id = +target.parentNode.id;
+    const id = +target.parentNode.parentNode.id;
 
     try {
       const res = await QuizService.selectQuiz(id, {
