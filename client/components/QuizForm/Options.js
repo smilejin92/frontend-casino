@@ -50,7 +50,6 @@ export default class Options {
 
   addOption() {
     const { quizForm } = this.store.getState();
-
     const {
       id,
       options,

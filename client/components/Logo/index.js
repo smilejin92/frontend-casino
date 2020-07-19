@@ -1,9 +1,8 @@
 import './style.scss';
 
-// 텍스트를 전달 받는다.
 export default class Logo {
-  constructor(props) {
-    this.props = props;
+  constructor({ text }) {
+    this.text = text;
     this.logo = document.createElement('h1');
     this.init();
   }
@@ -18,7 +17,7 @@ export default class Logo {
   }
 
   render() {
-    const { logo, props } = this;
-    logo.innerHTML = `<a role="button">${props.text}</a>`;
+    const { logo, text } = this;
+    logo.innerHTML = `<a role="button">${text}</a>`;
   }
 }

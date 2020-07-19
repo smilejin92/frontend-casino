@@ -1,9 +1,8 @@
 import './style.scss';
 
-// props.children의 요소(자식 노드)를 append한다.
 export default class Header {
-  constructor(props) {
-    this.props = props;
+  constructor({ children }) {
+    this.children = children;
     this.header = document.createElement('header');
     this.init();
   }
@@ -18,7 +17,7 @@ export default class Header {
   }
 
   render() {
-    const { props, header } = this;
-    props.children.forEach(child => header.appendChild(child.elem));
+    const { children, header } = this;
+    children.forEach(child => header.appendChild(child.elem));
   }
 }

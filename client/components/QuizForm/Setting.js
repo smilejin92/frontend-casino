@@ -51,11 +51,12 @@ export default class Setting {
       store
     } = this;
 
+    const { quizForm } = store.getState();
     const {
       category,
       point,
       second
-    } = store.getState();
+    } = quizForm.data;
 
     container.innerHTML = `<label for="categories">카테고리</label>
       <select id="categories">

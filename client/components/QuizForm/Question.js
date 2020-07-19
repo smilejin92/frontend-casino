@@ -5,7 +5,7 @@ export default class Question {
   constructor({ store }) {
     this.store = store;
     this.container = document.createElement('div');
-    this.editQuestion = debounce(this.editQuestion.bind(this), 200);
+    this.editQuestion = debounce(this.editQuestion.bind(this), 300);
     this.update = this.update.bind(this);
     this.init();
   }

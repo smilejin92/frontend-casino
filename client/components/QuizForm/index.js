@@ -32,12 +32,9 @@ export default class QuizForm {
     form.classList.add('quiz-form');
 
     const { quizForm } = store.getState();
+    const { on, type } = quizForm;
 
-    // quizForm.on, quizForm.type의 변화만을 추적하기 위함
-    this.setState({
-      on: quizForm.on,
-      type: quizForm.type
-    });
+    this.setState({ on, type });
 
     store.subscribe(update);
   }

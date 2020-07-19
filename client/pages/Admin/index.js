@@ -3,19 +3,21 @@ import Header from '../../components/Header';
 import Logo from '../../components/Logo';
 import Chip from '../../components/Chip';
 import Main from '../../components/Main';
+import Summary from '../../components/Summary';
 import Nav from '../../components/Nav';
-import Categories from '../../components/Categories';
+import CategoryList from '../../components/CategoryList';
 import QuizList from '../../components/QuizList';
 import QuizForm from '../../components/QuizForm';
 
 export default class Admin {
-  constructor(props) {
-    this.props = props;
+  constructor({ root, store }) {
+    this.root = root;
+    this.store = store;
     this.render();
   }
 
   render() {
-    const { root, store } = this.props;
+    const { root, store } = this;
     const fragment = document.createDocumentFragment();
 
     fragment.appendChild(
@@ -39,13 +41,14 @@ export default class Admin {
           new Nav({
             text: '문제 카테고리',
             children: [
-              new Categories({
+              new CategoryList({
                 type: 'admin',
                 categories: ['all', 'html', 'css', 'javascript'],
                 store
               })
             ]
           }),
+          new Summary({ store }),
           new QuizList({ store })
         ]
       }).elem

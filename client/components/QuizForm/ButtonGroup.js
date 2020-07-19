@@ -48,10 +48,16 @@ export default class ButtonGroup {
         : await QuizService.editQuiz(data);
 
       const addedQuiz = await res.json();
-      this.exitModal();
       this.store.dispatch(type === 'ADD'
         ? addQuiz(addedQuiz)
         : editQuiz(addedQuiz));
+      this.exitModal();
+
+      const position = type === 'ADD'
+        ? document.querySelector('.categories')
+        : document.getElementById(addedQuiz.id);
+
+      position.scrollIntoView({ behavior: 'smooth' });
     } catch (err) {
       this.store.dispatch(setError(err));
       console.error(err);

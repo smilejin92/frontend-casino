@@ -6,13 +6,13 @@ import {
   setError,
   removeQuiz,
   selectQuiz,
-  removeSelectedQuizzes,
   setQuizForm
 } from '../../redux/actions';
 
 export default class QuizList {
-  constructor(props) {
-    this.props = props;
+  constructor({ store }) {
+    this.store = store;
+    this.state = {};
     this.quizList = document.createElement('ul');
     this.update = this.update.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -25,18 +25,25 @@ export default class QuizList {
   }
 
   async init() {
-    this.quizList.classList.add('quizzes');
-    this.quizList.onclick = this.handleClick;
-    this.quizList.onchange = this.handleChange;
+    const {
+      quizList,
+      store,
+      handleClick,
+      handleChange,
+      update
+    } = this;
+
+    quizList.classList.add('quizzes');
+    quizList.onclick = handleClick;
+    quizList.onchange = handleChange;
 
     // local & store 상태 동기화
     // store의 일부 상태(quizzes, category)만 subscribe하기 위함
-    const { store } = this.props;
     const { quizzes, category } = store.getState();
     this.setState({ quizzes, category });
 
     // subscribe redux store
-    store.subscribe(this.update);
+    store.subscribe(update);
 
     try {
       // fetch quizzes
@@ -56,26 +63,12 @@ export default class QuizList {
   }
 
   update() {
-    const { state } = this;
-    const { store } = this.props;
-
-    // 이전 상태(local state)와 동일하면 return
-    const { category, quizzes, quizForm } = store.getState();
+    const { state, store } = this;
+    const { category, quizzes } = store.getState();
     if (state.category === category && state.quizzes === quizzes) return;
 
-    // local 상태 최신화
     this.setState({ category, quizzes });
-
-    // render quizzes
     this.render();
-
-    if (quizForm.type === 'EDIT') {
-      const editedQuiz = document.getElementById(quizForm.quiz.id);
-      editedQuiz.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-    }
   }
 
   async handleClick({ target }) {
@@ -85,11 +78,10 @@ export default class QuizList {
   }
 
   fillQuizForm(target) {
-    const { store } = this.props;
-    const { quizzes } = store.getState();
-    const data = quizzes.find(({ id }) => id === +target.parentNode.parentNode.id);
+    const { quizzes } = this.store.getState();
+    const data = quizzes.find(({ id }) => (id === +target.parentNode.parentNode.id));
 
-    store.dispatch(setQuizForm({
+    this.store.dispatch(setQuizForm({
       type: 'EDIT',
       on: true,
       data
@@ -97,47 +89,26 @@ export default class QuizList {
   }
 
   async deleteQuiz(target) {
-    const { store } = this.props;
     try {
       const targetId = +target.parentNode.parentNode.id;
       await QuizService.removeQuiz(targetId);
-      store.dispatch(removeQuiz(targetId));
+      this.store.dispatch(removeQuiz(targetId));
     } catch (err) {
-      store.dispatch(setError(err));
-      console.error(err);
-    }
-  }
-
-  async deleteSelectedQuizzes() {
-    const { store } = this.props;
-    try {
-      const res = await QuizService.removeSelectedQuizzes();
-      const filteredQuizzes = await res.json();
-      store.dispatch(removeSelectedQuizzes(filteredQuizzes));
-
-      const categories = document.querySelector('categories');
-      categories.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    } catch (err) {
-      store.dispatch(setError(err));
+      this.store.dispatch(setError(err));
       console.error(err);
     }
   }
 
   async handleChange({ target }) {
-    const { store } = this.props;
     const id = +target.parentNode.parentNode.id;
-
     try {
       const res = await QuizService.selectQuiz(id, {
         selected: target.checked
       });
       const quiz = await res.json();
-      store.dispatch(selectQuiz(quiz));
+      this.store.dispatch(selectQuiz(quiz));
     } catch (err) {
-      store.dispatch(setError(err));
+      this.store.dispatch(setError(err));
       console.error(err);
     }
   }
@@ -150,7 +121,7 @@ export default class QuizList {
       : quizzes.filter(q => q.category === category);
 
     this.quizList.innerHTML = _quizzes
-      .map(q => Quiz(q))
+      .map(q => `<li class="quiz">${Quiz(q)}</li>`)
       .join('');
   }
 }

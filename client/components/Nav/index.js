@@ -1,8 +1,9 @@
 import './style.scss';
 
 export default class Nav {
-  constructor(props) {
-    this.props = props;
+  constructor({ text, children }) {
+    this.text = text;
+    this.children = children;
     this.nav = document.createElement('nav');
     this.init();
   }
@@ -17,7 +18,13 @@ export default class Nav {
   }
 
   render() {
-    this.nav.innerHTML = `<h3 class="a11y-hidden">${this.props.text}</h3>`;
-    this.props.children.forEach(child => this.nav.appendChild(child.elem));
+    const {
+      nav,
+      text,
+      children
+    } = this;
+
+    nav.innerHTML = `<h3 class="a11y-hidden">${text}</h3>`;
+    children.forEach(child => nav.appendChild(child.elem));
   }
 }

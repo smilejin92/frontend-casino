@@ -9,8 +9,7 @@ hljs.registerLanguage('css', css);
 hljs.registerLanguage('html', html);
 
 export default function Quiz(q) {
-  return `<li class="quiz">
-    <article id="${q.id}">
+  return `<article id="${q.id}">
       <h3 class="question">Q${q.id}) ${q.question}</h3>
       <dl class="quiz-info clearfix">
         <div class="info category">
@@ -54,6 +53,5 @@ export default function Quiz(q) {
         <button class="rm-quiz">Remove</button>
         <input class="select-quiz" type="checkbox" ${q.selected ? 'checked' : ''} />
       </div>
-    </article>
-  </li>`;
+    </article>`;
 }

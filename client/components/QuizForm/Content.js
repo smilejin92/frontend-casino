@@ -6,7 +6,7 @@ export default class Content {
     this.store = store;
     this.container = document.createElement('div');
     this.toggleContentType = this.toggleContentType.bind(this);
-    this.editContent = debounce(this.editContent.bind(this), 200);
+    this.editContent = debounce(this.editContent.bind(this), 300);
     this.update = this.update.bind(this);
     this.init();
   }
@@ -41,17 +41,19 @@ export default class Content {
   }
 
   toggleContentType({ target }) {
-    if (target.value !== 'text' && target.value !== 'code') return;
+    const { value, parentNode } = target;
+
+    if (value !== 'text' && value !== 'code') return;
 
     const prevType = document.querySelector('.content-type .active');
-    const currentType = target.parentNode;
+    const currentType = parentNode;
     if (prevType === currentType) return;
 
     prevType.classList.remove('active');
     currentType.classList.add('active');
 
     this.store.dispatch(setQuizFormData({
-      hasCode: target.value === 'code'
+      hasCode: value === 'code'
     }));
   }
 
@@ -88,6 +90,6 @@ export default class Content {
         />
       </li>
     </ul>
-    <textarea class="content" value="${content}">${content}</textarea>`;
+    <textarea class="content">${content}</textarea>`;
   }
 }

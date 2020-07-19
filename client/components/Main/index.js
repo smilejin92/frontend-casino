@@ -1,8 +1,9 @@
 import './style.scss';
 
 export default class Main {
-  constructor(props) {
-    this.props = props;
+  constructor({ text, children }) {
+    this.text = text;
+    this.children = children;
     this.main = document.createElement('main');
     this.init();
   }
@@ -17,7 +18,13 @@ export default class Main {
   }
 
   render() {
-    this.main.innerHTML = `<h2 class="a11y-hidden">${this.props.text}</h2>`;
-    this.props.children.forEach(child => this.main.appendChild(child.elem));
+    const {
+      main,
+      text,
+      children
+    } = this;
+
+    main.innerHTML = `<h2 class="a11y-hidden">${text}</h2>`;
+    children.forEach(child => main.appendChild(child.elem));
   }
 }
