@@ -13,11 +13,19 @@ export default class Admin {
   constructor({ root, store }) {
     this.root = root;
     this.store = store;
+    this.init();
+  }
+
+  init() {
+    this.root.classList.remove('home');
+    this.root.classList.add('admin');
     this.render();
   }
 
   render() {
     const { root, store } = this;
+    root.innerHTML = '';
+
     const fragment = document.createDocumentFragment();
 
     fragment.appendChild(

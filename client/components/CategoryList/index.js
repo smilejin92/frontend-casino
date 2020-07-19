@@ -47,7 +47,6 @@ export default class CategoryList {
       c.classList.toggle('active', c.id === category);
     });
 
-    this.categoryList.scrollIntoView({ behavior: 'smooth' });
     this.setState({ category });
   }
 
@@ -55,9 +54,9 @@ export default class CategoryList {
     if (!target.matches('.category a')) return;
 
     const selectedCategory = target.parentNode.id;
-    const { category } = this.store.getState();
-    if (category === selectedCategory) return;
+    if (this.state.category === selectedCategory) return;
 
+    this.categoryList.scrollIntoView({ behavior: 'smooth' });
     this.store.dispatch(toggleNav(selectedCategory));
   }
 

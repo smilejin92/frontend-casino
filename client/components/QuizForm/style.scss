@@ -2,7 +2,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 128rem;
   width: 100vw;
   height: 100vh;
   z-index: 1;
@@ -13,7 +12,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80rem;
 
     .fields {
       position: relative; // for exit button
@@ -23,33 +21,26 @@
       align-items: center;
       padding: 3rem 2rem;
       border-radius: 2rem;
-  
+
       .question-container,
       .setting,
       .content,
       .options-container {
         margin-bottom: 2rem;
       }
-  
-      .question-container {
-        label[for="question"],
-        #question {
-          display: inline-block;
-          font-size: 3rem;
-          margin-left: 0.5rem;
-        }
-  
-        #question {
-          vertical-align: top;
-          font-size: 2rem;
-          width: 60rem;
-          padding: 0.5rem 1rem;
-        }
+
+      label[for="question"],
+      #question {
+        display: inline-block;
+        margin-left: 0.5rem;
       }
-  
+
+      #question {
+        vertical-align: top;
+        padding: 0.5rem 1rem;
+      }
+
       .setting {
-        font-size: 2rem;
-  
         label::after {
           content: ':';
         }
@@ -64,78 +55,71 @@
           }
         }
       }
-      .content-container {
-        .content-type {
-          width: 70rem;
-          position: relative; // for self positioning
-          top: 1px;
-    
-          .type {
-            float: left;
-    
-            label,
-            input {
-              display: inline-block;
-              font-size: 2rem;
+
+      .content-type {
+        position: relative; // for self positioning
+        top: 1px;
+  
+        .type {
+          float: left;
+  
+          label,
+          input {
+            display: inline-block;
+          }
+  
+          label {
+            cursor: pointer;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border: 1px solid black;
+            border-bottom: none;
+            background-color: #fff;
+  
+            &[for="code-type"] {
+              border-left: none;
             }
-    
-            label {
-              cursor: pointer;
-              position: relative;
-              width: 7rem;
-              padding: 0.5rem 1rem;
-              border: 1px solid black;
-              border-bottom: none;
-              background-color: #fff;
-    
-              &[for="code-type"] {
-                border-left: none;
-              }
-              
-              &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border-bottom: 1px solid black;
-              }
-            }
-    
-            input[type="radio"] {
-              display: none;
-            }
-    
-            &.active {
-              background-color: lightblue;
-              label::after {
-                border-bottom: none;
-              }
+            
+            &::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border-bottom: 1px solid black;
             }
           }
-        }
-        .content {
-          width: 70rem;
-          height: 30rem;
-          padding: 2rem;
-          border: 1px solid black;
-          resize: none;
-          font-size: 2rem;
-    
-          &:focus {
-            outline: none;
+  
+          input[type="radio"] {
+            display: none;
+          }
+  
+          &.active {
+            background-color: lightblue;
+            label::after {
+              border-bottom: none;
+            }
           }
         }
       }
-      
-      // div
+
+      .content {
+        padding: 2rem;
+        border: 1px solid black;
+        resize: none;
+  
+        &:focus {
+          outline: none;
+        }
+      }
+
       .options-container {
         position: relative;
+        text-align: center;
         
         // ul
         .options {
-          width: 70rem;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
@@ -158,40 +142,225 @@
               
               .option-text {
                 padding: 0.5rem 1rem;
-                width: 60rem;
-                font-size: 2rem;
-                line-height: 3rem;
               }
             }
           }
         }
+
         .add-option-btn {
           position: absolute;
-          // top: 1rem;
-          // right: 0;
           top: 50%;
           right: -2rem;
           transform: translateY(-50%);
         }
 
-        #ck-multipleAns{
-          font-size: 1.8rem;
+        #ck-multipleAns {
+          vertical-align: middle;
         }
       }
-  
-      .modal-btn {
-        width: 10rem;
-        height: 7rem;
-      }
-  
+
       .exit {
         position: absolute;
-        font-size: 3rem;
         top: 1rem;
         right: 1rem;
         border: none;
         background: none;
         padding: 0;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .quiz-form {
+    width: 50rem;
+
+    .fields {
+      label[for="question"],
+      #question {
+        font-size: 2rem;
+      }
+
+      #question {
+        font-size: 1.6rem;
+        width: 35rem;
+      }
+
+      .setting {
+        font-size: 1.4rem;
+      }
+
+      .content-type {
+        width: 40rem;
+
+        label,
+        input {
+          font-size: 1.4rem;
+        }
+
+        label {
+          width: 7rem;
+        }
+      }
+
+      .content {
+        width: 40rem;
+        height: 20rem;
+        font-size: 1.4rem;
+      }
+
+      .options {
+        width: 40rem;
+
+        .option-text {
+          width: 32rem;
+          font-size: 1.5rem;
+          line-height: 2.1rem;
+        }
+      }
+
+      label[for="ck-multipleAns"] {
+        font-size: 1.3rem;
+      }
+
+      .modal-btn {
+        width: 7rem;
+        padding: 1rem 0;
+        font-size: 1.2rem;
+      }
+  
+      .exit {
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .quiz-form {
+    width: 70rem;
+
+    .fields {
+      label[for="question"],
+      #question {
+        font-size: 2.5rem;
+      }
+  
+      #question {
+        font-size: 2rem;
+        width: 50rem;
+      }
+  
+      .setting {
+        font-size: 1.8rem;
+      }
+  
+      .content-type {
+        width: 60rem;
+  
+        label,
+        input {
+          font-size: 1.8rem;
+        }
+
+        label {
+          width: 7rem;
+        }
+      }
+
+      .content {
+        width: 60rem;
+        height: 25rem;
+        font-size: 1.8rem;
+      }
+
+      .options {
+        width: 60rem;
+        
+        .option-text {
+          width: 52rem;
+          font-size: 1.8rem;
+          line-height: 2.7rem;
+        }
+      }
+
+      label[for="ck-multipleAns"] {
+        font-size: 1.6rem;
+      }
+
+      .modal-btn {
+        width: 9rem;
+        padding: 1.5rem 0;
+        font-size: 1.4rem;
+      }
+  
+      .exit {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .quiz-form {
+    width: 80rem;
+  
+    .fields {
+      label[for="question"],
+      #question {
+        font-size: 3rem;
+      }
+
+      #question {
+        font-size: 2rem;
+        width: 60rem;
+      }
+  
+      .setting {
+        font-size: 2rem;
+      }
+
+      .content-type {
+        width: 70rem;
+  
+        label,
+        input {
+          font-size: 2rem;
+        }
+
+        label {
+          width: 7rem;
+        }
+      }
+
+      .content {
+        width: 70rem;
+        height: 30rem;
+        font-size: 2rem;
+      }
+      
+      .options {
+        width: 70rem;
+
+        .option-text {
+          width: 60rem;
+          font-size: 2rem;
+          line-height: 3rem;
+        }
+      }
+
+      label[for="ck-multipleAns"] {
+        font-size: 1.8rem;
+      }
+  
+      .modal-btn {
+        width: 10rem;
+        font-size: 1.6rem;
+        padding: 2rem 0;
+      }
+  
+      .exit {
+        font-size: 3rem;
       }
     }
   }

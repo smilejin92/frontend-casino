@@ -5,8 +5,8 @@ import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 
 export default class App {
-  constructor() {
-    this.root = document.getElementById('root');
+  constructor({ root }) {
+    this.root = root;
     this.routes = {
       home: Home,
       admin: Admin,

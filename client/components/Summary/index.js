@@ -25,6 +25,7 @@ export default class Summary {
     } = this;
     const { quizzes } = store.getState();
 
+    summary.classList.add('summary-container');
     summary.onclick = deleteSelectedQuizzes;
 
     this.setState({ quizzes });
@@ -80,18 +81,31 @@ export default class Summary {
       if (selected) selectedCount += 1;
     });
 
-    this.summary.innerHTML = `<dl>
-      <dt>Total</dt>
-      <dd>${total}</dd>
-      <dt>HTML</dt>
-      <dd>${html}</dd>
-      <dt>CSS</dt>
-      <dd>${css}</dd>
-      <dt>JavaScript</dt>
-      <dd>${js}</dd>
-      <dt>Selected</dt>
-      <dd>${selectedCount}</dd>
+    this.summary.innerHTML = `<dl class="summary">
+      <div class="count">
+        <dt>Total</dt>
+        <dd>${total}</dd>
+      </div>
+      <div class="count">
+        <dt>HTML</dt>
+        <dd>${html}</dd>
+      </div>
+      <div class="count">
+        <dt>CSS</dt>
+        <dd>${css}</dd>
+      </div>
+      <div class="count">
+        <dt>JS</dt>
+        <dd>${js}</dd>
+      </div>
+      <div class="count">
+        <dt>Selected</dt>
+        <dd>${selectedCount}</dd>
+      </div>
     </dl>
-    <button class="delete-selected">Delete Selected</button>`;
+    <button
+      class="delete-selected icon-trash-empty"
+      aria-label="Delete Selected"
+    >(${selectedCount})</button>`;
   }
 }
