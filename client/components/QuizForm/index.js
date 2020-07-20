@@ -31,7 +31,8 @@ export default class QuizForm {
     container.classList.add('quiz-form-container');
     form.classList.add('quiz-form');
 
-    const { quizForm } = store.getState();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
     const { on, type } = quizForm;
 
     this.setState({ on, type });
@@ -50,7 +51,8 @@ export default class QuizForm {
       container,
       form
     } = this;
-    const { quizForm } = store.getState();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
 
     if (state.on === quizForm.on && state.type === quizForm.type) return;
 

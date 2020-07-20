@@ -123,6 +123,13 @@ low(adapter)
       }
     });
 
+    // get /users
+    app.get('/users', (_, res) => {
+      console.log('GET /users');
+      const users = db.get('users').value();
+      res.send(users);
+    });
+
     // Set db default values
     return db.defaults({ quizzes: [], users: [] }).write();
   })

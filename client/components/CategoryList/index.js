@@ -1,5 +1,5 @@
 import './style.scss';
-import { toggleNav } from '../../redux/actions';
+import { toggleNav } from '../../redux/modules/admin';
 
 export default class CategoryList {
   constructor({ type, categories, store }) {
@@ -28,7 +28,9 @@ export default class CategoryList {
     categoryList.classList.add('categories');
     categoryList.onclick = handleClick;
 
-    const { category } = store.getState();
+    const { admin } = this.store.getState();
+    const { category } = admin;
+
     this.setState({ category });
     this.render();
 
@@ -40,7 +42,8 @@ export default class CategoryList {
   }
 
   update() {
-    const { category } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { category } = admin;
     if (this.state.category === category) return;
 
     [...this.categoryList.children].forEach(c => {
@@ -67,7 +70,8 @@ export default class CategoryList {
       store
     } = this;
 
-    const { category } = store.getState();
+    const { admin } = store.getState();
+    const { category } = admin;
 
     categoryList.innerHTML = categories.map(c => (
       `<li id="${c}" class="category neon ${c === category ? 'active' : ''}">

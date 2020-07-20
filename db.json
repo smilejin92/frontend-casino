@@ -653,5 +653,11 @@
       "hasMultipleAnswers": false
     }
   ],
-  "users": []
+  "users": [
+    {
+      "id": 1,
+      "username": "smilejin92",
+      "point": 5000
+    }
+  ]
 }

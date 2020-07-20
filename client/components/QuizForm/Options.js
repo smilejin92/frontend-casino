@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import { setQuizFormData } from '../../redux/actions';
+import { setQuizFormData } from '../../redux/modules/admin';
 
 export default class Options {
   constructor({ store }) {
@@ -38,7 +38,8 @@ export default class Options {
   }
 
   update() {
-    const { quizForm } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizForm } = admin;
     const { validating } = quizForm;
     if (validating) this.editOption.flush();
   }
@@ -49,7 +50,8 @@ export default class Options {
   }
 
   addOption() {
-    const { quizForm } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizForm } = admin;
     const {
       id,
       options,
@@ -115,7 +117,8 @@ export default class Options {
   }
 
   removeOption(target) {
-    const { quizForm } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizForm } = admin;
     const {
       id,
       options,
@@ -211,7 +214,8 @@ export default class Options {
       ? clipboardData.getData('text')
       : target.value;
 
-    const { quizForm } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizForm } = admin;
     const { options } = quizForm.data;
     options[key] = value;
 
@@ -225,7 +229,8 @@ export default class Options {
       checked
     } = target;
     const { store } = this;
-    const { quizForm } = store.getState();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
 
     // check multiple answers
     if (target.id === 'ck-multipleAns') {
@@ -287,7 +292,8 @@ export default class Options {
 
   render() {
     const { container, store } = this;
-    const { quizForm } = store.getState();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
     const {
       id,
       options,

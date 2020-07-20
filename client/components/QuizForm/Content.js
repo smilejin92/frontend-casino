@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import { setQuizFormData } from '../../redux/actions';
+import { setQuizFormData } from '../../redux/modules/admin';
 
 export default class Content {
   constructor({ store }) {
@@ -35,7 +35,8 @@ export default class Content {
   }
 
   update() {
-    const { quizForm } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizForm } = admin;
     const { validating } = quizForm;
     if (validating) this.editContent.flush();
   }
@@ -67,7 +68,8 @@ export default class Content {
 
   render() {
     const { store, container } = this;
-    const { quizForm } = store.getState();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
     const { hasCode, content } = quizForm.data;
 
     container.innerHTML = `<ul class="content-type">

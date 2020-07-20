@@ -1,6 +1,6 @@
 import './style.scss';
 import QuizService from '../../services/QuizService';
-import { removeSelectedQuizzes, setError } from '../../redux/actions';
+import { removeSelectedQuizzes, setError } from '../../redux/modules/admin';
 
 export default class Summary {
   constructor({ store }) {
@@ -23,7 +23,8 @@ export default class Summary {
       update,
       deleteSelectedQuizzes
     } = this;
-    const { quizzes } = store.getState();
+    const { admin } = store.getState();
+    const { quizzes } = admin;
 
     summary.classList.add('summary-container');
     summary.onclick = deleteSelectedQuizzes;
@@ -45,9 +46,6 @@ export default class Summary {
       const res = await QuizService.removeSelectedQuizzes();
       const filteredQuizzes = await res.json();
       this.store.dispatch(removeSelectedQuizzes(filteredQuizzes));
-
-      const categoryList = document.querySelector('.categories');
-      categoryList.scrollIntoView({ behavior: 'smooth' });
     } catch (err) {
       this.store.dispatch(setError(err));
       console.error(err);
@@ -56,7 +54,8 @@ export default class Summary {
 
   update() {
     const { store, state } = this;
-    const { quizzes } = store.getState();
+    const { admin } = store.getState();
+    const { quizzes } = admin;
 
     if (state.quizzes === quizzes) return;
 

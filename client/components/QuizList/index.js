@@ -7,7 +7,7 @@ import {
   removeQuiz,
   selectQuiz,
   setQuizForm
-} from '../../redux/actions';
+} from '../../redux/modules/admin';
 
 export default class QuizList {
   constructor({ store }) {
@@ -39,7 +39,8 @@ export default class QuizList {
 
     // local & store 상태 동기화
     // store의 일부 상태(quizzes, category)만 subscribe하기 위함
-    const { quizzes, category } = store.getState();
+    const { admin } = store.getState();
+    const { quizzes, category } = admin;
     this.setState({ quizzes, category });
 
     // subscribe redux store
@@ -64,7 +65,8 @@ export default class QuizList {
 
   update() {
     const { state, store } = this;
-    const { category, quizzes } = store.getState();
+    const { admin } = store.getState();
+    const { category, quizzes } = admin;
     if (state.category === category && state.quizzes === quizzes) return;
 
     this.setState({ category, quizzes });
@@ -78,7 +80,8 @@ export default class QuizList {
   }
 
   fillQuizForm(target) {
-    const { quizzes } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizzes } = admin;
     const data = quizzes.find(({ id }) => (id === +target.parentNode.parentNode.id));
 
     this.store.dispatch(setQuizForm({

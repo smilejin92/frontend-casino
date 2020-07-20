@@ -1,5 +1,5 @@
 import './style.scss';
-import { setQuizForm } from '../../redux/actions';
+import { setQuizForm } from '../../redux/modules/admin';
 import QuizService from '../../services/QuizService';
 
 export default class Chip {
@@ -28,7 +28,8 @@ export default class Chip {
   }
 
   addQuiz() {
-    const { quizzes } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizzes } = admin;
 
     const newQuizId = Math.max(0, ...quizzes.map(({ id }) => id)) + 1;
 

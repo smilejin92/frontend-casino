@@ -1,6 +1,7 @@
 import './style.scss';
 import Header from '../../components/Header';
 import Logo from '../../components/Logo';
+import RankBoard from '../../components/RankBoard';
 
 export default class Home {
   constructor({ root, store }) {
@@ -25,7 +26,8 @@ export default class Home {
     fragment.appendChild(
       new Header({
         children: [
-          new Logo({ text: 'Frontend Casino' })
+          new Logo({ text: 'Frontend Casino' }),
+          new RankBoard({ store })
         ]
       }).elem
     );

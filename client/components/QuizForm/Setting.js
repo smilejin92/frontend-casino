@@ -1,4 +1,4 @@
-import { setQuizFormData } from '../../redux/actions';
+import { setQuizFormData } from '../../redux/modules/admin';
 
 export default class Setting {
   constructor({
@@ -51,7 +51,8 @@ export default class Setting {
       store
     } = this;
 
-    const { quizForm } = store.getState();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
     const {
       category,
       point,

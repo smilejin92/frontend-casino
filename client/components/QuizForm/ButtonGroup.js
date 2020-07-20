@@ -1,5 +1,5 @@
 import QuizService from '../../services/QuizService';
-import { addQuiz, editQuiz, setError, setQuizForm } from '../../redux/actions';
+import { addQuiz, editQuiz, setError, setQuizForm } from '../../redux/modules/admin';
 
 export default class ButtonGroup {
   constructor({ store }) {
@@ -36,7 +36,8 @@ export default class ButtonGroup {
     this.store.dispatch(setQuizForm({ validating: true }));
 
     try {
-      const { quizForm } = this.store.getState();
+      const { admin } = this.store.getState();
+      const { quizForm } = admin;
       const { type } = quizForm;
       let { data } = quizForm;
 
@@ -72,7 +73,8 @@ export default class ButtonGroup {
   }
 
   render() {
-    const { quizForm } = this.store.getState();
+    const { admin } = this.store.getState();
+    const { quizForm } = admin;
     const { type } = quizForm;
 
     this.container.innerHTML = `<button class="modal-btn add">${type}</button>
