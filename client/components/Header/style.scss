@@ -1,29 +1,27 @@
-// Small devices (landscape phones, 576px and up)
-@media screen and (min-width: 576px) {
+$small-screen: 579px;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.header {
+  position: relative;
+  background: url(../../assets/adminBG.jpg) no-repeat 0 50%;
+  background-size: cover;
+}
+
+@media screen and (min-width: $small-screen) {
   .header {
-    position: relative;
-    // background-color: blue;
+    min-height: 25vh;
   }
 }
 
-// Medium devices (tablets, 768px and up)
-@media screen and (min-width: 768px) {
+@media screen and (min-width: $medium-screen) {
   .header {
-    // min-height: 45vh;
-    // text-align: center;
-    // background: url(../../assets/adminBG.jpg) no-repeat 0 50%;
-    // background-size: cover;
-    position: relative;
-    // background-color: lime;
-  }  
+    min-height: 35vh;
+  }
 }
 
-// Large devices (desktops, 992px and up)
-@media screen and (min-width: 992px) { 
+@media screen and (min-width: $large-screen) {
   .header {
     min-height: 45vh;
-    text-align: center;
-    background: url(../../assets/adminBG.jpg) no-repeat 0 50%;
-    background-size: cover;
   }
 }

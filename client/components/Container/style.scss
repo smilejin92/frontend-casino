@@ -1,0 +1,25 @@
+$small-screen: 579px;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.admin {
+  text-align: center;
+}
+
+@media screen and (min-width: $small-screen) {
+  .admin {
+    margin-top: 6rem;
+  }
+}
+
+@media screen and (min-width: $medium-screen) {
+  .admin {
+    margin-top: 8rem;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .admin {
+    margin-top: 6rem;
+  }
+}

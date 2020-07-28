@@ -134,5 +134,5 @@ low(adapter)
     return db.defaults({ quizzes: [], users: [] }).write();
   })
   .then(() => {
-    app.listen(5000, () => console.log('listening on port 5000'));
+    app.listen(4000, () => console.log('listening on port 4000'));
   });

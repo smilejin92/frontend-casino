@@ -1,49 +1,107 @@
 import './style.scss';
-import store from './redux/store';
+import { getStore } from './redux/store';
+import { setPage } from './redux/modules/router';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
+import Header from './components/Header';
+import Logo from './components/Logo';
+import Nav from './components/Nav';
+import Links from './components/Links';
+import RankBoard from './components/RankBoard';
+import Container from './components/Container';
+import Chip from './components/Chip';
+import QuizForm from './components/QuizForm';
 
 export default class App {
-  constructor({ root }) {
-    this.root = root;
-    this.routes = {
-      home: Home,
-      admin: Admin,
-      error: NotFound
+  constructor() {
+    this.root = document.getElementById('root');
+    this.state = {
+      page: '',
+      routes: {
+        home: new Home().render(), // which is better?
+        admin: new Admin().render(),
+        notFound: new NotFound().render(),
+      },
     };
-    this.handlePopState = this.handlePopState.bind(this);
+    this.update = this.update.bind(this);
+
     this.init();
   }
 
   init() {
-    const { history, location } = window;
-    const { pathname } = location;
+    // init local state
+    // why? store의 router.page 변화만을 비교하기 위함
+    const store = getStore();
+    const { router } = store.getState();
 
-    const page = pathname === '/'
-      ? 'home'
-      : pathname === '/admin'
-        ? 'admin'
-        : 'error';
+    this.setState({
+      ...this.state,
+      page: router.page,
+    });
 
-    if (!history.state) {
-      history.replaceState({ page }, 'Frontend Casino');
-    }
+    // store update 구독
+    store.subscribe(this.update);
 
-    window.onpopstate = this.handlePopState;
-    this.render(page);
+    // popstate handler
+    window.onpopstate = ({ state }) => {
+      const { page } = state;
+      store.dispatch(setPage(page));
+    };
   }
 
-  handlePopState() {
-    const historyState = window.history.state;
-    if (!historyState) return;
+  setState(newState) {
+    this.state = newState;
+  }
+
+  update() {
+    const store = getStore();
+    const { router } = store.getState();
+    if (this.state.page === router.page) return;
+
+    this.setState({
+      ...this.state,
+      page: router.page,
+    });
+
+    this.render();
+  }
+
+  render() {
+    console.log('App render');
+    const { page, routes } = this.state;
+    const Page = routes[page];
+    const fragment = document.createDocumentFragment();
+
+    fragment.appendChild(
+      new Header({
+        children: [
+          new Logo({ text: 'Frontend Casino' }),
+          new Nav({
+            text: '페이지 내비게이션',
+            type: 'links',
+            children: [
+              new Links({ linkList: ['Home', 'Admin'] })
+            ]
+          }),
+          page === 'home'
+            ? new RankBoard()
+            : page === 'admin'
+              ? new Container({
+                type: 'admin',
+                children: [
+                  new Chip({ text: 'add quiz', type: 'admin' }),
+                  new QuizForm()
+                ]
+              })
+              : new Chip({ text: 'add quiz', type: 'admin' }), // need to change
+        ],
+      }).render()
+    );
+
+    fragment.appendChild(Page);
 
     this.root.innerHTML = '';
-    this.render(historyState.page);
-  }
-
-  render(page) {
-    const Page = this.routes[page];
-    new Page({ root: this.root, store });
+    this.root.appendChild(fragment);
   }
 }

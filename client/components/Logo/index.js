@@ -7,17 +7,14 @@ export default class Logo {
     this.init();
   }
 
-  get elem() {
-    return this.logo;
-  }
-
   init() {
     this.logo.classList.add('logo', 'neon');
-    this.render();
   }
 
   render() {
     const { logo, text } = this;
-    logo.innerHTML = `<a role="button">${text}</a>`;
+    logo.innerHTML = `<a href="#">${text}</a>`;
+
+    return logo;
   }
 }

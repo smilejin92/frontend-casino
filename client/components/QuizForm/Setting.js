@@ -1,13 +1,13 @@
 import { setQuizFormData } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class Setting {
   constructor({
-    store,
     categories,
     points,
     seconds
   }) {
-    this.store = store;
+    this.store = getStore();
     this.categories = categories;
     this.points = points;
     this.seconds = seconds;
@@ -16,16 +16,10 @@ export default class Setting {
     this.init();
   }
 
-  get elem() {
-    return this.container;
-  }
-
   init() {
     const { container, handleChange } = this;
-
     container.classList.add('setting');
     container.onchange = handleChange;
-    this.render();
   }
 
   handleChange({ target }) {
@@ -71,5 +65,7 @@ export default class Setting {
       <select id="seconds">
         ${seconds.map(s => `<option value="${s}" ${s === second ? 'selected' : ''}>${s}</option>`).join('')}
       </select>`;
+
+    return container;
   }
 }

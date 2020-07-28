@@ -1,17 +1,14 @@
 import { debounce } from 'lodash';
 import { setQuizFormData } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class Question {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
+    this.store = getStore();
     this.container = document.createElement('div');
     this.editQuestion = debounce(this.editQuestion.bind(this), 300);
     this.update = this.update.bind(this);
     this.init();
-  }
-
-  get elem() {
-    return this.container;
   }
 
   init() {
@@ -27,8 +24,6 @@ export default class Question {
     container.onpaste = editQuestion;
 
     store.subscribe(update);
-
-    this.render();
   }
 
   update() {
@@ -56,5 +51,7 @@ export default class Question {
     this.container.innerHTML = `
       <label for="question">Q${id}) </label>
       <input id="question" type="text" value="${question}"/>`;
+
+    return this.container;
   }
 }

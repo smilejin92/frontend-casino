@@ -1,19 +1,16 @@
 import './style.scss';
 import QuizService from '../../services/QuizService';
 import { removeSelectedQuizzes, setError } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class Summary {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
+    this.store = getStore();
     this.state = {};
     this.summary = document.createElement('div');
     this.deleteSelectedQuizzes = this.deleteSelectedQuizzes.bind(this);
     this.update = this.update.bind(this);
     this.init();
-  }
-
-  get elem() {
-    return this.summary;
   }
 
   init() {
@@ -30,8 +27,6 @@ export default class Summary {
     summary.onclick = deleteSelectedQuizzes;
 
     this.setState({ quizzes });
-    this.render();
-
     store.subscribe(update);
   }
 
@@ -106,5 +101,7 @@ export default class Summary {
       class="delete-selected icon-trash-empty"
       aria-label="Delete Selected"
     >(${selectedCount})</button>`;
+
+    return this.summary;
   }
 }

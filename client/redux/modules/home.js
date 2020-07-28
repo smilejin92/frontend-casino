@@ -1,21 +1,15 @@
-/*
- * action types
- */
+// actions
 export const FETCH_USERS = 'FETCH_USERS';
 
-/*
- * action creators
- */
+// action creators
 export const fetchUsers = users => ({
   type: FETCH_USERS,
-  users
+  users,
 });
 
-/*
-* reducer
-*/
+// set initial state
 const initialState = {
-  users: []
+  users: [],
 };
 
 export default function home(state = initialState, action) {
@@ -23,7 +17,7 @@ export default function home(state = initialState, action) {
     case FETCH_USERS:
       return {
         ...state,
-        users: action.users
+        users: action.users,
       };
 
     default:

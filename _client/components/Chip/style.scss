@@ -1,0 +1,68 @@
+@media screen and (min-width: 576px) {
+  .chip-btn {
+    position: absolute;
+    top: 4rem;
+    right: 2rem;
+    padding: 0;
+    border: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -2.8rem;
+      right: -0.9rem;
+      width: 7.5rem;
+      height: 7.5rem;
+      background: url(../../assets/chip2.png) no-repeat;
+      background-size: cover;
+    }
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media screen and (min-width: 768px) {
+  .chip-btn {
+    position: absolute;
+    top: 5.4rem;
+    right: 2rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -3.5rem;
+      right: -1.8rem;
+      width: 10rem;
+      height: 10rem;
+      background: url(../../assets/chip2.png) no-repeat;
+      background-size: cover;
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media screen and (min-width: 992px) { 
+  .chip-btn {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-top: 6rem;
+    padding: 2rem 3.5rem;
+    padding-top: 2.3rem;
+    font-weight: 600;
+    color: #fff;
+    border: none;
+    border-radius: 1rem;
+    background-color: #222;
+  
+    &::after {
+      content: '';
+      position: absolute;
+      top: -9.4rem;
+      left: -3.4rem;
+      width: 20rem;
+      height: 20rem;
+      background: url(../../assets/chip2.png) no-repeat;
+      background-size: cover;
+    }
+  }
+}

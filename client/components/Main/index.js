@@ -8,13 +8,8 @@ export default class Main {
     this.init();
   }
 
-  get elem() {
-    return this.main;
-  }
-
   init() {
     this.main.classList.add('main');
-    this.render();
   }
 
   render() {
@@ -25,6 +20,8 @@ export default class Main {
     } = this;
 
     main.innerHTML = `<h2 class="a11y-hidden">${text}</h2>`;
-    children.forEach(child => main.appendChild(child.elem));
+    children.forEach(child => main.appendChild(child.render()));
+
+    return main;
   }
 }

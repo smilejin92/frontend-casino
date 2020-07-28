@@ -1,19 +1,16 @@
 import { debounce } from 'lodash';
 import { setQuizFormData } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class Options {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
+    this.store = getStore();
     this.container = document.createElement('div');
     this.handleClick = this.handleClick.bind(this);
     this.editOption = debounce(this.editOption.bind(this), 100);
     this.editAnswer = this.editAnswer.bind(this);
     this.update = this.update.bind(this);
     this.init();
-  }
-
-  get elem() {
-    return this.container;
   }
 
   init() {
@@ -33,8 +30,6 @@ export default class Options {
     container.onchange = editAnswer;
 
     store.subscribe(update);
-
-    this.render();
   }
 
   update() {
@@ -338,5 +333,7 @@ export default class Options {
           ${optionKeys.length > 1 ? '' : 'disabled'}
         />
       </label>`;
+
+    return container;
   }
 }

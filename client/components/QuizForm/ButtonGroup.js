@@ -1,23 +1,19 @@
 import QuizService from '../../services/QuizService';
 import { addQuiz, editQuiz, setError, setQuizForm } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class ButtonGroup {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
+    this.store = getStore();
     this.container = document.createElement('div');
     this.handleClick = this.handleClick.bind(this);
     this.init();
-  }
-
-  get elem() {
-    return this.container;
   }
 
   init() {
     const { container, handleClick } = this;
     container.classList.add('btn-group');
     container.onclick = handleClick;
-    this.render();
   }
 
   async handleClick(e) {
@@ -80,5 +76,7 @@ export default class ButtonGroup {
     this.container.innerHTML = `<button class="modal-btn add">${type}</button>
     <button class="modal-btn cancel">CANCEL</button>
     <button class="exit">X</button>`;
+
+    return this.container;
   }
 }

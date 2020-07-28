@@ -5,10 +5,10 @@ import Setting from './Setting';
 import Content from './Content';
 import Options from './Options';
 import ButtonGroup from './ButtonGroup';
+import { getStore } from '../../redux/store';
 
 export default class QuizForm {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
     this.state = {};
     this.container = document.createElement('div');
     this.form = document.createElement('form');
@@ -16,21 +16,17 @@ export default class QuizForm {
     this.init();
   }
 
-  get elem() {
-    return this.container;
-  }
-
   init() {
     const {
       container,
       form,
-      store,
       update
     } = this;
 
     container.classList.add('quiz-form-container');
     form.classList.add('quiz-form');
 
+    const store = getStore();
     const { admin } = store.getState();
     const { quizForm } = admin;
     const { on, type } = quizForm;
@@ -47,10 +43,10 @@ export default class QuizForm {
   update() {
     const {
       state,
-      store,
       container,
       form
     } = this;
+    const store = getStore();
     const { admin } = store.getState();
     const { quizForm } = admin;
 
@@ -73,8 +69,12 @@ export default class QuizForm {
   }
 
   render() {
+    const store = getStore();
+    const { admin } = store.getState();
+    const { quizForm } = admin;
+    if (!quizForm.on) return this.container;
+
     const {
-      store,
       form,
       container
     } = this;
@@ -82,20 +82,20 @@ export default class QuizForm {
     form.appendChild(
       new Fields({
         children: [
-          new Question({ store }),
+          new Question(),
           new Setting({
-            store,
             categories: ['html', 'css', 'javascript'],
             points: [1000, 2500, 5000, 10000],
             seconds: [30, 45, 60, 90]
           }),
-          new Content({ store }),
-          new Options({ store }),
-          new ButtonGroup({ store })
+          new Content(),
+          new Options(),
+          new ButtonGroup()
         ]
-      }).elem
+      }).render()
     );
 
     container.appendChild(form);
+    return this.container;
   }
 }

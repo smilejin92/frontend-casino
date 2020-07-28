@@ -8,20 +8,17 @@ import {
   selectQuiz,
   setQuizForm
 } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class QuizList {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
+    this.store = getStore();
     this.state = {};
     this.quizList = document.createElement('ul');
     this.update = this.update.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.init();
-  }
-
-  get elem() {
-    return this.quizList;
   }
 
   async init() {
@@ -45,6 +42,8 @@ export default class QuizList {
 
     // subscribe redux store
     store.subscribe(update);
+
+    if (quizzes.length) return;
 
     try {
       // fetch quizzes
@@ -126,5 +125,7 @@ export default class QuizList {
     this.quizList.innerHTML = _quizzes
       .map(q => `<li class="quiz">${Quiz(q)}</li>`)
       .join('');
+
+    return this.quizList;
   }
 }

@@ -658,6 +658,31 @@
       "id": 1,
       "username": "smilejin92",
       "point": 5000
+    },
+    {
+      "id": 2,
+      "username": "kelly",
+      "point": 2500
+    },
+    {
+      "id": 3,
+      "username": "james",
+      "point": 10000
+    },
+    {
+      "id": 4,
+      "username": "mike",
+      "point": 7000
+    },
+    {
+      "id": 5,
+      "username": "forest",
+      "point": 10000
+    },
+    {
+      "id": 6,
+      "username": "clikernecs",
+      "point": 3000
     }
   ]
 }

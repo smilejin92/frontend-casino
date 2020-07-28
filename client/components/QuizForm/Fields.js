@@ -5,10 +5,6 @@ export default class Fields {
     this.init();
   }
 
-  get elem() {
-    return this.fields;
-  }
-
   init() {
     this.fields.setAttribute('role', 'group');
     this.fields.classList.add('fields');
@@ -17,6 +13,8 @@ export default class Fields {
 
   render() {
     const { fields, children } = this;
-    children.forEach(child => fields.appendChild(child.elem));
+    children.forEach(child => fields.appendChild(child.render()));
+
+    return fields;
   }
 }

@@ -7,17 +7,14 @@ export default class Header {
     this.init();
   }
 
-  get elem() {
-    return this.header;
-  }
-
   init() {
     this.header.classList.add('header');
-    this.render();
   }
 
   render() {
     const { children, header } = this;
-    children.forEach(child => header.appendChild(child.elem));
+    children.forEach(child => header.appendChild(child.render()));
+
+    return header;
   }
 }

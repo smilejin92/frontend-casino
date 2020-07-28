@@ -17,7 +17,7 @@ module.exports = {
         use: ['html-loader'],
       },
       {
-        test: /\.(svg|png|jpg|jpeg|gif|ico)$/,
+        test: /\.(svg|png|jpg|jpeg|gif|ico|woff|woff2|eot|ttf|otf)$/,
         use: {
           loader: 'file-loader',
           options: {
@@ -26,13 +26,7 @@ module.exports = {
             name: '[name].[ext]'
           }
         }
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader',
-        ],
-      },
+      }
     ]
   }
 };

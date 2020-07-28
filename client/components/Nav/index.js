@@ -1,20 +1,16 @@
 import './style.scss';
 
 export default class Nav {
-  constructor({ text, children }) {
+  constructor({ text, type, children }) {
     this.text = text;
+    this.type = type;
     this.children = children;
     this.nav = document.createElement('nav');
     this.init();
   }
 
-  get elem() {
-    return this.nav;
-  }
-
   init() {
-    this.nav.classList.add('navigation'); // props로 style 입력받을 것
-    this.render();
+    this.nav.classList.add(`navigation-${this.type}`);
   }
 
   render() {
@@ -25,6 +21,8 @@ export default class Nav {
     } = this;
 
     nav.innerHTML = `<h3 class="a11y-hidden">${text}</h3>`;
-    children.forEach(child => nav.appendChild(child.elem));
+    children.forEach(child => nav.appendChild(child.render()));
+
+    return nav;
   }
 }

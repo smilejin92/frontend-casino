@@ -1,18 +1,15 @@
 import { debounce } from 'lodash';
 import { setQuizFormData } from '../../redux/modules/admin';
+import { getStore } from '../../redux/store';
 
 export default class Content {
-  constructor({ store }) {
-    this.store = store;
+  constructor() {
+    this.store = getStore();
     this.container = document.createElement('div');
     this.toggleContentType = this.toggleContentType.bind(this);
     this.editContent = debounce(this.editContent.bind(this), 300);
     this.update = this.update.bind(this);
     this.init();
-  }
-
-  get elem() {
-    return this.container;
   }
 
   init() {
@@ -30,8 +27,6 @@ export default class Content {
     container.onchange = toggleContentType;
 
     store.subscribe(update);
-
-    this.render();
   }
 
   update() {
@@ -93,5 +88,7 @@ export default class Content {
       </li>
     </ul>
     <textarea class="content">${content}</textarea>`;
+
+    return container;
   }
 }
