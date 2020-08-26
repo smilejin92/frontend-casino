@@ -20,7 +20,7 @@ label[for="question"],
 @media screen and (max-width: $medium-screen - 1px) {
   label[for="question"],
   #question {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   #question {
@@ -33,7 +33,7 @@ and (min-width: $medium-screen)
 and (max-width: $large-screen - 1px) {
   label[for="question"],
   #question {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   #question {

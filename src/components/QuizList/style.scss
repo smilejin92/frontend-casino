@@ -11,11 +11,11 @@ $large-screen: 992px;
     margin-bottom: 3rem;
     
     article {
-      color: #ffebb7;
-      background-color: #24251f;
+      color: white;
+      background-color: #242424;
       padding: 2rem;
       min-height: 20rem;
-      border: 2px solid #fff;
+      border: 2px solid #aaa;
       border-radius: 2rem;
     }
 
@@ -24,7 +24,7 @@ $large-screen: 992px;
     }
     
     .question {
-      color: white;
+      // color: white;
       text-align: center;
       font-weight: 600;
       margin: 4rem 0 3rem;
@@ -55,9 +55,9 @@ $large-screen: 992px;
       margin-bottom: 2rem;
       white-space: pre-wrap;
       color: white;
-      background-color: #24251f;
+      background-color: #242424;
       padding: 2rem;
-      border: 1px solid #fff;
+      border: 1px solid #aaa;
       border-radius: 1rem;
     }
 
@@ -86,6 +86,20 @@ $large-screen: 992px;
       display: flex;
       justify-content: space-evenly;
       align-items: center;
+
+      .edit-quiz,
+      .rm-quiz {
+        border: none;
+      }
+
+      .edit-quiz {
+        background-color: #01fea3;
+      }
+
+      .rm-quiz {
+        background-color: palevioletred;
+        color: white;
+      }
 
       .select-quiz {
         width: 3rem;
