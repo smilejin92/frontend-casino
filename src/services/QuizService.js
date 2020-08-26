@@ -1,6 +1,6 @@
 import he from 'he';
 
-const url = 'http://localhost:3000/quizzes';
+const url = 'http://localhost:5000/api/quizzes';
 
 export default class QuizService {
   static request(method, resource, payload) {
@@ -9,7 +9,7 @@ export default class QuizService {
     return fetch(_url, {
       method,
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
   }
 
@@ -46,37 +46,51 @@ export default class QuizService {
       second: 30,
       content: '',
       options: {
-        a: ''
+        a: '',
       },
       hasMultipleAnswers: false,
       answer: 'a',
       hasCode: false,
-      selected: false
+      selected: false,
     };
   }
 
   static validateInput(quiz) {
-    console.log(quiz);
     const err = new Error();
-    err.type = 'validation';
+    // err.type = 'validation';
+    err.data = [];
 
     if (!quiz.question.trim()) {
-      err.message = '제목을 입력해주세요.';
-      throw err;
+      err.data.push({
+        type: 'title',
+        message: '제목을 입력해주세요.'
+      });
+      // err.message = '제목을 입력해주세요.';
+      // throw err;
     }
 
-    const optionHasValue = Object.keys(quiz.options)
+    const optionHasValue = Object
+      .keys(quiz.options)
       .every(k => quiz.options[k].trim());
 
     if (!optionHasValue) {
-      err.message = '보기를 모두 입력해주세요.';
-      throw err;
+      err.data.push({
+        type: 'options',
+        message: '보기를 모두 입력해주세요.'
+      });
+      // err.message = '보기를 모두 입력해주세요.';
+      // throw err;
     }
 
     if (quiz.hasMultipleAnswers && !quiz.answer.length) {
-      err.message = '정답을 체크해주세요.';
-      throw err;
+      err.data.push({
+        type: 'answer',
+        message: '정답을 체크해주세요.'
+      });
+      // err.message = '정답을 체크해주세요.';
+      // throw err;
     }
+    throw err;
   }
 
   static escapeHtml(quiz) {

@@ -1,0 +1,128 @@
+$form-bgc: #242424;
+$border-color: rgb(174, 174, 174);
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.content-type {
+  position: relative; // for self positioning
+  top: 1px;
+
+  .type {
+    float: left;
+
+    label,
+    input {
+      display: inline-block;
+    }
+
+    label {
+      cursor: pointer;
+      position: relative;
+      padding: 0.5rem 1rem;
+      border: 1px solid $border-color;
+      border-bottom: none;
+      background-color: $form-bgc;
+
+      &[for="code-type"] {
+        border-left: none;
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid $border-color;
+      }
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    &.active {
+      label::after {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.content {
+  padding: 2rem;
+  border: 1px solid $border-color;
+  background-color: $form-bgc;
+  resize: none;
+  color: $border-color;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .content-type {
+    width: 40rem;
+
+    label,
+    input {
+      font-size: 1.4rem;
+    }
+
+    label {
+      width: 7rem;
+    }
+  }
+
+  .content {
+    width: 40rem;
+    height: 20rem;
+    font-size: 1.4rem;
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .content-type {
+    width: 50rem;
+
+    label,
+    input {
+      font-size: 1.8rem;
+    }
+
+    label {
+      width: 7rem;
+    }
+  }
+
+  .content {
+    width: 55rem;
+    height: 22rem;
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .content-type {
+    width: 66rem;
+
+    label,
+    input {
+      font-size: 2rem;
+    }
+
+    label {
+      width: 7rem;
+    }
+  }
+
+  .content {
+    width: 66rem;
+    height: 28rem;
+    font-size: 2rem;
+  }
+}

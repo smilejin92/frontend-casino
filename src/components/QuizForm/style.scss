@@ -1,0 +1,64 @@
+$overlay-bgc: rgba(34, 34, 34, .5);
+$small-screen: 576px;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+// common styles
+.quiz-form-container.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: $small-screen;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: $overlay-bgc;
+
+  .quiz-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .quiz-form {
+    width: 50rem;
+
+    .question-container,
+    .setting,
+    .content,
+    .options-container {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .quiz-form {
+    width: 65rem;
+
+    .question-container,
+    .setting,
+    .content,
+    .options-container {
+      margin-bottom: 3rem;
+    }
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .quiz-form {
+    width: 80rem;
+
+    .question-container,
+    .setting,
+    .content,
+    .options-container {
+      margin-bottom: 3rem;
+    }
+  }
+}

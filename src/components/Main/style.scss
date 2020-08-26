@@ -1,0 +1,15 @@
+$small-screen: 576px;
+$large-screen: 992px;
+
+.main {
+  min-width: $small-screen;
+  padding: 0 3rem;
+}
+
+@media screen and (min-width: $large-screen) {
+  .main {
+    width: $large-screen;
+    margin: 0 auto;
+    padding: 0;
+  }
+}

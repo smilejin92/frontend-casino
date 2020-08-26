@@ -1,0 +1,33 @@
+$small-screen: 579px;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.not-found {
+  background-color: #24251f;
+  text-align: center;
+  color: #fff;
+  margin: 0 auto;
+  width: 60%;
+}
+
+@media screen and (min-width: $small-screen) {
+  .not-found {
+    padding: 2rem 0;
+    margin-top: 3rem;
+    font-size: 1.4rem;
+  }
+}
+@media screen and (min-width: $medium-screen) {
+  .not-found {
+    padding: 3rem 0;
+    margin-top: 4rem;
+    font-size: 1.8rem;
+  }
+}
+@media screen and (min-width: $large-screen) {
+  .not-found {
+    padding: 3rem 0;
+    margin-top: 3rem;
+    font-size: 2rem;
+  }
+}

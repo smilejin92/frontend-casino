@@ -1,0 +1,53 @@
+$text-color: #fff;
+$button-color: #222;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.chip-btn {
+  position: relative;
+  padding: 0.5rem;
+  font-weight: 600;
+  color: $text-color;
+  border: none;
+  border-radius: 1rem;
+  background-color: $button-color;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background: url(../../assets/chip.png) no-repeat;
+    background-size: cover;
+    top: -120%;
+    left: -17%;
+    width: 9rem;
+    height: 9rem;
+  }
+}
+
+@media screen and (min-width: $medium-screen) {
+  .chip-btn {
+    padding: 1rem 1.5rem;
+
+    &::after {
+      content: '';
+      top: -110%;
+      left: -19%;
+      width: 12rem;
+      height: 12rem;
+    }
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .chip-btn {
+    padding: 2rem 3.5rem;
+
+    &::after {
+      content: '';
+      top: -100%;
+      left: -17%;
+      width: 17rem;
+      height: 17rem;
+    }
+  }
+}

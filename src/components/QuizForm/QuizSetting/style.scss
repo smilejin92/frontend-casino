@@ -1,0 +1,53 @@
+$form-bgc: #242424;
+$font-color: #e6e8ed;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.setting {
+  display: flex;
+  justify-content: space-around;
+
+  .setting-item {
+    label::after {
+      content: ':';
+    }
+  
+    select {
+      background-color: $form-bgc;
+      border: none;
+      border-radius: 0.3rem;
+      color: $font-color;
+      margin-right: 2rem;
+      min-width: 6rem;
+      padding: 0.5rem 0;
+      padding-left: 0.5rem;
+  
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .setting {
+    font-size: 1.4rem;
+    width: 42rem;
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .setting {
+    font-size: 1.8rem;
+    width: 60rem;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .setting {
+    font-size: 2rem;
+    width: 75rem;
+  }
+}

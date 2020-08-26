@@ -1,4 +1,8 @@
 import '@babel/polyfill';
+import create from './redux/create';
 import App from './App';
 
-new App(document.getElementById('root'));
+const root = document.getElementById('root');
+const store = create();
+
+new App({ root, store }).render();

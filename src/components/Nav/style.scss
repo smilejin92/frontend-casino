@@ -1,0 +1,37 @@
+$text-color: #fff;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.navigation-links {
+  color: $text-color;
+  position: absolute;
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .navigation-links {
+    top: 1rem;
+    right: 0.5rem;
+    width: 15rem;
+    font-size: 1.5rem;
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .navigation-links {
+    top: 2rem;
+    right: 0.5rem;
+    width: 20rem;
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .navigation-links {
+    top: 0.5rem;
+    right: calc((100% - #{$large-screen}) / 2);
+    width: 20rem;
+    font-size: 2rem;
+  }
+}

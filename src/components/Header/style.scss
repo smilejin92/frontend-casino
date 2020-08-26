@@ -1,0 +1,30 @@
+$small-screen: 576px;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.header {
+  position: relative;
+  background: url(../../assets/adminBG.jpg) no-repeat 0 50%;
+  background-size: cover;
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .header {
+    min-width: $small-screen;
+    min-height: 23vh;
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .header {
+    min-height: 32vh;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .header {
+    min-height: 45vh;
+  }
+}
