@@ -33,8 +33,8 @@ export default class RankBoard {
   update() {
     const { home, router } = this.store.getState();
     if (router.page !== 'home') {
-      console.log('RankBoard unsubscribed');
       this.unsubscribe();
+      console.log('RankBoard unsubscribed');
       return;
     }
 

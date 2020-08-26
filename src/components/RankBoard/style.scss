@@ -1,21 +1,19 @@
-$text-color: #fff;
+$font-color: #fff;
 $border-color: #f1ee84;
 $bgc: #24251f;
 $shadow-light: #f1ee84;
 $shadow-dark: #9da711;
-$small-screen: 579px;
 $medium-screen: 768px;
 $large-screen: 992px;
 
 .rank-board {
   display: block;
-  color: #fff;
+  color: $font-color;
   overflow-y: scroll;
   margin: 0 auto;
   border: 1px solid $border-color;
   background-color: $bgc;
-  box-shadow: 0 0 5px $shadow-light, 0 0 15px $shadow-light, 0 0 25px $shadow-light,
-  0 0 20px $shadow-light, 0 0 30px $shadow-dark, 0 0 80px $shadow-dark, 0 0 80px $shadow-dark;
+  box-shadow: 0 0 2px $shadow-light, 0 0 5px $shadow-light, 0 0 8px $shadow-light, 0 0 10px $shadow-light, 0 0 15px $shadow-dark, 0 0 30px $shadow-dark, 0 0 30px $shadow-dark;
 
   tbody {
     display: block;
@@ -60,9 +58,9 @@ $large-screen: 992px;
   }
 }
 
-@media screen and (min-width: $small-screen) {
+@media screen and (max-width: $medium-screen - 1) {
   .rank-board {
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-size: 1.4rem;
     width: 30rem;
     height: 10.6rem;
@@ -72,9 +70,11 @@ $large-screen: 992px;
     }
   }
 }
-@media screen and (min-width: $medium-screen) {
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1) {
   .rank-board {
-    margin-top: 3rem;
+    margin-top: 2rem;
     font-size: 1.7rem;
     width: 40rem;
     height: 13.8rem;

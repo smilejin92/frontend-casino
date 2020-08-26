@@ -41,7 +41,6 @@ export default class App {
   update() {
     const { router } = this.store.getState();
     if (this.state.page === router.page) return;
-
     this.setState({
       ...this.state,
       page: router.page,

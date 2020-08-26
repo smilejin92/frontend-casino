@@ -1,5 +1,7 @@
 $medium-screen: 768px;
 $large-screen: 992px;
+$light-orange: #ffa500;
+$dark-orange: #b36704;
 
 .categories {
   padding: 1rem 0;
@@ -14,9 +16,9 @@ $large-screen: 992px;
     animation: none;
   
     &.active {
-      color: #ffa500;
-      text-shadow: 0 0 5px #ffa500, 0 0 15px #ffa500, 0 0 25px #ffa500,
-        0 0 20px #ffa500, 0 0 30px #b36704, 0 0 80px #b36704, 0 0 80px #b36704;
+      color: $light-orange;
+      text-shadow: 0 0 5px $light-orange, 0 0 15px $light-orange, 0 0 25px $light-orange,
+        0 0 20px $light-orange, 0 0 30px $dark-orange, 0 0 80px $dark-orange, 0 0 80px $dark-orange;
     }
   
     a {

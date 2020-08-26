@@ -1,18 +1,14 @@
 $form-bgc: #141414;
-// $font-color: #ffebb7;
 $font-color: #f3f4f9;
-$border-color: #fff;
 
-// common styles
 .fields {
-  position: relative; // for exit button
+  position: relative;
   background-color: $form-bgc;
   color: $font-color;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 3rem 2rem;
-  // border: 2px solid $border-color;
   border: none;
   border-radius: 1rem;
 }

@@ -1,6 +1,5 @@
 $form-bgc: #242424;
 $font-color: #e6e8ed;
-$border-color: #fff;
 $medium-screen: 768px;
 $large-screen: 992px;
 
@@ -8,14 +7,12 @@ $large-screen: 992px;
   position: relative;
   text-align: center;
   
-  // ul
   .options {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 2rem;
     
-    // li
     .option {
       margin-bottom: 1rem;
 
@@ -23,7 +20,6 @@ $large-screen: 992px;
         margin-bottom: 0;
       }
       
-      // li div
       .option-wrapper {
         input[type="radio"],
         input[type="checkbox"] {
@@ -33,7 +29,6 @@ $large-screen: 992px;
         .option-text {
           padding: 0.5rem 1rem;
           background-color: $form-bgc;
-          // border: 1px solid $border-color;
           border: none;
           border-radius: 0.3rem;
           color: $font-color;

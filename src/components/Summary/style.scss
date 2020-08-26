@@ -1,11 +1,13 @@
+$font-color: #fff;
 $medium-screen: 768px;
 $large-screen: 992px;
+$delete-color: palevioletred;
 
 
 .summary-container {
   margin: 2rem 0;
-  border: 1px solid #fff;
-  color: white;
+  border: 1px solid $font-color;
+  color: $font-color;
   position: relative;
 
   .summary {
@@ -26,7 +28,7 @@ $large-screen: 992px;
         right: 0;
         width: 1px;
         height: 100%;
-        background-color: #fff;
+        background-color: $font-color;
       }
       
       dt, dd {
@@ -44,7 +46,7 @@ $large-screen: 992px;
       right: 10%;
       transform: translateX(50%);
       border: none;
-      color: palevioletred;
+      color: $delete-color;
       background-color: transparent;
     }
   }
@@ -55,7 +57,7 @@ $large-screen: 992px;
     right: 10%;
     transform: translateX(50%);
     border: none;
-    color: palevioletred;
+    color: $delete-color;
     background-color: transparent;
   }
 }

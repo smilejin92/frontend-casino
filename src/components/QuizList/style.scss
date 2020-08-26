@@ -1,5 +1,10 @@
 $medium-screen: 768px;
 $large-screen: 992px;
+$bgc: #242424;
+$border-color: #aaa;
+$font-color: #fff;
+$add-color: #01fea3;
+$remove-color: palevioletred;
 
 .quizzes {
   display: flex;
@@ -11,11 +16,11 @@ $large-screen: 992px;
     margin-bottom: 3rem;
     
     article {
-      color: white;
-      background-color: #242424;
+      color: $font-color;
+      background-color: $bgc;
       padding: 2rem;
       min-height: 20rem;
-      border: 2px solid #aaa;
+      border: 2px solid $border-color;
       border-radius: 2rem;
     }
 
@@ -24,7 +29,6 @@ $large-screen: 992px;
     }
     
     .question {
-      // color: white;
       text-align: center;
       font-weight: 600;
       margin: 4rem 0 3rem;
@@ -54,10 +58,10 @@ $large-screen: 992px;
     .quiz-content {
       margin-bottom: 2rem;
       white-space: pre-wrap;
-      color: white;
-      background-color: #242424;
+      color: $font-color;
+      background-color: $bgc;
       padding: 2rem;
-      border: 1px solid #aaa;
+      border: 1px solid $border-color;
       border-radius: 1rem;
     }
 
@@ -93,12 +97,12 @@ $large-screen: 992px;
       }
 
       .edit-quiz {
-        background-color: #01fea3;
+        background-color: $add-color;
       }
 
       .rm-quiz {
-        background-color: palevioletred;
-        color: white;
+        background-color: $remove-color;
+        color: $font-color;
       }
 
       .select-quiz {
@@ -188,16 +192,10 @@ and (max-width: $large-screen - 1px) {
 
 @media screen and (min-width: $large-screen) {
   .quizzes {
-    // flex-direction: row;
-    // justify-content: space-between;
-    // align-items: flex-start;
-    // flex-wrap: wrap;
-
     flex-direction: column;
     align-items: center;
 
     .quiz {
-      // width: 49%;
       width: 98%;
 
       .question {
