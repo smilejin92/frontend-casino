@@ -22,11 +22,25 @@ const {
   }
 );
 
+// toggle help modal
+export const toggleHelp = createAction(`${prefix}/TOGGLE_HELP`);
+
 // INITIAL STATE
 const initialState = {
   users: [],
   loading: false,
-  error: null
+  error: null,
+  isPlaying: false,
+  pointRemained: 10000,
+  countSucceeded: 0,
+  countPlayed: 0,
+  playedQuizzesIds: [],
+  canDoubleDown: true,
+  gameOver: false,
+  selectedCategory: null,
+  selectedPoint: null,
+  submitted: false,
+  help: false
 };
 
 // REDUCER
@@ -45,6 +59,10 @@ const reducer = handleActions(
       ...state,
       loading: false,
       error: payload
+    }),
+    TOGGLE_HELP: state => ({
+      ...state,
+      help: !state.help
     })
   },
   initialState,

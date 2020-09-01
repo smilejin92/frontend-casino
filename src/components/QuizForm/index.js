@@ -9,7 +9,10 @@ import ErrorList from './ErrorList';
 
 export default class QuizForm {
   constructor({ store }) {
-    this.state = {};
+    this.state = {
+      on: null,
+      type: null
+    };
     this.store = store;
     this.container = document.createElement('div');
     this.form = document.createElement('form');
@@ -69,9 +72,7 @@ export default class QuizForm {
   }
 
   render() {
-    const { admin } = this.store.getState();
-    const { quizForm } = admin;
-    if (!quizForm.on) return this.container;
+    if (!this.state.on) return this.container;
 
     const { form, container, store } = this;
 

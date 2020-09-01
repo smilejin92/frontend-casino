@@ -1,0 +1,134 @@
+$overlay-bgc: rgba(34, 34, 34, .5);
+$small-screen: 576px;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.help-content.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  overflow-y: scroll;
+  z-index: 1;
+  background-color: $overlay-bgc;
+
+  article {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: #141414;
+
+    .intro-title,
+    .rule-title {
+      text-align: center;
+    }
+
+    .sub-rules {
+      list-style: disc;
+    }
+
+    .confirm-help,
+    .exit-help {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .confirm-help {
+      display: block;
+      margin: 0 auto;
+      background-color: #01fea3;
+      border-radius: 0.5rem;
+    }
+
+    .exit-help {
+      position: absolute;
+    }
+  }
+}
+
+// mobile
+@media screen and (max-width: $medium-screen - 1px) {
+  .help-content.active {
+    article {
+      width: 95%;
+      padding: 1.5rem;
+      font-size: 1.2rem;
+  
+      .intro-title,
+      .rule-title {
+        margin-bottom: 1.2rem;
+      }
+  
+      .intro-title {
+        font-size: 1.4rem;
+      }
+  
+      .rule {
+        margin-bottom: 2rem;
+  
+        .sub-rules {
+          margin-top: 0.5rem;
+          padding-left: 2rem;
+  
+          .sub-rule {
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+      .confirm-help {
+        padding: 0.5rem 1rem;
+      }
+  
+      .exit-help {
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+// tablet
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .help-content.active {
+    article {
+      width: 80%;
+      padding: 2rem;
+  
+      .intro-title,
+      .rule-title {
+        margin-bottom: 2rem;
+      }
+  
+      .intro-title {
+        font-size: 3rem;
+      }
+  
+      .rule-title {
+        font-size: 2rem;
+      }
+  
+      .rule {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+  
+        .sub-rules {
+          // list-style: disc;
+          font-size: 1.5rem;
+          margin-top: 0.5rem;
+          padding-left: 4rem;
+  
+          .sub-rule {
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

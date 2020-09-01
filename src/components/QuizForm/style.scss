@@ -7,9 +7,11 @@ $large-screen: 992px;
   position: fixed;
   top: 0;
   left: 0;
-  min-width: $small-screen;
+  bottom: 0;
+  // min-width: $small-screen;
   width: 100vw;
-  height: 100vh;
+  // height: 100%;
+  overflow-y: scroll;
   z-index: 1;
   background-color: $overlay-bgc;
 
@@ -23,7 +25,8 @@ $large-screen: 992px;
 
 @media screen and (max-width: $medium-screen - 1px) {
   .quiz-form {
-    width: 50rem;
+    // width: 50rem;
+    width: 95%;
 
     .question-container,
     .setting,

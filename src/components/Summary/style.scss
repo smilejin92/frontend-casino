@@ -63,17 +63,19 @@ $delete-color: palevioletred;
 }
 
 @media screen and (max-width: $medium-screen - 1px) {
-  dt, dd {
-    font-size: 1.4rem;
-  }
-
-  .icon-trash-empty:before {
-    font-size: 2rem;
-  }
-
-  .delete-selected {
-    font-size: 1.4rem;
-    padding: 1.8rem 0.4rem;
+  .summary {
+    dt, dd {
+      font-size: 1.4rem;
+    }
+  
+    .icon-trash-empty:before {
+      font-size: 2rem;
+    }
+  
+    .delete-selected {
+      font-size: 1.4rem;
+      padding: 1.8rem 0.4rem;
+    }
   }
 }
 

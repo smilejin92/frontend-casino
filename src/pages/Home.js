@@ -4,7 +4,10 @@ import Nav from '../components/Nav';
 import Links from '../components/Links';
 import RankBoard from '../components/RankBoard';
 import Main from '../components/Main';
-import GameIntro from '../components/GameIntro';
+import Container from '../components/Container';
+import PointTable from '../components/PointTable';
+import HelpButton from '../components/HelpButton';
+import HelpContent from '../components/HelpContent';
 
 export default class Home {
   constructor({ store }) {
@@ -32,9 +35,13 @@ export default class Home {
       new Main({
         text: '메인 영역',
         children: [
-          new GameIntro({
-            text: 'Frontend Casino에 오신 것을 환영합니다.',
-            store
+          new PointTable({ store }),
+          new Container({
+            type: 'help',
+            children: [
+              new HelpButton({ store }),
+              new HelpContent({ store })
+            ],
           })
         ]
       }).render()

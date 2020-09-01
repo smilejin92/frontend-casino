@@ -1,0 +1,17 @@
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.help-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #aeaeae;
+}
+
+// mobile
+@media screen and (max-width: $medium-screen - 1px) {
+  .help-button {
+    font-size: 2rem;
+  }
+}
+
