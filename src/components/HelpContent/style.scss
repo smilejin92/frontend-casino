@@ -15,8 +15,9 @@ $large-screen: 992px;
 
   article {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
+    max-height: 110%;
     transform: translate(-50%, -50%);
     color: white;
     background-color: #141414;

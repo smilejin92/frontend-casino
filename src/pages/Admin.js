@@ -39,26 +39,26 @@ export default class Admin {
       }).render()
     );
 
-    fragment.appendChild(
-      new Main({
-        text: '메인 영역',
-        children: [
-          new Nav({
-            text: '문제 카테고리',
-            type: 'categories',
-            children: [
-              new Categories({
-                store,
-                type: 'admin',
-                categoryList: ['all', 'html', 'css', 'javascript']
-              })
-            ]
-          }),
-          new Summary({ store }),
-          new QuizList({ store })
-        ]
-      }).render()
-    );
+    // fragment.appendChild(
+    //   new Main({
+    //     text: '메인 영역',
+    //     children: [
+    //       new Nav({
+    //         text: '문제 카테고리',
+    //         type: 'categories',
+    //         children: [
+    //           new Categories({
+    //             store,
+    //             type: 'admin',
+    //             categoryList: ['all', 'html', 'css', 'javascript']
+    //           })
+    //         ]
+    //       }),
+    //       new Summary({ store }),
+    //       new QuizList({ store })
+    //     ]
+    //   }).render()
+    // );
 
     return fragment;
   }

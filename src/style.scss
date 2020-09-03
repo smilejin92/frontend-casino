@@ -1,4 +1,5 @@
 $default-bgc: #141414;
+$min-width: 32rem;
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
@@ -514,6 +515,10 @@ body {
   font-weight: 400;
   font-size: 1.4rem;
   background-color: $default-bgc;
+}
+
+#root {
+  min-width: $min-width;
 }
 
 @font-face {

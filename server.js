@@ -1,8 +1,12 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Create server
 const app = express();
@@ -66,7 +70,7 @@ low(adapter)
 
     // POST /api/quizzes
     // a quiz must be validated before creating request.
-    app.post('/api/quizzes', (req, res) => {
+    app.post('/api/quizzes', authenticateToken, (req, res) => {
       console.log('POST /api/quizzes');
       db.get('quizzes')
         .push(req.body)
@@ -185,15 +189,72 @@ low(adapter)
     });
 
     // get /users
-    app.get('/users', (_, res) => {
-      console.log('GET /users');
+    app.get('/api/users', (_, res) => {
+      console.log('GET /api/users');
       const users = db.get('users').value();
       res.send(users);
     });
 
+    // post /api/admins
+    // create admin
+    app.post('/api/admins', async (req, res) => {
+      console.log('POST /api/admins');
+      try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        db.get('admins')
+          .push({ ...req.body, password: hashedPassword })
+          .last()
+          .write()
+          .then(admin => res.status(201).send(admin));
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+
+    // post /api/admins/login
+    // might wanna remove /login?
+    app.post('/api/admins/login', async (req, res) => {
+      console.log('POST /api/admins/login');
+
+      const admin = db
+        .get('admins')
+        .find({ name: req.body.name })
+        .value();
+
+      if (!admin) res.status(400).send('Cannot find admin');
+
+      try {
+        const validated = await bcrypt.compare(req.body.password, admin.password);
+        // if (validated) res.send('login Success'); // should be replaced by token
+        // else res.send('Not allowed');
+        if (!validated) res.send('Wrong Password');
+
+        // authenticated
+        const { name } = req.body;
+
+        // admin obj, secret key
+        const accessToken = jwt.sign({ name }, process.env.ACCESS_TOKEN_SECRET);
+        res.json({ accessToken });
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+
     // Set db default values
-    return db.defaults({ quizzes: [], users: [] }).write();
+    return db.defaults({ quizzes: [], users: [], admins: [] }).write();
   })
   .then(() => {
     app.listen(5000, () => console.log('listening on port 5000'));
   });
+
+function authenticateToken(req, res, next) {
+  const { authorization } = req.headers;
+  console.log(authorization);
+  const token = authorization && authorization.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, err => {
+    if (err) return res.sendStatus(403);
+    next();
+  });
+}
