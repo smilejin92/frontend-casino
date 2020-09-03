@@ -1,0 +1,36 @@
+@import './neon.css';
+
+$medium-screen: 768px;
+$large-screen: 992px;
+
+// mobile
+@media screen and (max-width: $medium-screen - 1px) {
+  .logo {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    font-size: 3rem;
+  }
+}
+
+// tablet
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .logo {
+    padding-top: 1.8rem;
+    padding-left: 1.8rem;
+    font-size: 8rem;
+  }
+}
+
+// desktop
+@media screen and (min-width: $large-screen) {
+  .logo {
+    width: $large-screen;
+    padding-top: 5rem;
+    padding-left: 0;
+    margin: 0 auto;
+    font-size: 12rem;
+    text-align: center;
+  }
+}

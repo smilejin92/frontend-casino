@@ -1,0 +1,74 @@
+$font-color: #fff;
+$button-color: #222;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+// .chip-btn {
+//   position: relative;
+//   font-weight: 600;
+//   color: $font-color;
+//   border: none;
+//   border-radius: 1rem;
+//   background-color: $button-color;
+
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     background: url(../../assets/chip.png) no-repeat;
+//     background-size: cover;
+//   }
+// }
+
+.chip-btn {
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  width: 6rem;
+  height: 6rem;
+  padding-top: 6rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: url(../../assets/chip.png) no-repeat center/cover;
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  // .chip-btn {
+  //   padding: 0.5rem;
+
+  //   &::after {
+  //     top: -120%;
+  //     left: -17%;
+  //     width: 9rem;
+  //     height: 9rem;
+  //   }
+  // }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .chip-btn {
+    padding: 1rem 1.5rem;
+
+    &::after {
+      top: -110%;
+      left: -19%;
+      width: 12rem;
+      height: 12rem;
+    }
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .chip-btn {
+    padding: 2rem 3.5rem;
+
+    &::after {
+      top: -100%;
+      left: -17%;
+      width: 17rem;
+      height: 17rem;
+    }
+  }
+}

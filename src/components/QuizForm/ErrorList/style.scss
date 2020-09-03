@@ -1,0 +1,35 @@
+$font-color: palevioletred;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.errors.active {
+  margin-top: 2rem;
+  color: $font-color;
+
+  .error {
+    margin-bottom: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .errors.active {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .errors.active {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .errors.active {
+    font-size: 1.8rem;
+  }
+}

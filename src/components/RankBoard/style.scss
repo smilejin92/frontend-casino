@@ -1,0 +1,103 @@
+$font-color: #fff;
+$border-color: #f1ee84;
+$bgc: #24251f;
+$shadow-light: #f1ee84;
+$shadow-dark: #9da711;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.rank-board {
+  display: block;
+  color: $font-color;
+  overflow-y: scroll;
+  margin: 0 auto;
+  border: 1px solid $border-color;
+  background-color: $bgc;
+  box-shadow: 0 0 2px $shadow-light, 0 0 5px $shadow-light, 0 0 8px $shadow-light, 0 0 10px $shadow-light, 0 0 15px $shadow-dark, 0 0 30px $shadow-dark, 0 0 30px $shadow-dark;
+
+  tbody {
+    display: block;
+
+    tr {
+      display: flex;
+      border-bottom: 1px solid $border-color;
+
+      &:first-child {
+        position: sticky;
+        top: 0;
+        left: 0;
+        background-color: $bgc;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  
+    th {
+      font-weight: 600;
+    }
+  
+    th, td {
+      text-align: center;
+      border-right: 1px solid $border-color;
+      
+      &:last-child {
+        border-right: none;
+      }
+    }
+    .rank {
+      width: 30%;
+    }
+    .username {
+      width: 40%;
+    }
+    .point {
+      width: 30%;
+    }
+  }
+}
+
+// mobile
+@media screen and (max-width: $medium-screen - 1) {
+  .rank-board {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    width: 20rem;
+    height: 7.4rem;
+    
+    th, td {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+}
+
+// tablet
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1) {
+  .rank-board {
+    margin-top: 2rem;
+    font-size: 1.7rem;
+    width: 40rem;
+    height: 13.8rem;
+    
+    th, td {
+      padding: 0.7rem;
+    }
+  }
+}
+
+// desktop
+@media screen and (min-width: $large-screen) {
+  .rank-board {
+    margin-top: 0;
+    font-size: 2rem;
+    width: 50rem;
+    height: 17.4rem;
+
+    th, td {
+      padding: 1rem;
+    }
+  }
+}

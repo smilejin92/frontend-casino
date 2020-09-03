@@ -1,0 +1,140 @@
+$form-bgc: #242424;
+$font-color: #e6e8ed;
+$medium-screen: 768px;
+$large-screen: 992px;
+
+.options-container {
+  position: relative;
+  text-align: center;
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    
+    .option {
+      margin-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      .option-wrapper {
+        input[type="radio"],
+        input[type="checkbox"] {
+          margin-right: 1rem;
+        }
+        
+        .option-text {
+          padding: 0.5rem 1rem;
+          background-color: $form-bgc;
+          border: none;
+          border-radius: 0.3rem;
+          color: $font-color;
+        }
+
+        .rm-option-btn {
+          background-color: transparent;
+          border: none;
+        }
+      }
+    }
+  }
+
+  .add-option-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+  }
+
+  .icon-list-add:before {
+    color: #01fea3;
+  }
+
+  .icon-minus:before {
+    color: palevioletred;
+  }
+
+  #ck-multipleAns {
+    vertical-align: middle;
+    color: $font-color;
+  }
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .options {
+    width: 40rem;
+
+    .option-text {
+      width: 32rem;
+      font-size: 1.5rem;
+      line-height: 2.1rem;
+    }
+  }
+
+  .add-option-btn {
+    right: -4rem;
+  }
+
+  .icon-list-add:before {
+    font-size: 2rem;
+  }
+
+  .icon-minus:before {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen
+and (min-width: $medium-screen)
+and (max-width: $large-screen - 1px) {
+  .options {
+    width: 55rem;
+
+    .option-text {
+      width: 47rem;
+      font-size: 1.8rem;
+      line-height: 2.7rem;
+    }
+  }
+
+  .add-option-btn {
+    right: -5rem;
+  }
+
+  .icon-list-add:before {
+    font-size: 3rem;
+  }
+
+  .icon-minus:before {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (min-width: $large-screen) {
+  .options {
+    padding-left: 0.5rem;
+    width: 68rem;
+
+    .option-text {
+      width: 60rem;
+      font-size: 1.8rem;
+      line-height: 2.7rem;
+    }
+  }
+
+  .add-option-btn {
+    right: -6rem;
+  }
+
+  .icon-list-add:before {
+    font-size: 3rem;
+  }
+
+  .icon-minus:before {
+    font-size: 1.8rem;
+  }
+}

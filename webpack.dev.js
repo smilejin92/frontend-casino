@@ -6,14 +6,23 @@ const common = require('./webpack.common');
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'build'),
+    publicPath: '/',
+    hot: true,
+    overlay: true,
+    port: 3000,
+    stats: 'errors-only',
+    historyApiFallback: true,
+  },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'js/[contentHash].bundle.js',
+    filename: 'js/[hash].bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './public/index.html'
+      template: './src/index.html'
     })
   ],
   module: {
