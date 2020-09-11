@@ -1,7 +1,7 @@
 # frontend-casino
 
-<img width="500" alt="admin page" src="https://user-images.githubusercontent.com/32444914/92978438-b5ddbb00-f4ca-11ea-82f9-9fe4618774bf.png">
-
+<img width="500" alt="admin page" src="https://user-images.githubusercontent.com/32444914/92978438-b5ddbb00-f4ca-11ea-82f9-9fe4618774bf.png"><br/>
+> admin 페이지 프로토타입
 
 HTML, CSS, JavaScript 퀴즈 출제 애플리케이션입니다.
 
