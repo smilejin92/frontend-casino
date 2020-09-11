@@ -21,8 +21,15 @@ $large-screen: 992px;
 
 @media screen and (max-width: $medium-screen - 1px) {
   .setting {
+    justify-content: space-around;
+    width: 100%;
     font-size: 1.4rem;
-    // width: 42rem;
+
+    label,
+    select {
+      display: block;
+    }
+
     select {
       margin-top: 0.5rem;
     }

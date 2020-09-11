@@ -247,6 +247,7 @@ low(adapter)
     app.listen(5000, () => console.log('listening on port 5000'));
   });
 
+// middleware
 function authenticateToken(req, res, next) {
   const { authorization } = req.headers;
   console.log(authorization);

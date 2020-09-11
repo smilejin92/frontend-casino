@@ -3,28 +3,33 @@ $font-color: #e6e8ed;
 $medium-screen: 768px;
 $large-screen: 992px;
 
-label[for="question"],
-#question {
-  display: inline-block;
-  margin-left: 0.5rem;
-  color: $font-color;
-}
-
-#question {
-  padding: 0.5rem 1rem;
-  background-color: $form-bgc;
-  border: none;
-  border-radius: 0.3rem;
-}
-
-@media screen and (max-width: $medium-screen - 1px) {
+.question-container {
   label[for="question"],
   #question {
-    font-size: 1.4rem;
+    display: inline-block;
+    color: $font-color;
   }
 
   #question {
-    width: 25rem;
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    background-color: $form-bgc;
+    border: none;
+    border-radius: 0.3rem;
+  }
+}
+
+@media screen and (max-width: $medium-screen - 1px) {
+  .question-container {
+    width: 100%;
+    label[for="question"],
+    #question {
+      font-size: 1.4rem;
+    }
+  
+    #question {
+      width: 80%;
+    }
   }
 }
 

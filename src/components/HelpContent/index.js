@@ -72,7 +72,7 @@ export default class HelpContent {
           <li class="rule">
             명예의 전당
             <ul class="sub-rules">
-              <li class="sub-rule">모든 문제를 풀었을 경우 명예의 전당에 이름을 등록 할 수 있습니다</li>
+              <li class="sub-rule">모든 문제를 풀었을 경우 명예의 전당에 이름을 등록 할 수 있습니다.</li>
               <li class="sub-rule">등록 이후 보유 포인트와 퀴즈가 초기화됩니다.</li>
             </ul>
           </li>
